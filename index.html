@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrovaPro — Trova il Professionista Perfetto per Te</title>
+<meta name="description" content="Elettricisti, idraulici e imbianchini qualificati nella tua zona. Cerca, confronta e contatta in pochi click.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-static@latest/font/lucide.min.css">
+<style>
+/* ===== RESET & BASE ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:#09090B;background:#fff;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;height:auto;display:block}
+button,select,input{font-family:inherit;border:none;outline:none;background:none}
+h1,h2,h3,h4,h5,h6{font-weight:700;letter-spacing:-0.02em;line-height:1.1}
+
+/* ===== VARIABLES ===== */
+:root{
+  --primary:#2563EB;
+  --primary-light:#3B82F6;
+  --accent:#60A5FA;
+  --surface:#F8FAFC;
+  --dark:#09090B;
+  --dark-secondary:#18181B;
+  --text:#09090B;
+  --text-secondary:#71717A;
+  --success:#10B981;
+  --premium:#D97706;
+  --amber-400:#FBBF24;
+  --amber-500:#F59E0B;
+  --emerald-500:#10B981;
+  --zinc-100:#F4F4F5;
+  --zinc-200:#E4E4E7;
+  --zinc-300:#D4D4D8;
+  --zinc-400:#A1A1AA;
+  --zinc-500:#71717A;
+  --zinc-600:#52525B;
+}
+
+/* ===== UTILITIES ===== */
+.container{max-width:80rem;margin:0 auto;padding:0 1rem}
+@media(min-width:640px){.container{padding:0 1.5rem}}
+@media(min-width:1024px){.container{padding:0 2rem}}
+.section-padding{padding:5rem 1rem}
+@media(min-width:640px){.section-padding{padding:6rem 1.5rem}}
+@media(min-width:1024px){.section-padding{padding:8rem 2rem}}
+.text-center{text-align:center}
+.relative{position:relative}
+.overflow-hidden{overflow:hidden}
+.uppercase{text-transform:uppercase}
+.tracking-wide{letter-spacing:0.2em}
+.grid{display:grid}
+.flex{display:flex}
+.flex-col{flex-direction:column}
+.items-center{align-items:center}
+.justify-center{justify-content:center}
+.justify-between{justify-content:space-between}
+.gap-2{gap:.5rem}
+.gap-3{gap:.75rem}
+.gap-4{gap:1rem}
+.gap-6{gap:1.5rem}
+.gap-8{gap:2rem}
+.gap-12{gap:3rem}
+.flex-wrap{flex-wrap:wrap}
+.flex-1{flex:1}
+.w-full{width:100%}
+.mx-auto{margin-left:auto;margin-right:auto}
+.mb-2{margin-bottom:.5rem}
+.mb-3{margin-bottom:.75rem}
+.mb-4{margin-bottom:1rem}
+.mb-6{margin-bottom:1.5rem}
+.mb-8{margin-bottom:2rem}
+.mb-12{margin-bottom:3rem}
+.mb-16{margin-bottom:4rem}
+.mt-3{margin-top:.75rem}
+.mt-8{margin-top:2rem}
+.mt-12{margin-top:3rem}
+.mt-16{margin-top:4rem}
+.pt-6{padding-top:1.5rem}
+
+/* ===== OVERLINE TAG ===== */
+.overline{
+  display:inline-block;
+  padding:.375rem 1rem;
+  border:1px solid var(--zinc-200);
+  color:var(--zinc-500);
+  font-size:.75rem;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.2em;
+  margin-bottom:1.5rem;
+}
+.overline-dark{border-color:rgba(255,255,255,.1);color:var(--zinc-400)}
+
+/* ===== BUTTONS ===== */
+.btn-primary{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:var(--primary);color:#fff;
+  padding:.75rem 1.5rem;font-weight:600;font-size:.875rem;
+  cursor:pointer;transition:all .3s;position:relative;overflow:hidden;
+}
+.btn-primary:hover{background:var(--primary-light)}
+.btn-white{
+  display:inline-flex;align-items:center;gap:.75rem;
+  background:#fff;color:var(--dark);
+  padding:1rem 2.5rem;font-weight:600;font-size:1.125rem;
+  cursor:pointer;transition:all .3s;
+}
+.btn-white:hover{background:var(--zinc-100)}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes countUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes lineGrow{from{width:0}to{width:100%}}
+
+.anim-fade-up{animation:fadeUp .8s cubic-bezier(.16,1,.3,1) forwards;opacity:0}
+.anim-fade-in{animation:fadeIn .6s ease forwards;opacity:0}
+.anim-delay-1{animation-delay:.1s}
+.anim-delay-2{animation-delay:.2s}
+.anim-delay-3{animation-delay:.3s}
+.anim-delay-4{animation-delay:.4s}
+.anim-delay-5{animation-delay:.5s}
+.anim-delay-6{animation-delay:.6s}
+.anim-delay-8{animation-delay:.8s}
+.pulse{animation:pulse 2s ease-in-out infinite}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#fafafa}
+::-webkit-scrollbar-thumb{background:#d4d4d8}
+::-webkit-scrollbar-thumb:hover{background:#a1a1aa}
+
+/* ======================================
+   NAVBAR
+   ====================================== */
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  transition:all .5s;background:transparent;
+}
+.navbar.scrolled{
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--zinc-200);
+  box-shadow:0 1px 3px rgba(0,0,0,.05);
+}
+.navbar-inner{
+  max-width:80rem;margin:0 auto;padding:0 1rem;
+  display:flex;align-items:center;justify-content:space-between;height:5rem;
+}
+.navbar-logo{display:flex;align-items:center;gap:.5rem}
+.navbar-logo-icon{
+  width:2.25rem;height:2.25rem;background:var(--primary);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .3s;
+}
+.navbar-logo-icon svg{width:1rem;height:1rem;color:#fff}
+.navbar-logo span{font-size:1.25rem;font-weight:700;letter-spacing:-.02em;color:#fff}
+.navbar.scrolled .navbar-logo span{color:var(--dark)}
+.navbar-logo .text-primary{color:var(--primary)}
+.navbar-links{display:none;align-items:center;gap:2rem}
+@media(min-width:1024px){.navbar-links{display:flex}}
+.navbar-link{
+  font-size:.875rem;font-weight:500;color:rgba(255,255,255,.7);
+  transition:color .2s;position:relative;
+}
+.navbar.scrolled .navbar-link{color:var(--zinc-600)}
+.navbar-link:hover{color:var(--primary)}
+.navbar-link::after{
+  content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;
+  background:var(--primary);transition:width .3s;
+}
+.navbar-link:hover::after{width:100%}
+.navbar-cta{display:none;align-items:center;gap:1rem}
+@media(min-width:1024px){.navbar-cta{display:flex}}
+.navbar-cta .login-link{font-size:.875rem;font-weight:500;color:rgba(255,255,255,.7);transition:color .2s}
+.navbar.scrolled .navbar-cta .login-link{color:var(--zinc-600)}
+.navbar-cta .login-link:hover{color:var(--primary)}
+.mobile-toggle{display:flex;padding:.5rem;color:#fff;cursor:pointer}
+@media(min-width:1024px){.mobile-toggle{display:none}}
+.navbar.scrolled .mobile-toggle{color:var(--dark)}
+.mobile-toggle svg{width:1.5rem;height:1.5rem}
+
+/* ======================================
+   HERO
+   ====================================== */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;background:var(--dark);
+}
+.hero-grid{
+  position:absolute;inset:0;opacity:.03;
+  background-image:linear-gradient(rgba(255,255,255,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.1) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+.hero-orb1{position:absolute;top:25%;left:-8rem;width:24rem;height:24rem;background:rgba(37,99,235,.2);filter:blur(128px)}
+.hero-orb2{position:absolute;bottom:25%;right:-8rem;width:24rem;height:24rem;background:rgba(96,165,250,.1);filter:blur(128px)}
+.hero-content{position:relative;z-index:10;max-width:72rem;margin:0 auto;padding:0 1rem;text-align:center}
+.hero h1{
+  font-size:clamp(2.5rem,8vw,6rem);font-weight:800;color:#fff;
+  line-height:.95;margin-bottom:2rem;letter-spacing:-.03em;
+}
+.hero h1 .text-primary{color:var(--primary)}
+.hero-subtitle{
+  font-size:clamp(1rem,2vw,1.25rem);color:var(--zinc-400);
+  max-width:42rem;margin:0 auto 3rem;line-height:1.6;
+}
+.hero-search{
+  background:rgba(255,255,255,.05);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.1);padding:.5rem;
+  max-width:56rem;margin:0 auto;
+}
+.hero-search-inner{display:flex;flex-direction:column;gap:.5rem}
+@media(min-width:640px){.hero-search-inner{flex-direction:row}}
+.hero-search select,.hero-search input{
+  flex:1;height:3.5rem;padding:0 1rem 0 3rem;
+  background:rgba(255,255,255,.1);color:#fff;font-size:.875rem;
+  transition:background .3s;
+}
+.hero-search select:focus,.hero-search input:focus{background:rgba(255,255,255,.15)}
+.hero-search select{appearance:none;cursor:pointer}
+.hero-search select option{color:var(--dark)}
+.hero-search input::placeholder{color:var(--zinc-500)}
+.hero-search .field-wrapper{position:relative;flex:1}
+.hero-search .field-icon{
+  position:absolute;left:1rem;top:50%;transform:translateY(-50%);
+  color:var(--zinc-400);pointer-events:none;
+}
+.hero-search .field-icon svg{width:1.25rem;height:1.25rem}
+.hero-search-btn{
+  height:3.5rem;padding:0 2.5rem;background:var(--primary);color:#fff;
+  font-weight:600;display:flex;align-items:center;gap:.5rem;
+  cursor:pointer;transition:all .3s;flex-shrink:0;
+}
+.hero-search-btn:hover{background:var(--primary-light)}
+.hero-search-btn svg{width:1.25rem;height:1.25rem}
+.hero-trust-badges{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:1rem 1.5rem;margin-top:2rem;
+}
+.hero-trust-badges span{
+  display:flex;align-items:center;gap:.375rem;font-size:.75rem;color:var(--zinc-500);
+}
+.hero-trust-badges .dot{width:6px;height:6px;background:var(--emerald-500);border-radius:50%}
+.hero-stats{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:3rem 4rem;margin-top:3rem;
+}
+.hero-stat-value{font-size:clamp(1.5rem,4vw,2.5rem);font-weight:700;color:#fff;letter-spacing:-.02em}
+.hero-stat-label{font-size:.75rem;color:var(--zinc-500);text-transform:uppercase;letter-spacing:.2em;margin-top:.25rem}
+.scroll-indicator{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  width:1.25rem;height:2rem;border:1px solid rgba(255,255,255,.2);
+  display:flex;justify-content:center;padding-top:.375rem;
+  animation:bounce 2s infinite;
+}
+.scroll-indicator-dot{width:4px;height:8px;background:rgba(255,255,255,.4)}
+
+/* ======================================
+   TRUST BAR
+   ====================================== */
+.trust-bar{background:#fff;border-top:1px solid var(--zinc-100);border-bottom:1px solid var(--zinc-100)}
+.trust-bar-inner{
+  max-width:80rem;margin:0 auto;padding:2rem 1rem;
+  display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;
+}
+@media(min-width:640px){.trust-bar-inner{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1024px){.trust-bar-inner{grid-template-columns:repeat(5,1fr)}}
+.trust-item{display:flex;align-items:center;gap:.75rem;justify-content:center}
+.trust-icon{
+  width:2.5rem;height:2.5rem;background:rgba(37,99,235,.05);
+  border:1px solid rgba(37,99,235,.1);display:flex;align-items:center;justify-content:center;
+  color:var(--primary);flex-shrink:0;
+}
+.trust-icon svg{width:1.25rem;height:1.25rem}
+.trust-value{font-weight:700;color:var(--text);font-size:1.125rem;line-height:1.2}
+.trust-label{color:var(--text-secondary);font-size:.75rem}
+
+/* ======================================
+   CATEGORIES
+   ====================================== */
+.categories-grid{
+  display:grid;grid-template-columns:1fr;
+  border:1px solid var(--zinc-200);
+}
+@media(min-width:768px){.categories-grid{grid-template-columns:repeat(3,1fr)}}
+.category-card{
+  position:relative;padding:2.5rem;overflow:hidden;cursor:pointer;
+  transition:all .5s;border-bottom:1px solid var(--zinc-200);
+}
+@media(min-width:768px){
+  .category-card{border-bottom:none}
+  .category-card:not(:last-child){border-right:1px solid var(--zinc-200)}
+}
+.category-card:hover{background:var(--dark)}
+.category-card:hover h3{color:#fff}
+.category-card:hover p{color:var(--zinc-400)}
+.category-card:hover .cat-stats{color:var(--zinc-500)}
+.category-card:hover .cat-icon-box{border-color:var(--primary);color:var(--primary);background:rgba(37,99,235,.1)}
+.cat-bg-icon{
+  position:absolute;right:-2rem;bottom:-2rem;opacity:.03;
+  transform:rotate(12deg) scale(4);transition:opacity .5s;
+}
+.category-card:hover .cat-bg-icon{opacity:.1}
+.cat-icon-box{
+  width:3.5rem;height:3.5rem;border:1px solid var(--zinc-200);
+  display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;
+  color:var(--zinc-600);transition:all .5s;
+}
+.cat-icon-box svg{width:2rem;height:2rem}
+.category-card h3{font-size:1.25rem;margin-bottom:.5rem;transition:color .5s}
+.category-card p{font-size:.875rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1rem;transition:color .5s}
+.cat-stats{font-size:.75rem;color:var(--zinc-400);margin-bottom:1.5rem;transition:color .5s}
+.cat-cta{
+  display:flex;align-items:center;gap:.5rem;color:var(--primary);
+  font-size:.875rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;
+}
+.cat-cta svg{width:1rem;height:1rem;transition:transform .3s}
+.category-card:hover .cat-cta svg{transform:translateX(.5rem)}
+.cat-bottom-line{
+  position:absolute;bottom:0;left:0;width:0;height:2px;
+  background:var(--primary);transition:width .5s;
+}
+.category-card:hover .cat-bottom-line{width:100%}
+
+/* ======================================
+   HOW IT WORKS
+   ====================================== */
+.how-section{background:var(--dark);position:relative;overflow:hidden}
+.how-grid-bg{
+  position:absolute;inset:0;opacity:.02;
+  background-image:linear-gradient(rgba(255,255,255,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.1) 1px,transparent 1px);
+  background-size:80px 80px;
+}
+.how-grid{
+  display:grid;grid-template-columns:1fr;
+  border:1px solid rgba(255,255,255,.05);position:relative;
+}
+@media(min-width:768px){.how-grid{grid-template-columns:repeat(3,1fr)}}
+.how-line{
+  display:none;position:absolute;top:50%;left:10%;right:10%;height:1px;
+  background:linear-gradient(to right,transparent,rgba(255,255,255,.1),transparent);
+}
+@media(min-width:768px){.how-line{display:block}}
+.how-card{
+  position:relative;text-align:center;padding:3rem 2rem;transition:all .5s;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+@media(min-width:768px){
+  .how-card{border-bottom:none}
+  .how-card:not(:last-child){border-right:1px solid rgba(255,255,255,.05)}
+}
+.how-card:hover{background:rgba(255,255,255,.02)}
+.how-icon-wrapper{display:inline-flex;position:relative;margin-bottom:2rem}
+.how-icon{
+  width:5rem;height:5rem;border:1px solid rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--zinc-400);transition:all .5s;
+}
+.how-icon svg{width:1.75rem;height:1.75rem}
+.how-card:hover .how-icon{border-color:var(--primary);color:var(--primary);background:rgba(37,99,235,.05)}
+.how-step-num{
+  position:absolute;top:-.75rem;right:-.75rem;
+  width:1.75rem;height:1.75rem;background:var(--primary);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;font-weight:700;color:#fff;
+}
+.how-card h3{font-size:1.25rem;color:#fff;margin-bottom:.75rem}
+.how-card p{font-size:.875rem;color:var(--zinc-500);line-height:1.6;max-width:18rem;margin:0 auto}
+.how-card-line{
+  position:absolute;bottom:0;left:0;width:0;height:2px;
+  background:var(--primary);transition:width .5s;
+}
+.how-card:hover .how-card-line{width:100%}
+.how-tagline{text-align:center;font-size:.875rem;color:var(--zinc-600);margin-top:2rem}
+.how-tagline .hl{color:var(--primary);font-weight:600}
+
+/* ======================================
+   FEATURED PROFESSIONALS
+   ====================================== */
+.featured-section{background:var(--surface)}
+.featured-header{display:flex;flex-direction:column;gap:1rem;margin-bottom:3rem}
+@media(min-width:640px){.featured-header{flex-direction:row;align-items:flex-end;justify-content:space-between}}
+.featured-link{
+  display:inline-flex;align-items:center;gap:.5rem;color:var(--primary);
+  font-weight:600;font-size:.875rem;text-transform:uppercase;letter-spacing:.1em;
+  transition:gap .3s;
+}
+.featured-link:hover{gap:.75rem}
+.featured-link svg{width:1rem;height:1rem}
+.pro-grid{display:grid;grid-template-columns:1fr;gap:1.5rem}
+@media(min-width:768px){.pro-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* Professional Card */
+.pro-card{
+  background:#fff;border:1px solid var(--zinc-200);overflow:hidden;
+  transition:all .5s;position:relative;
+}
+.pro-card:hover{border-color:var(--zinc-400);box-shadow:0 20px 60px -15px rgba(0,0,0,.15)}
+.pro-card.premium{border-color:var(--amber-500);box-shadow:0 0 0 1px rgba(217,119,6,.3)}
+.pro-card:hover.premium{box-shadow:0 20px 60px -15px rgba(217,119,6,.2)}
+.pro-card-img{position:relative;height:12rem;overflow:hidden}
+.pro-card-gradient{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+}
+.pro-card-gradient span{font-size:3rem;font-weight:700;color:rgba(255,255,255,.8);user-select:none}
+.pro-card-gradient.elettricista{background:linear-gradient(135deg,#f59e0b,#ea580c)}
+.pro-card-gradient.idraulico{background:linear-gradient(135deg,#3b82f6,#06b6d4)}
+.pro-card-gradient.imbianchino{background:linear-gradient(135deg,#10b981,#14b8a6)}
+.pro-card-overlay{
+  position:absolute;inset:0;z-index:2;
+  background:linear-gradient(to top,rgba(0,0,0,.6),transparent);
+}
+.pro-card-badges{position:absolute;top:.75rem;left:.75rem;display:flex;gap:.5rem;z-index:3}
+.badge{
+  display:inline-flex;align-items:center;gap:.25rem;
+  padding:.125rem .625rem;font-size:.625rem;font-weight:600;
+  text-transform:uppercase;letter-spacing:.1em;
+}
+.badge-premium{background:rgba(251,191,36,.1);color:#b45309;border:1px solid rgba(251,191,36,.4)}
+.badge-pro{background:rgba(59,130,246,.1);color:#1d4ed8;border:1px solid rgba(59,130,246,.3)}
+.badge-verified{background:rgba(16,185,129,.1);color:#047857;border:1px solid rgba(16,185,129,.3)}
+.pro-card-arrow{
+  position:absolute;top:.75rem;right:.75rem;width:2rem;height:2rem;z-index:3;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .3s;
+}
+.pro-card:hover .pro-card-arrow{background:#fff}
+.pro-card-arrow svg{width:1rem;height:1rem;color:#fff;transition:color .3s}
+.pro-card:hover .pro-card-arrow svg{color:var(--dark)}
+.pro-card-price{
+  position:absolute;bottom:.75rem;right:.75rem;z-index:3;
+  padding:.25rem .75rem;background:rgba(255,255,255,.9);
+  backdrop-filter:blur(4px);font-size:.75rem;font-weight:600;color:var(--dark);
+}
+.pro-card-body{padding:1.25rem}
+.pro-card-meta{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem;font-size:.75rem}
+.pro-card-meta svg{width:.875rem;height:.875rem}
+.pro-card-category{
+  display:flex;align-items:center;gap:.25rem;
+  color:var(--text-secondary);text-transform:uppercase;letter-spacing:.1em;font-weight:500;
+}
+.pro-card-exp{color:var(--text-secondary)}
+.pro-card h3{font-size:1.125rem;margin-bottom:.25rem;transition:color .3s}
+.pro-card:hover h3{color:var(--primary)}
+.pro-card-stars{display:flex;align-items:center;gap:.125rem;margin-bottom:.75rem}
+.star{color:var(--amber-400);font-size:.875rem}
+.star-count{font-size:.75rem;color:var(--text-secondary);margin-left:.25rem}
+.pro-card-desc{font-size:.875rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pro-card-location{
+  display:flex;align-items:center;gap:.25rem;font-size:.75rem;
+  color:var(--text-secondary);padding-top:.75rem;border-top:1px solid var(--zinc-100);
+}
+.pro-card-location svg{width:.875rem;height:.875rem}
+.pro-card-bottom-line{
+  height:2px;width:0;transition:all .5s;
+}
+.pro-card:hover .pro-card-bottom-line{width:100%}
+.pro-card-bottom-line.primary{background:var(--primary)}
+.pro-card-bottom-line.amber{background:var(--amber-500)}
+.social-proof{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+  gap:1.5rem;font-size:.875rem;color:var(--text-secondary);margin-top:2rem;
+}
+.social-proof .live-dot{
+  width:.5rem;height:.5rem;background:var(--emerald-500);border-radius:50%;
+  animation:pulse 2s infinite;
+}
+
+/* ======================================
+   STATS SECTION
+   ====================================== */
+.stats-section{background:var(--dark);position:relative;overflow:hidden}
+.stats-pattern{
+  position:absolute;inset:0;opacity:.02;
+  background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.3) 1px,transparent 0);
+  background-size:40px 40px;
+}
+.stats-glow{
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:600px;height:200px;background:rgba(37,99,235,.1);filter:blur(120px);
+}
+.stats-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  border:1px solid rgba(255,255,255,.05);position:relative;z-index:1;
+}
+@media(min-width:1024px){.stats-grid{grid-template-columns:repeat(4,1fr)}}
+.stat-cell{text-align:center;padding:2.5rem 1.5rem}
+.stat-cell:not(:last-child){border-right:1px solid rgba(255,255,255,.05)}
+.stat-value{
+  font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;color:#fff;
+  letter-spacing:-.02em;margin-bottom:.5rem;
+}
+.stat-label{font-size:.875rem;font-weight:600;color:rgba(255,255,255,.9);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}
+.stat-desc{font-size:.75rem;color:var(--zinc-500);max-width:200px;margin:0 auto}
+
+/* ======================================
+   MAP SECTION
+   ====================================== */
+.map-section{background:#fff}
+.map-header{display:flex;flex-direction:column;gap:1rem;margin-bottom:3rem}
+@media(min-width:640px){.map-header{flex-direction:row;align-items:flex-end;justify-content:space-between}}
+.map-placeholder{
+  border-top:1px solid var(--zinc-200);border-bottom:1px solid var(--zinc-200);
+  height:450px;background:linear-gradient(135deg,#e8f4f8,#d1ecf1,#e8f4f8);
+  display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
+}
+@media(min-width:1024px){.map-placeholder{height:550px}}
+.map-placeholder::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 30% 40%,rgba(37,99,235,.08) 0,transparent 50%),
+    radial-gradient(circle at 70% 60%,rgba(37,99,235,.06) 0,transparent 40%);
+}
+.map-dots{position:absolute;inset:0}
+.map-dot{
+  position:absolute;width:12px;height:12px;background:var(--primary);
+  border:2px solid #fff;box-shadow:0 2px 8px rgba(37,99,235,.3);
+  animation:pulse 3s infinite;
+}
+.map-dot.roma{top:58%;left:42%}
+.map-dot.milano{top:28%;left:38%}
+.map-dot.torino{top:26%;left:28%}
+.map-dot.napoli{top:66%;left:48%}
+.map-dot.bologna{top:38%;left:44%}
+.map-dot.firenze{top:44%;left:42%}
+.map-label{
+  position:absolute;background:#fff;padding:.25rem .5rem;font-size:.625rem;
+  font-weight:600;color:var(--dark);box-shadow:0 2px 8px rgba(0,0,0,.1);
+  white-space:nowrap;
+}
+.map-inner-text{
+  position:relative;z-index:1;text-align:center;
+}
+.map-inner-text p{font-size:1.125rem;font-weight:600;color:var(--dark);margin-bottom:.5rem}
+.map-inner-text span{font-size:.875rem;color:var(--text-secondary)}
+.city-bar{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+  gap:.75rem;font-size:.75rem;color:var(--text-secondary);
+}
+.city-bar .city-label{font-weight:600;color:var(--text);text-transform:uppercase;letter-spacing:.1em}
+.city-tag{
+  padding:.375rem .75rem;border:1px solid var(--zinc-200);
+  transition:all .3s;cursor:pointer;
+}
+.city-tag:hover{border-color:var(--primary);color:var(--primary)}
+.city-more{color:var(--primary);font-weight:600;margin-left:.5rem}
+
+/* ======================================
+   TESTIMONIALS
+   ====================================== */
+.testimonials-section{background:var(--surface)}
+.testimonials-grid{
+  display:grid;grid-template-columns:1fr;
+  border:1px solid var(--zinc-200);
+}
+@media(min-width:768px){.testimonials-grid{grid-template-columns:repeat(3,1fr)}}
+.testimonial-card{
+  padding:2rem;transition:all .5s;
+  border-bottom:1px solid var(--zinc-200);
+}
+@media(min-width:768px){
+  .testimonial-card{border-bottom:none}
+  .testimonial-card:not(:last-child){border-right:1px solid var(--zinc-200)}
+}
+.testimonial-card:hover{background:var(--dark)}
+.testimonial-card:hover .t-text{color:var(--zinc-300)}
+.testimonial-card:hover .t-name{color:#fff}
+.testimonial-card:hover .t-city{color:var(--zinc-500)}
+.testimonial-card:hover .t-verified{color:rgba(52,211,153,.8)}
+.testimonial-card:hover .t-quote{color:rgba(37,99,235,.4)}
+.testimonial-card:hover .t-border{border-color:rgba(255,255,255,.05)}
+.testimonial-card:hover .t-avatar{background:rgba(37,99,235,.2)}
+.t-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.t-quote{color:rgba(37,99,235,.2);transition:color .5s}
+.t-quote svg{width:2rem;height:2rem}
+.t-verified{
+  display:inline-flex;align-items:center;gap:.25rem;
+  font-size:.625rem;color:var(--emerald-500);font-weight:600;
+  text-transform:uppercase;letter-spacing:.1em;transition:color .5s;
+}
+.t-verified svg{width:.75rem;height:.75rem}
+.t-text{font-size:.875rem;color:var(--text);line-height:1.6;margin-bottom:2rem;transition:color .5s}
+.t-footer{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem}
+.t-border{border-top:1px solid var(--zinc-100);transition:border-color .5s;padding-top:1.5rem;display:flex;align-items:center;justify-content:space-between;width:100%}
+.t-author{display:flex;align-items:center;gap:.75rem}
+.t-avatar{
+  width:2.5rem;height:2.5rem;background:rgba(37,99,235,.1);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--primary);font-weight:700;font-size:.875rem;transition:background .5s;
+}
+.t-name{font-weight:600;font-size:.875rem;transition:color .5s}
+.t-city{font-size:.75rem;color:var(--text-secondary);transition:color .5s}
+.t-stars{display:flex;gap:2px}
+.t-stars svg{width:1rem;height:1rem;color:var(--amber-400);fill:var(--amber-400)}
+.t-aggregate{text-align:center;margin-top:2rem;font-size:.875rem;color:var(--text-secondary)}
+.t-aggregate strong{color:var(--text);font-weight:700}
+
+/* ======================================
+   CTA PROFESSIONISTI
+   ====================================== */
+.cta-pro{background:var(--dark);position:relative;overflow:hidden}
+.cta-pro-grid-bg{
+  position:absolute;inset:0;opacity:.03;
+  background-image:linear-gradient(rgba(255,255,255,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.1) 1px,transparent 1px);
+  background-size:80px 80px;
+}
+.cta-pro-orb{position:absolute;top:0;right:0;width:500px;height:500px;background:rgba(37,99,235,.1);filter:blur(150px)}
+.cta-features{
+  display:grid;grid-template-columns:1fr;
+  border:1px solid rgba(255,255,255,.1);margin-bottom:3rem;max-width:48rem;margin-left:auto;margin-right:auto;
+}
+@media(min-width:640px){.cta-features{grid-template-columns:repeat(3,1fr)}}
+.cta-feature{
+  padding:1.5rem;transition:background .3s;
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+@media(min-width:640px){
+  .cta-feature{border-bottom:none}
+  .cta-feature:not(:last-child){border-right:1px solid rgba(255,255,255,.1)}
+}
+.cta-feature:hover{background:rgba(255,255,255,.05)}
+.cta-feature .cf-icon{color:var(--primary);margin-bottom:.75rem}
+.cta-feature .cf-icon svg{width:1.5rem;height:1.5rem}
+.cta-feature h3{font-weight:600;color:#fff;font-size:.875rem;margin-bottom:.25rem}
+.cta-feature p{color:var(--zinc-500);font-size:.75rem}
+
+/* ======================================
+   FAQ
+   ====================================== */
+.faq-section{background:#fff}
+.faq-container{max-width:56rem;margin:0 auto}
+.faq-list{border:1px solid var(--zinc-200)}
+.faq-item{border-bottom:1px solid var(--zinc-200)}
+.faq-item:last-child{border-bottom:none}
+.faq-question{
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  padding:1.25rem 1.5rem;text-align:left;cursor:pointer;transition:background .2s;
+  font-weight:600;font-size:.875rem;color:var(--text);
+}
+@media(min-width:640px){.faq-question{font-size:1rem}}
+.faq-question:hover{background:var(--surface)}
+.faq-question.active{color:var(--primary)}
+.faq-toggle{
+  width:2rem;height:2rem;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--zinc-200);transition:all .3s;font-size:1.25rem;line-height:1;
+}
+.faq-question.active .faq-toggle{background:var(--primary);border-color:var(--primary);color:#fff}
+.faq-answer{
+  max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;
+  padding:0 1.5rem;
+}
+.faq-answer.open{max-height:200px;padding:0 1.5rem 1.25rem}
+.faq-answer p{font-size:.875rem;color:var(--text-secondary);line-height:1.6}
+.faq-footer{text-align:center;margin-top:2rem}
+.faq-footer a{
+  font-size:.875rem;color:var(--primary);font-weight:600;
+  text-transform:uppercase;letter-spacing:.1em;
+}
+.faq-footer a:hover{text-decoration:underline}
+
+/* ======================================
+   FINAL CTA
+   ====================================== */
+.final-cta{background:var(--dark);position:relative;overflow:hidden}
+.final-cta-orb1{position:absolute;bottom:0;left:0;width:500px;height:500px;background:rgba(37,99,235,.1);filter:blur(150px)}
+.final-cta-orb2{position:absolute;top:0;right:0;width:400px;height:400px;background:rgba(96,165,250,.05);filter:blur(120px)}
+.final-cta-search{
+  display:flex;flex-direction:column;gap:.5rem;max-width:32rem;margin:0 auto 2rem;
+}
+@media(min-width:640px){.final-cta-search{flex-direction:row}}
+.final-cta-search select{
+  flex:1;height:3.5rem;padding:0 1rem 0 3rem;
+  background:rgba(255,255,255,.1);color:#fff;
+  appearance:none;cursor:pointer;font-size:.875rem;transition:background .3s;
+}
+.final-cta-search select:focus{background:rgba(255,255,255,.15)}
+.final-cta-search select option{color:var(--dark)}
+.final-cta-search .fcs-wrapper{position:relative;flex:1}
+.final-cta-search .fcs-icon{position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--zinc-400)}
+.final-cta-search .fcs-icon svg{width:1.25rem;height:1.25rem}
+.final-cta-search button{
+  height:3.5rem;padding:0 2rem;background:var(--primary);color:#fff;
+  font-weight:600;display:flex;align-items:center;gap:.5rem;cursor:pointer;
+  transition:all .3s;flex-shrink:0;
+}
+.final-cta-search button:hover{background:var(--primary-light)}
+.final-cta-search button svg{width:1.25rem;height:1.25rem}
+.trust-signals{display:flex;flex-wrap:wrap;justify-content:center;gap:1.5rem;font-size:.75rem;color:var(--zinc-500)}
+.trust-signals span{display:flex;align-items:center;gap:.375rem}
+.trust-signals .ts-primary svg{color:var(--primary)}
+.trust-signals .ts-green svg{color:var(--emerald-500)}
+.trust-signals .ts-amber svg{color:var(--amber-500)}
+.trust-signals svg{width:.875rem;height:.875rem}
+
+/* ======================================
+   FOOTER
+   ====================================== */
+.footer{background:var(--dark);color:#fff;border-top:1px solid rgba(255,255,255,.05)}
+.footer-grid{
+  display:grid;grid-template-columns:1fr;gap:3rem;
+  padding:5rem 0;
+}
+@media(min-width:768px){.footer-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.footer-grid{grid-template-columns:repeat(4,1fr)}}
+.footer-brand p{color:var(--zinc-500);font-size:.875rem;line-height:1.6;margin-bottom:2rem}
+.footer-socials{display:flex;gap:.75rem}
+.social-icon{
+  width:2.25rem;height:2.25rem;border:1px solid rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--zinc-500);transition:all .3s;
+}
+.social-icon:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.social-icon svg{width:1rem;height:1rem}
+.footer h3{
+  font-weight:600;font-size:.75rem;text-transform:uppercase;
+  letter-spacing:.2em;color:var(--zinc-400);margin-bottom:1.5rem;
+}
+.footer ul{list-style:none}
+.footer li{margin-bottom:.75rem}
+.footer li a{color:var(--zinc-500);font-size:.875rem;transition:color .2s}
+.footer li a:hover{color:#fff}
+.footer-contact li{display:flex;align-items:center;gap:.75rem;color:var(--zinc-500);font-size:.875rem;margin-bottom:1rem}
+.footer-contact svg{width:1rem;height:1rem;color:var(--primary);flex-shrink:0}
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,.05);padding:2rem 0;
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:1rem;
+}
+@media(min-width:640px){.footer-bottom{flex-direction:row}}
+.footer-bottom p{color:var(--zinc-600);font-size:.75rem;text-transform:uppercase;letter-spacing:.1em}
+.footer-bottom-links{display:flex;gap:1.5rem}
+.footer-bottom-links a{color:var(--zinc-600);font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;transition:color .2s}
+.footer-bottom-links a:hover{color:var(--zinc-300)}
+
+/* ======================================
+   SVG ICONS (inline)
+   ====================================== */
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a href="#" class="navbar-logo">
+      <div class="navbar-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
+      <span>Trova<span class="text-primary">Pro</span></span>
+    </a>
+    <div class="navbar-links">
+      <a href="#categorie" class="navbar-link">Cerca Professionisti</a>
+      <a href="#come-funziona" class="navbar-link">Come Funziona</a>
+      <a href="#professionisti" class="navbar-link">In Evidenza</a>
+      <a href="#faq" class="navbar-link">FAQ</a>
+    </div>
+    <div class="navbar-cta">
+      <a href="#" class="login-link">Accedi</a>
+      <a href="#" class="btn-primary" style="padding:.625rem 1.5rem;font-size:.875rem">Registrati Gratis</a>
+    </div>
+    <button class="mobile-toggle" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu Overlay -->
+<div id="mobile-menu" style="position:fixed;inset:0;z-index:60;pointer-events:none;opacity:0;transition:opacity .3s">
+  <div style="position:absolute;inset:0;background:rgba(0,0,0,.4)" onclick="document.getElementById('mobile-menu').classList.remove('open')"></div>
+  <div style="position:absolute;top:0;right:0;height:100%;width:20rem;background:#fff;border-left:1px solid var(--zinc-200);padding:2rem;transform:translateX(100%);transition:transform .3s">
+    <button onclick="document.getElementById('mobile-menu').classList.remove('open')" style="position:absolute;top:1rem;right:1rem;padding:.5rem;cursor:pointer" aria-label="Chiudi">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div style="margin-top:3rem;display:flex;flex-direction:column;gap:.25rem">
+      <a href="#categorie" style="display:block;padding:.75rem 1rem;color:var(--zinc-600);font-size:1rem" onclick="document.getElementById('mobile-menu').classList.remove('open')">Cerca Professionisti</a>
+      <a href="#come-funziona" style="display:block;padding:.75rem 1rem;color:var(--zinc-600);font-size:1rem" onclick="document.getElementById('mobile-menu').classList.remove('open')">Come Funziona</a>
+      <a href="#professionisti" style="display:block;padding:.75rem 1rem;color:var(--zinc-600);font-size:1rem" onclick="document.getElementById('mobile-menu').classList.remove('open')">In Evidenza</a>
+      <a href="#faq" style="display:block;padding:.75rem 1rem;color:var(--zinc-600);font-size:1rem" onclick="document.getElementById('mobile-menu').classList.remove('open')">FAQ</a>
+      <div style="padding-top:1.5rem;display:flex;flex-direction:column;gap:.75rem">
+        <a href="#" style="display:block;text-align:center;padding:.75rem;border:1px solid var(--zinc-200);font-weight:500">Accedi</a>
+        <a href="#" class="btn-primary" style="justify-content:center">Registrati Gratis</a>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  #mobile-menu.open{pointer-events:all;opacity:1}
+  #mobile-menu.open > div:last-child{transform:translateX(0) !important}
+  @media(min-width:1024px){#mobile-menu{display:none !important}}
+</style>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-orb1"></div>
+  <div class="hero-orb2"></div>
+  <div class="hero-content">
+    <div class="anim-fade-up">
+      <span class="overline overline-dark">La piattaforma #1 per professionisti in Italia</span>
+    </div>
+    <div class="anim-fade-up anim-delay-1">
+      <h1>Trova il <span class="text-primary">professionista</span><br>perfetto per te</h1>
+    </div>
+    <p class="hero-subtitle anim-fade-up anim-delay-2">
+      Elettricisti, idraulici e imbianchini qualificati nella tua zona.<br>
+      Cerca, confronta e contatta in pochi click.
+    </p>
+    <div class="hero-search anim-fade-up anim-delay-3">
+      <div class="hero-search-inner">
+        <div class="field-wrapper">
+          <span class="field-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+          <select>
+            <option>Tutti i servizi</option>
+            <option>Elettricista</option>
+            <option>Idraulico</option>
+            <option>Imbianchino</option>
+          </select>
+        </div>
+        <div class="field-wrapper">
+          <span class="field-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+          <input type="text" placeholder="Città, zona o regione...">
+        </div>
+        <button class="hero-search-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Cerca
+        </button>
+      </div>
+    </div>
+    <div class="hero-trust-badges anim-fade-up anim-delay-5">
+      <span><span class="dot"></span> Gratuito</span>
+      <span><span class="dot"></span> Senza impegno</span>
+      <span><span class="dot"></span> In 2 minuti</span>
+    </div>
+    <div class="hero-stats anim-fade-up anim-delay-6">
+      <div class="text-center"><div class="hero-stat-value">500+</div><div class="hero-stat-label">Professionisti</div></div>
+      <div class="text-center"><div class="hero-stat-value">10.000+</div><div class="hero-stat-label">Lavori completati</div></div>
+      <div class="text-center"><div class="hero-stat-value">4.8/5</div><div class="hero-stat-label">Valutazione media</div></div>
+      <div class="text-center"><div class="hero-stat-value">50+</div><div class="hero-stat-label">Città coperte</div></div>
+    </div>
+  </div>
+  <div class="scroll-indicator"><div class="scroll-indicator-dot"></div></div>
+</section>
+
+<!-- ===== TRUST BAR ===== -->
+<section class="trust-bar">
+  <div class="trust-bar-inner">
+    <div class="trust-item"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div><div class="trust-value">500+</div><div class="trust-label">Professionisti attivi</div></div></div>
+    <div class="trust-item"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div><div class="trust-value">4.8/5</div><div class="trust-label">Valutazione media</div></div></div>
+    <div class="trust-item"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><div class="trust-value">100%</div><div class="trust-label">Verificati</div></div></div>
+    <div class="trust-item"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div><div class="trust-value">&lt; 2 min</div><div class="trust-label">Tempo risposta</div></div></div>
+    <div class="trust-item"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div><div class="trust-value">10k+</div><div class="trust-label">Lavori completati</div></div></div>
+  </div>
+</section>
+
+<!-- ===== CATEGORIES ===== -->
+<section class="section-padding" id="categorie" style="background:#fff">
+  <div class="container">
+    <div class="text-center mb-16">
+      <span class="overline">I nostri servizi</span>
+      <h2 style="font-size:clamp(1.75rem,4vw,3rem);margin-bottom:1rem">Che tipo di professionista cerchi?</h2>
+      <p style="color:var(--text-secondary);max-width:42rem;margin:0 auto">Scegli tra le nostre categorie di professionisti qualificati e trova l'esperto perfetto per il tuo lavoro.</p>
+    </div>
+    <div class="categories-grid">
+      <div class="category-card">
+        <div class="cat-bg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+        <div class="cat-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+        <h3>Elettricisti</h3>
+        <p>Impianti elettrici, riparazioni, messa a norma e certificazioni</p>
+        <div class="cat-stats"><span style="font-weight:600">160+ professionisti</span> • ★ 4.7 media</div>
+        <div class="cat-cta">Cerca elettricista <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+        <div class="cat-bottom-line"></div>
+      </div>
+      <div class="category-card">
+        <div class="cat-bg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></div>
+        <div class="cat-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></div>
+        <h3>Idraulici</h3>
+        <p>Riparazioni tubature, installazioni sanitari, caldaie e riscaldamento</p>
+        <div class="cat-stats"><span style="font-weight:600">160+ professionisti</span> • ★ 4.7 media</div>
+        <div class="cat-cta">Cerca idraulico <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+        <div class="cat-bottom-line"></div>
+      </div>
+      <div class="category-card">
+        <div class="cat-bg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.37 2.63 14 7l-1.59-1.59a2 2 0 0 0-2.82 0L8 7l9 9 1.59-1.59a2 2 0 0 0 0-2.82L17 10l4.37-4.37a2.12 2.12 0 1 0-3-3Z"/><path d="M9 8c-2 3-4 3.5-7 4l8 10c2-1 6-5 6-7"/><path d="M14.5 17.5 4.5 15"/></svg></div>
+        <div class="cat-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.37 2.63 14 7l-1.59-1.59a2 2 0 0 0-2.82 0L8 7l9 9 1.59-1.59a2 2 0 0 0 0-2.82L17 10l4.37-4.37a2.12 2.12 0 1 0-3-3Z"/><path d="M9 8c-2 3-4 3.5-7 4l8 10c2-1 6-5 6-7"/><path d="M14.5 17.5 4.5 15"/></svg></div>
+        <h3>Imbianchini</h3>
+        <p>Tinteggiatura interni ed esterni, decorazioni e cartongesso</p>
+        <div class="cat-stats"><span style="font-weight:600">160+ professionisti</span> • ★ 4.9 media</div>
+        <div class="cat-cta">Cerca imbianchino <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+        <div class="cat-bottom-line"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="how-section section-padding" id="come-funziona">
+  <div class="how-grid-bg"></div>
+  <div class="container" style="position:relative;z-index:1">
+    <div class="text-center mb-16" style="margin-bottom:5rem">
+      <span class="overline overline-dark">Semplice e veloce</span>
+      <h2 style="font-size:clamp(1.75rem,4vw,3rem);color:#fff;margin-bottom:1rem">Come funziona?</h2>
+      <p style="color:var(--zinc-400);max-width:42rem;margin:0 auto">Trovare un professionista qualificato non è mai stato così facile. Bastano <span style="color:#fff;font-weight:600">3 semplici passaggi</span>.</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-line"></div>
+      <div class="how-card">
+        <div class="how-icon-wrapper">
+          <div class="how-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+          <div class="how-step-num">01</div>
+        </div>
+        <h3>Cerca</h3>
+        <p>Inserisci il servizio di cui hai bisogno e la tua zona. Trova i migliori professionisti vicino a te.</p>
+        <div class="how-card-line"></div>
+      </div>
+      <div class="how-card">
+        <div class="how-icon-wrapper">
+          <div class="how-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <div class="how-step-num">02</div>
+        </div>
+        <h3>Contatta</h3>
+        <p>Scegli il professionista più adatto e richiedi un preventivo gratuito o chiamalo direttamente.</p>
+        <div class="how-card-line"></div>
+      </div>
+      <div class="how-card">
+        <div class="how-icon-wrapper">
+          <div class="how-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+          <div class="how-step-num">03</div>
+        </div>
+        <h3>Risolvi</h3>
+        <p>Il professionista ti contatterà per fissare l'intervento. Problema risolto!</p>
+        <div class="how-card-line"></div>
+      </div>
+    </div>
+    <p class="how-tagline" style="margin-top:2rem">Tutto in meno di <span class="hl">2 minuti</span> • Completamente <span class="hl">gratuito</span></p>
+  </div>
+</section>
+
+<!-- ===== FEATURED PROFESSIONALS ===== -->
+<section class="featured-section section-padding" id="professionisti">
+  <div class="container">
+    <div class="featured-header">
+      <div>
+        <span class="overline" style="display:inline-flex;align-items:center;gap:.5rem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" width="14" height="14"><path d="m2 4 3 12h14l3-12-5.5 7L12 2l-4.5 9Z"/></svg>
+          I più richiesti
+        </span>
+        <h2 style="font-size:clamp(1.75rem,4vw,3rem)">Professionisti in evidenza</h2>
+        <p style="color:var(--text-secondary);margin-top:.75rem;max-width:28rem">I professionisti con le migliori valutazioni selezionati per te.</p>
+      </div>
+      <a href="#" class="featured-link">Vedi tutti <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    </div>
+    <div class="pro-grid">
+      <!-- Card 1: Giuseppe Verdi - Premium -->
+      <a href="#" class="pro-card premium" style="text-decoration:none;color:inherit">
+        <div class="pro-card-img">
+          <div class="pro-card-gradient imbianchino"><span>GV</span></div>
+          <div class="pro-card-overlay"></div>
+          <div class="pro-card-badges">
+            <span class="badge badge-premium">★ Premium</span>
+            <span class="badge badge-verified">✓ Verificato</span>
+          </div>
+          <div class="pro-card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div>
+          <div class="pro-card-price">€30-60/ora</div>
+        </div>
+        <div class="pro-card-body">
+          <div class="pro-card-meta">
+            <span class="pro-card-category"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M18.37 2.63 14 7l-1.59-1.59a2 2 0 0 0-2.82 0L8 7l9 9 1.59-1.59a2 2 0 0 0 0-2.82L17 10l4.37-4.37a2.12 2.12 0 1 0-3-3Z"/><path d="M9 8c-2 3-4 3.5-7 4l8 10c2-1 6-5 6-7"/></svg> Imbianchino</span>
+            <span style="color:var(--zinc-300)">|</span>
+            <span class="pro-card-exp">20 anni esp.</span>
+          </div>
+          <h3>Giuseppe Verdi</h3>
+          <div class="pro-card-stars">★★★★★ <span class="star-count">4.9 (156)</span></div>
+          <p class="pro-card-desc">Imbianchino esperto con una passione per i dettagli. Tinteggiatura interni ed esterni, decorazioni, stucchi veneziani e cartongesso.</p>
+          <div class="pro-card-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Torino (TO)</div>
+        </div>
+        <div class="pro-card-bottom-line amber"></div>
+      </a>
+      <!-- Card 2: Mario Rossi - Premium -->
+      <a href="#" class="pro-card premium" style="text-decoration:none;color:inherit">
+        <div class="pro-card-img">
+          <div class="pro-card-gradient elettricista"><span>MR</span></div>
+          <div class="pro-card-overlay"></div>
+          <div class="pro-card-badges">
+            <span class="badge badge-premium">★ Premium</span>
+            <span class="badge badge-verified">✓ Verificato</span>
+          </div>
+          <div class="pro-card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div>
+          <div class="pro-card-price">€40-80/ora</div>
+        </div>
+        <div class="pro-card-body">
+          <div class="pro-card-meta">
+            <span class="pro-card-category"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Elettricista</span>
+            <span style="color:var(--zinc-300)">|</span>
+            <span class="pro-card-exp">15 anni esp.</span>
+          </div>
+          <h3>Mario Rossi</h3>
+          <div class="pro-card-stars">★★★★★ <span class="star-count">4.8 (124)</span></div>
+          <p class="pro-card-desc">Elettricista con oltre 15 anni di esperienza. Specializzato in impianti civili e industriali, messa a norma e domotica.</p>
+          <div class="pro-card-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Roma (RM)</div>
+        </div>
+        <div class="pro-card-bottom-line amber"></div>
+      </a>
+      <!-- Card 3: Paolo Colombo - Premium -->
+      <a href="#" class="pro-card premium" style="text-decoration:none;color:inherit">
+        <div class="pro-card-img">
+          <div class="pro-card-gradient imbianchino"><span>PC</span></div>
+          <div class="pro-card-overlay"></div>
+          <div class="pro-card-badges">
+            <span class="badge badge-premium">★ Premium</span>
+            <span class="badge badge-verified">✓ Verificato</span>
+          </div>
+          <div class="pro-card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div>
+          <div class="pro-card-price">€35-65/ora</div>
+        </div>
+        <div class="pro-card-body">
+          <div class="pro-card-meta">
+            <span class="pro-card-category"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M18.37 2.63 14 7l-1.59-1.59a2 2 0 0 0-2.82 0L8 7l9 9 1.59-1.59a2 2 0 0 0 0-2.82L17 10l4.37-4.37a2.12 2.12 0 1 0-3-3Z"/><path d="M9 8c-2 3-4 3.5-7 4l8 10c2-1 6-5 6-7"/></svg> Imbianchino</span>
+            <span style="color:var(--zinc-300)">|</span>
+            <span class="pro-card-exp">22 anni esp.</span>
+          </div>
+          <h3>Paolo Colombo</h3>
+          <div class="pro-card-stars">★★★★★ <span class="star-count">4.8 (143)</span></div>
+          <p class="pro-card-desc">Imbianchino a Milano con esperienza ventennale. Tinteggiatura, rasatura, velature e finiture decorative di alta qualità.</p>
+          <div class="pro-card-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Milano (MI)</div>
+        </div>
+        <div class="pro-card-bottom-line amber"></div>
+      </a>
+    </div>
+    <div class="social-proof">
+      <span><span class="live-dot"></span> 6 professionisti disponibili ora</span>
+      <span style="color:var(--zinc-300)" class="hide-mobile">|</span>
+      <span>Ultimo intervento completato: 12 minuti fa</span>
+      <span style="color:var(--zinc-300)" class="hide-mobile">|</span>
+      <span>Media risposte: &lt; 2 ore</span>
+    </div>
+  </div>
+</section>
+<style>.hide-mobile{display:none}@media(min-width:640px){.hide-mobile{display:inline}}</style>
+
+<!-- ===== STATS ===== -->
+<section class="stats-section">
+  <div class="stats-pattern"></div>
+  <div class="stats-glow"></div>
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-cell"><div class="stat-value" data-target="10000" data-suffix="+">10k+</div><div class="stat-label">Interventi completati</div><div class="stat-desc">Lavori portati a termine con successo</div></div>
+      <div class="stat-cell" style="border-right:1px solid rgba(255,255,255,.05)"><div class="stat-value">98%</div><div class="stat-label">Clienti soddisfatti</div><div class="stat-desc">Recensioni positive verificate</div></div>
+      <div class="stat-cell" style="border-right:1px solid rgba(255,255,255,.05)"><div class="stat-value">500+</div><div class="stat-label">Professionisti attivi</div><div class="stat-desc">Esperti qualificati in tutta Italia</div></div>
+      <div class="stat-cell"><div class="stat-value">50+</div><div class="stat-label">Città coperte</div><div class="stat-desc">Copertura nazionale in crescita</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MAP ===== -->
+<section class="map-section" id="mappa">
+  <div class="container" style="padding-top:5rem;padding-bottom:2rem">
+    <div class="map-header">
+      <div>
+        <span class="overline" style="display:inline-flex;align-items:center;gap:.375rem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Mappa interattiva
+        </span>
+        <h2 style="font-size:clamp(1.75rem,4vw,3rem)">Professionisti nella tua zona</h2>
+        <p style="color:var(--text-secondary);margin-top:.75rem;max-width:28rem">Esplora la mappa per trovare professionisti verificati vicino a te. Copertura in tutta Italia.</p>
+      </div>
+      <a href="#" class="featured-link">Apri mappa <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    </div>
+  </div>
+  <div class="map-placeholder">
+    <div class="map-dots">
+      <div class="map-dot roma"></div><div class="map-label" style="top:56%;left:44%">Roma</div>
+      <div class="map-dot milano"></div><div class="map-label" style="top:26%;left:40%">Milano</div>
+      <div class="map-dot torino"></div><div class="map-label" style="top:24%;left:22%">Torino</div>
+      <div class="map-dot napoli"></div><div class="map-label" style="top:64%;left:50%">Napoli</div>
+      <div class="map-dot bologna"></div><div class="map-label" style="top:36%;left:46%">Bologna</div>
+      <div class="map-dot firenze"></div><div class="map-label" style="top:42%;left:44%">Firenze</div>
+    </div>
+    <div class="map-inner-text">
+      <p>🗺️ Mappa interattiva</p>
+      <span>Nella versione live, qui vedrai la mappa Leaflet con tutti i professionisti.</span>
+    </div>
+  </div>
+  <div class="container" style="padding:1.5rem 1rem">
+    <div class="city-bar">
+      <span class="city-label">Città principali:</span>
+      <span class="city-tag">Roma</span>
+      <span class="city-tag">Milano</span>
+      <span class="city-tag">Torino</span>
+      <span class="city-tag">Napoli</span>
+      <span class="city-tag">Bologna</span>
+      <span class="city-tag">Firenze</span>
+      <span class="city-more">+50 altre →</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="testimonials-section section-padding" id="recensioni">
+  <div class="container">
+    <div class="text-center mb-16">
+      <span class="overline">Recensioni verificate</span>
+      <h2 style="font-size:clamp(1.75rem,4vw,3rem);margin-bottom:1rem">Cosa dicono i nostri utenti</h2>
+      <p style="color:var(--text-secondary);max-width:42rem;margin:0 auto">Migliaia di persone hanno già trovato il professionista perfetto grazie a TrovaPro.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="t-header">
+          <span class="t-quote"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg></span>
+          <span class="t-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Verificata</span>
+        </div>
+        <p class="t-text">"Ho trovato un elettricista fantastico in meno di 5 minuti. Ha risolto il problema il giorno stesso. Servizio eccezionale!"</p>
+        <div class="t-border">
+          <div class="t-author">
+            <div class="t-avatar">M</div>
+            <div><p class="t-name">Maria Grazia</p><p class="t-city">Roma</p></div>
+          </div>
+          <div class="t-stars"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="t-header">
+          <span class="t-quote"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg></span>
+          <span class="t-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Verificata</span>
+        </div>
+        <p class="t-text">"Piattaforma utilissima. Ho confrontato diversi idraulici e ho scelto quello più adatto alle mie esigenze. Tutto perfetto."</p>
+        <div class="t-border">
+          <div class="t-author">
+            <div class="t-avatar">A</div>
+            <div><p class="t-name">Alessandro</p><p class="t-city">Milano</p></div>
+          </div>
+          <div class="t-stars"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="t-header">
+          <span class="t-quote"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg></span>
+          <span class="t-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Verificata</span>
+        </div>
+        <p class="t-text">"Finalmente un modo semplice per trovare professionisti affidabili! L'imbianchino che ho trovato ha fatto un lavoro straordinario."</p>
+        <div class="t-border">
+          <div class="t-author">
+            <div class="t-avatar">C</div>
+            <div><p class="t-name">Claudia</p><p class="t-city">Torino</p></div>
+          </div>
+          <div class="t-stars"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        </div>
+      </div>
+    </div>
+    <p class="t-aggregate">Valutazione media <strong>4.8/5</strong> basata su <strong>1.200+</strong> recensioni</p>
+  </div>
+</section>
+
+<!-- ===== CTA PROFESSIONISTI ===== -->
+<section class="cta-pro section-padding">
+  <div class="cta-pro-grid-bg"></div>
+  <div class="cta-pro-orb"></div>
+  <div class="container" style="max-width:64rem;position:relative;z-index:1">
+    <div class="text-center">
+      <span class="overline overline-dark">Per professionisti</span>
+      <h2 style="font-size:clamp(1.75rem,5vw,3.75rem);color:#fff;margin-bottom:1.5rem;line-height:1.1">Sei un professionista?<br><span style="color:var(--primary)">Registrati gratis oggi</span></h2>
+      <p style="font-size:1.125rem;color:var(--zinc-400);max-width:42rem;margin:0 auto 1rem">Entra nella rete di TrovaPro e inizia a ricevere richieste da clienti nella tua zona. La registrazione è gratuita e senza impegno.</p>
+      <p style="font-size:.875rem;color:var(--primary);font-weight:600;margin-bottom:3rem">Già 500+ professionisti registrati • Registrazione in 2 minuti</p>
+      <div class="cta-features">
+        <div class="cta-feature">
+          <div class="cf-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <h3>Nuovi clienti</h3>
+          <p>Raggiungi migliaia di utenti</p>
+        </div>
+        <div class="cta-feature">
+          <div class="cf-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <h3>Cresci</h3>
+          <p>Aumenta la tua visibilità</p>
+        </div>
+        <div class="cta-feature">
+          <div class="cf-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <h3>Affidabile</h3>
+          <p>Piattaforma verificata</p>
+        </div>
+      </div>
+      <a href="#" class="btn-white">
+        Registrati Gratis
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="faq-section section-padding" id="faq">
+  <div class="faq-container" style="padding:0 1rem">
+    <div class="text-center mb-16">
+      <span class="overline">Domande frequenti</span>
+      <h2 style="font-size:clamp(1.75rem,4vw,3rem);margin-bottom:1rem">Hai delle domande?</h2>
+      <p style="color:var(--text-secondary);max-width:42rem;margin:0 auto">Trova le risposte alle domande più comuni. Se hai bisogno di ulteriore assistenza, <a href="#" style="color:var(--primary)">contattaci</a>.</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question active" onclick="toggleFaq(this)">Come funziona Trova Professionisti? <span class="faq-toggle">−</span></button>
+        <div class="faq-answer open"><p>Trova Professionisti è una piattaforma che mette in contatto utenti privati con professionisti locali qualificati. Basta cercare il servizio di cui hai bisogno, selezionare la tua zona e contattare il professionista più adatto a te.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">Il servizio è gratuito per gli utenti? <span class="faq-toggle">+</span></button>
+        <div class="faq-answer"><p>Sì, l'utilizzo della piattaforma è completamente gratuito per gli utenti privati. Puoi cercare professionisti, visualizzare i loro profili e richiedere preventivi senza alcun costo.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">Come posso registrarmi come professionista? <span class="faq-toggle">+</span></button>
+        <div class="faq-answer"><p>La registrazione è semplice e gratuita. Clicca su "Registrati come professionista", compila il modulo con i tuoi dati, carica una foto profilo e inizia subito a ricevere richieste dai clienti nella tua zona.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">Cosa sono i piani Pro e Premium? <span class="faq-toggle">+</span></button>
+        <div class="faq-answer"><p>I piani a pagamento ti permettono di aumentare la tua visibilità sulla piattaforma. Il piano Pro (€19,90/mese) ti dà un badge dedicato e priorità nei risultati. Il piano Premium (€39,90/mese) ti posiziona sempre in cima.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">I professionisti sono verificati? <span class="faq-toggle">+</span></button>
+        <div class="faq-answer"><p>Tutti i professionisti registrati sulla piattaforma possono richiedere la verifica del profilo. I professionisti verificati mostrano un badge apposito e hanno fornito documentazione aggiuntiva.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">Come funziona il sistema di recensioni? <span class="faq-toggle">+</span></button>
+        <div class="faq-answer"><p>Solo gli utenti che hanno effettivamente richiesto un servizio tramite la piattaforma possono lasciare una recensione. Questo garantisce l'autenticità e l'affidabilità delle valutazioni.</p></div>
+      </div>
+    </div>
+    <div class="faq-footer"><a href="#">Vedi tutte le FAQ →</a></div>
+  </div>
+</section>
+
+<!-- ===== FINAL CTA ===== -->
+<section class="final-cta" style="padding:6rem 1rem 8rem">
+  <div class="hero-grid" style="position:absolute;inset:0;opacity:.03"></div>
+  <div class="final-cta-orb1"></div>
+  <div class="final-cta-orb2"></div>
+  <div style="position:relative;z-index:1;max-width:56rem;margin:0 auto;text-align:center">
+    <span class="overline overline-dark">Inizia ora</span>
+    <h2 style="font-size:clamp(1.75rem,5vw,3.75rem);color:#fff;margin-bottom:1.5rem;line-height:1.1">Il professionista giusto<br><span style="color:var(--primary)">è a un click di distanza</span></h2>
+    <p style="font-size:1.125rem;color:var(--zinc-400);max-width:32rem;margin:0 auto 2.5rem">Non rimandare quel lavoro che aspetta da tempo. Trova oggi stesso chi può aiutarti.</p>
+    <div class="final-cta-search">
+      <div class="fcs-wrapper">
+        <span class="fcs-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+        <select>
+          <option>Di cosa hai bisogno?</option>
+          <option>Elettricista</option>
+          <option>Idraulico</option>
+          <option>Imbianchino</option>
+        </select>
+      </div>
+      <button>
+        Cerca ora
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+    <div class="trust-signals">
+      <span class="ts-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Risultati istantanei</span>
+      <span class="ts-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Profili verificati</span>
+      <span class="ts-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Recensioni reali</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="navbar-logo" style="margin-bottom:1.5rem"><div class="navbar-logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><span style="color:#fff">Trova<span class="text-primary">Pro</span></span></a>
+        <p>La piattaforma che mette in contatto utenti privati con professionisti locali qualificati. Trova l'esperto giusto per ogni lavoro.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-icon" aria-label="Facebook"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+          <a href="#" class="social-icon" aria-label="Instagram"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+          <a href="#" class="social-icon" aria-label="LinkedIn"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h3>Servizi</h3>
+        <ul><li><a href="#">Elettricisti</a></li><li><a href="#">Idraulici</a></li><li><a href="#">Imbianchini</a></li><li><a href="#">Tutti i servizi</a></li></ul>
+      </div>
+      <div>
+        <h3>Link Utili</h3>
+        <ul><li><a href="#">Chi Siamo</a></li><li><a href="#">Come Funziona</a></li><li><a href="#">Per Professionisti</a></li><li><a href="#">FAQ</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Termini di Servizio</a></li></ul>
+      </div>
+      <div>
+        <h3>Contatti</h3>
+        <ul class="footer-contact">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> info@trovapro.it</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> +39 02 1234567</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Via Roma 1, 20121 Milano (MI)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 TrovaPro. Tutti i diritti riservati.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy</a>
+        <a href="#">Termini</a>
+        <a href="#">Contatti</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// FAQ accordion
+function toggleFaq(btn) {
+  const item = btn.parentElement;
+  const answer = item.querySelector('.faq-answer');
+  const toggle = btn.querySelector('.faq-toggle');
+  const isOpen = answer.classList.contains('open');
+
+  // Close all
+  document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+  document.querySelectorAll('.faq-question').forEach(q => {
+    q.classList.remove('active');
+    q.querySelector('.faq-toggle').textContent = '+';
+  });
+
+  if (!isOpen) {
+    answer.classList.add('open');
+    btn.classList.add('active');
+    toggle.textContent = '−';
+  }
+}
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// Intersection Observer for fade-in animations on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '-40px' });
+
+document.querySelectorAll('.category-card, .how-card, .testimonial-card, .pro-card, .stat-cell, .trust-item, .cta-feature').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>

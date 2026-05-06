@@ -1,0 +1,251 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native"]
+}
+
+datasource db {
+  // Dev: sqlite (file:./dev.db). Production: change to "postgresql" and
+  // point DATABASE_URL to your Neon/Supabase/etc. connection string.
+  // The schema only uses string-encoded JSON columns, so it is portable
+  // between sqlite and postgresql with no schema changes required.
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ==================== AUTH ====================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String
+  firstName     String
+  lastName      String
+  phone         String?
+  role          String    @default("client") // client | professional | admin
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  professional  Professional?
+  reviews       Review[]
+  quoteRequests QuoteRequest[]
+  sessions      Session[]
+  notifications Notification[]
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ==================== PROFESSIONALS ====================
+
+model Professional {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  slug            String   @unique
+  vatNumber       String   @unique
+  description     String
+  profileImage    String?
+  gallery         String   @default("[]") // JSON array of image URLs
+
+  city            String
+  province        String
+  address         String?
+  latitude        Float?
+  longitude       Float?
+  coverageAreas   String   @default("[]") // JSON array
+  coverageRadius  Int      @default(25)
+
+  yearsExperience Int      @default(0)
+  priceRange      String?
+  available       Boolean  @default(true)
+
+  // Computed/cached
+  rating          Float    @default(0)
+  reviewCount     Int      @default(0)
+
+  // Verification & Plan
+  isVerified      Boolean  @default(false)
+  plan            String   @default("base") // base | pro | premium
+  planExpiresAt   DateTime?
+  isApproved      Boolean  @default(false) // admin must approve
+  isSuspended     Boolean  @default(false)
+
+  // Stripe
+  stripeCustomerId String? @unique
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  categories      ProfessionalCategory[]
+  reviews         Review[]
+  quoteRequests   QuoteRequest[]
+  profileViews    ProfileView[]
+  subscriptions   Subscription[]
+}
+
+// ==================== SUBSCRIPTIONS ====================
+
+model Subscription {
+  id                     String       @id @default(cuid())
+  professionalId         String
+  professional           Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+
+  stripeSubscriptionId   String       @unique
+  stripeCustomerId       String
+  stripePriceId          String
+  plan                   String       // pro | premium
+  status                 String       // active | trialing | past_due | canceled | incomplete | incomplete_expired | unpaid | paused
+  currentPeriodStart     DateTime
+  currentPeriodEnd       DateTime
+  cancelAtPeriodEnd      Boolean      @default(false)
+  canceledAt             DateTime?
+
+  createdAt              DateTime     @default(now())
+  updatedAt              DateTime     @updatedAt
+
+  @@index([professionalId])
+  @@index([status])
+}
+
+// ==================== CATEGORIES ====================
+
+model Category {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  namePlural  String
+  icon        String
+  color       String
+  description String
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  professionals ProfessionalCategory[]
+}
+
+model ProfessionalCategory {
+  id             String       @id @default(cuid())
+  professionalId String
+  categoryId     String
+  professional   Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+  category       Category     @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([professionalId, categoryId])
+}
+
+// ==================== REVIEWS ====================
+
+model Review {
+  id             String       @id @default(cuid())
+  professionalId String
+  professional   Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+  authorId       String?
+  author         User?        @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  authorName     String
+  rating         Int          // 1-5
+  comment        String
+  verified       Boolean      @default(false)
+  isApproved     Boolean      @default(true)
+
+  // Professional response
+  response       String?
+  respondedAt    DateTime?
+
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+// ==================== QUOTE REQUESTS ====================
+
+model QuoteRequest {
+  id             String       @id @default(cuid())
+  professionalId String
+  professional   Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+  clientId       String?
+  client         User?        @relation(fields: [clientId], references: [id], onDelete: SetNull)
+
+  firstName      String
+  lastName       String
+  email          String
+  phone          String
+  address        String
+  city           String
+  category       String
+  description    String
+  photos         String       @default("[]") // JSON array
+  preferredDate  String?
+  urgency        String       @default("media") // bassa | media | alta
+
+  status         String       @default("nuova") // nuova | in_lavorazione | completata | rifiutata
+  professionalNotes String?
+
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+// ==================== ANALYTICS ====================
+
+model ProfileView {
+  id             String       @id @default(cuid())
+  professionalId String
+  professional   Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+  viewedAt       DateTime     @default(now())
+  source         String?      // search | direct | category
+}
+
+// ==================== NOTIFICATIONS ====================
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String   // new_request | new_review | plan_expiring | account_approved
+  title     String
+  message   String
+  data      String?  // JSON
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+// ==================== SETTINGS ====================
+
+model SiteSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}
+
+// ==================== AUTH TOKENS ====================
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  userId    String
+  tokenHash String   @unique
+  expiresAt DateTime
+  consumedAt DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model EmailVerificationToken {
+  id         String   @id @default(cuid())
+  userId     String
+  email      String
+  tokenHash  String   @unique
+  expiresAt  DateTime
+  consumedAt DateTime?
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+}
