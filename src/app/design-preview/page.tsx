@@ -3,26 +3,38 @@ import {
   Search, MapPin, Star, ArrowRight, ArrowUpRight, Check,
   Zap, Sparkles, MessageSquare, Lock, BadgeCheck, Bolt,
   TrendingUp, TrendingDown, Quote, Plus, Droplets, Paintbrush, Hammer, Key, TreePine,
-  Twitter, Instagram, Linkedin, Mail, Globe, Bell,
-  Calendar,
+  Twitter, Instagram, Linkedin, Mail, Globe, Bell, Calendar,
 } from 'lucide-react';
 
-// ── Dark palette ───────────────────────────────────────────────
-const dark = '#050505';            // page background
-const dark2 = '#0A0A0A';           // section alt background
-const dark3 = '#0F0F0F';           // raised surfaces
-const cardBg = 'rgba(255,255,255,0.03)';
-const cardBgHover = 'rgba(255,255,255,0.05)';
+// ── Light corporate palette (iodentista-inspired) ──
+const ink = '#0A0A0A';
+const ink2 = '#1A1A1A';
+const subtle = '#6B7280';
+const fade = '#9CA3AF';
+const text = '#0A0A0A';
+const surface = '#FAFAFA';
+const surface2 = '#F5F5F5';
+const border = '#E5E5E5';
+const borderStrong = '#D4D4D4';
+
+// Dark sections (header/footer/highlight bands)
+const dark = '#0A0A0A';
+const dark2 = '#111111';
 const borderD = 'rgba(255,255,255,0.08)';
-const borderD2 = 'rgba(255,255,255,0.12)';
-const text = '#FFFFFF';
-const textMid = '#B5B5B5';
-const subtle = '#888';
-const fade = '#555';
+const borderD2 = 'rgba(255,255,255,0.14)';
+const subtleD = '#888';
+const fadeD = '#555';
+const textMidD = '#B5B5B5';
+
+// Accent
 const accent = '#0070F3';
+const accentDark = '#0057CC';
 const accentLight = '#3B92FF';
+const accentSoft = '#EFF4FF';
 const violet = '#7B61FF';
-const success = '#22C55E';
+const success = '#16A34A';
+const successSoft = '#ECFDF5';
+const warning = '#F59E0B';
 
 const FEATURED = [
   { name: 'Mario Rossi', category: 'Elettricista', city: 'Roma', rating: 4.9, reviews: 127, price: '€45/h', distance: '2.1 km', available: true, plan: 'premium' as const, completedJobs: 312, responseTime: '12 min', avatar: '#0070F3', initials: 'MR' },
@@ -80,7 +92,7 @@ function Sparkline({ data, color = accent, height = 32, width = 80 }: { data: nu
     <svg width={width} height={height} className="inline-block">
       <defs>
         <linearGradient id={id} x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="0.4" />
+          <stop offset="0%" stopColor={color} stopOpacity="0.3" />
           <stop offset="100%" stopColor={color} stopOpacity="0" />
         </linearGradient>
       </defs>
@@ -92,7 +104,7 @@ function Sparkline({ data, color = accent, height = 32, width = 80 }: { data: nu
 
 export default function DesignPreviewPage() {
   return (
-    <main style={{ background: dark, color: text }}>
+    <main style={{ background: '#FFFFFF', color: text }}>
       <style>{`
         @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes pulse-glow { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
@@ -101,51 +113,53 @@ export default function DesignPreviewPage() {
         @keyframes notif-in { 0% { transform: translateY(-12px) scale(0.9); opacity: 0; } 100% { transform: translateY(0) scale(1); opacity: 1; } }
         @keyframes ticker-up { 0% { transform: translateY(100%); opacity: 0; } 20%, 80% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-100%); opacity: 0; } }
 
-        /* ─── glow card on dark ─── */
-        .glow-card {
-          position: relative; isolation: isolate;
-          background: ${cardBg};
+        /* ─── Light card ─── */
+        .light-card {
+          background: white;
+          border: 1px solid ${border};
+          transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .light-card:hover {
+          transform: translateY(-2px);
+          border-color: ${accent};
+          box-shadow: 0 12px 32px -12px rgba(0,112,243,0.18), 0 0 0 1px rgba(0,112,243,0.1);
+        }
+        .premium-card {
+          box-shadow: 0 0 0 1px rgba(0,112,243,0.15), 0 8px 24px -8px rgba(0,112,243,0.15);
+        }
+
+        /* ─── Dark card (for highlight bands) ─── */
+        .dark-card {
+          background: rgba(255,255,255,0.04);
           border: 1px solid ${borderD};
           backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease, border-color 0.3s ease, box-shadow 0.4s ease;
+          transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
         }
-        .glow-card::before {
-          content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
-          background: linear-gradient(135deg, transparent 30%, rgba(0,112,243,0.6) 50%, transparent 70%);
-          -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-          -webkit-mask-composite: xor; mask-composite: exclude;
-          opacity: 0; transition: opacity 0.4s ease; pointer-events: none;
-        }
-        .glow-card:hover {
-          transform: translateY(-4px);
-          background: ${cardBgHover};
+        .dark-card:hover {
+          background: rgba(255,255,255,0.07);
           border-color: ${borderD2};
-          box-shadow: 0 30px 60px -20px rgba(0,112,243,0.4), 0 0 60px -10px rgba(0,112,243,0.2);
-        }
-        .glow-card:hover::before { opacity: 1; }
-
-        .premium-card {
-          box-shadow: 0 0 0 1px rgba(0,112,243,0.25), 0 8px 40px -8px rgba(0,112,243,0.25);
+          transform: translateY(-2px);
         }
 
         .aurora { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
         .aurora::before, .aurora::after {
-          content: ""; position: absolute; width: 800px; height: 800px;
-          border-radius: 50%; filter: blur(80px); opacity: 0.45;
-        }
-        .aurora::before { background: radial-gradient(circle, #0070F3 0%, transparent 50%); top: -300px; left: -200px; }
-        .aurora::after  { background: radial-gradient(circle, #7B61FF 0%, transparent 50%); top: -200px; right: -300px; }
-
-        .aurora-soft { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
-        .aurora-soft::before, .aurora-soft::after {
           content: ""; position: absolute; width: 600px; height: 600px;
-          border-radius: 50%; filter: blur(100px); opacity: 0.18;
+          border-radius: 50%; filter: blur(80px);
         }
-        .aurora-soft::before { background: radial-gradient(circle, #0070F3 0%, transparent 60%); top: 50%; left: -200px; }
-        .aurora-soft::after  { background: radial-gradient(circle, #7B61FF 0%, transparent 60%); top: 20%; right: -200px; }
+        .aurora-on-dark::before { background: radial-gradient(circle, #0070F3 0%, transparent 50%); top: -200px; left: -100px; opacity: 0.5; }
+        .aurora-on-dark::after  { background: radial-gradient(circle, #7B61FF 0%, transparent 50%); top: -100px; right: -200px; opacity: 0.4; }
+        .aurora-on-light::before { background: radial-gradient(circle, #0070F3 0%, transparent 50%); top: -300px; left: -200px; opacity: 0.07; }
+        .aurora-on-light::after  { background: radial-gradient(circle, #7B61FF 0%, transparent 50%); top: -200px; right: -300px; opacity: 0.06; }
 
         .grid-bg {
+          background-image:
+            linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px);
+          background-size: 80px 80px;
+          mask-image: radial-gradient(ellipse 80% 50% at 50% 30%, black 30%, transparent 80%);
+          -webkit-mask-image: radial-gradient(ellipse 80% 50% at 50% 30%, black 30%, transparent 80%);
+        }
+        .grid-bg-dark {
           background-image:
             linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
             linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
@@ -153,24 +167,16 @@ export default function DesignPreviewPage() {
           mask-image: radial-gradient(ellipse 80% 50% at 50% 30%, black 30%, transparent 80%);
           -webkit-mask-image: radial-gradient(ellipse 80% 50% at 50% 30%, black 30%, transparent 80%);
         }
-        .grid-bg-faint {
-          background-image:
-            linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255,255,255,0.025) 1px, transparent 1px);
-          background-size: 64px 64px;
-          mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 80%);
-          -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 80%);
-        }
 
-        .gradient-text { background: linear-gradient(180deg, #FFFFFF 0%, #888 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .accent-text   { background: linear-gradient(90deg, #7B61FF 0%, #0070F3 50%, #00D4FF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .accent-text { background: linear-gradient(90deg, ${violet} 0%, ${accent} 50%, #00B5D6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .gradient-text-dark { background: linear-gradient(180deg, #FFFFFF 0%, #888 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
         .number-xl { font-feature-settings: "tnum"; letter-spacing: -0.06em; }
         .pulse-dot { animation: pulse-glow 2s ease-in-out infinite; }
         .float { animation: float 5s ease-in-out infinite; }
 
-        .conic-border { position: relative; background: rgba(255,255,255,0.04); border-radius: 16px; }
-        .conic-border::before {
+        .conic-border-dark { position: relative; background: rgba(255,255,255,0.04); border-radius: 16px; }
+        .conic-border-dark::before {
           content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
           background: conic-gradient(from 0deg, transparent 0%, rgba(0,112,243,0.5) 25%, transparent 50%, rgba(123,97,255,0.5) 75%, transparent 100%);
           animation: spin-slow 8s linear infinite;
@@ -180,17 +186,17 @@ export default function DesignPreviewPage() {
 
         .cat-card {
           position: relative; isolation: isolate; overflow: hidden;
-          background: ${cardBg};
-          border: 1px solid ${borderD};
-          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease, border-color 0.3s ease;
+          background: white;
+          border: 1px solid ${border};
+          transition: all 0.3s ease;
         }
         .cat-card .cat-blob {
           position: absolute; bottom: -40px; right: -40px; width: 140px; height: 140px;
           border-radius: 50%; opacity: 0; transition: opacity 0.5s ease, transform 0.5s ease;
           filter: blur(20px); transform: scale(0.8);
         }
-        .cat-card:hover { transform: translateY(-3px); background: ${cardBgHover}; border-color: ${borderD2}; }
-        .cat-card:hover .cat-blob { opacity: 0.6; transform: scale(1); }
+        .cat-card:hover { transform: translateY(-3px); border-color: ${borderStrong}; box-shadow: 0 12px 32px -12px rgba(0,0,0,0.1); }
+        .cat-card:hover .cat-blob { opacity: 0.35; transform: scale(1); }
         .cat-card .cat-arrow { opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; }
         .cat-card:hover .cat-arrow { opacity: 1; transform: translate(2px, -2px); }
 
@@ -199,19 +205,19 @@ export default function DesignPreviewPage() {
         details.faq summary::-webkit-details-marker { display: none; }
         details.faq .faq-icon { transition: transform 0.25s ease; }
         details.faq[open] {
-          background: ${cardBgHover};
-          border-color: ${borderD2};
+          background: ${surface};
+          border-color: ${borderStrong};
         }
 
-        .chip-active { background: white; color: ${dark}; border: 1px solid white; }
-        .chip-default { background: ${cardBg}; color: ${textMid}; border: 1px solid ${borderD}; }
-        .chip-default:hover { background: ${cardBgHover}; color: white; border-color: ${borderD2}; }
+        .chip-active-light { background: ${ink}; color: white; border: 1px solid ${ink}; }
+        .chip-default-light { background: white; color: ${ink}; border: 1px solid ${border}; }
+        .chip-default-light:hover { background: ${surface}; border-color: ${borderStrong}; }
 
         .plan-popular {
           position: relative;
-          background: linear-gradient(180deg, rgba(0,112,243,0.08) 0%, ${dark2} 60%);
+          background: linear-gradient(180deg, ${dark} 0%, ${dark2} 100%);
           color: white;
-          box-shadow: 0 30px 60px -20px rgba(0,112,243,0.5), 0 0 80px -10px rgba(123,97,255,0.4);
+          box-shadow: 0 30px 60px -20px rgba(0,112,243,0.4), 0 0 0 1px rgba(0,112,243,0.4);
         }
         .plan-popular::before {
           content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
@@ -237,161 +243,190 @@ export default function DesignPreviewPage() {
         .live-ticker > *:nth-child(4) { animation-delay: 7.2s; }
         .live-ticker > *:nth-child(5) { animation-delay: 9.6s; }
 
-        .nav-link { position: relative; }
-        .nav-link::after {
+        .nav-link-light { position: relative; }
+        .nav-link-light::after {
+          content: ""; position: absolute; left: 50%; bottom: -4px; height: 1px; width: 0;
+          background: ${ink}; transition: all 0.3s ease;
+        }
+        .nav-link-light:hover::after { left: 0; width: 100%; }
+
+        .nav-link-dark { position: relative; }
+        .nav-link-dark::after {
           content: ""; position: absolute; left: 50%; bottom: -4px; height: 1px; width: 0;
           background: white; transition: all 0.3s ease;
         }
-        .nav-link:hover::after { left: 0; width: 100%; }
+        .nav-link-dark:hover::after { left: 0; width: 100%; }
 
         .quick-chip {
           transition: all 0.3s ease;
-          border: 1px solid ${borderD};
-          background: ${cardBg};
+          border: 1px solid ${border};
+          background: white;
         }
-        .quick-chip:hover { background: ${cardBgHover}; border-color: ${borderD2}; transform: translateY(-1px); }
+        .quick-chip:hover { background: ${surface}; border-color: ${accent}; color: ${accent}; transform: translateY(-1px); }
 
         .toggle-pill {
           position: relative;
-          background: rgba(255,255,255,0.05);
-          border: 1px solid ${borderD};
+          background: ${surface};
+          border: 1px solid ${border};
           border-radius: 999px;
           padding: 4px;
           display: inline-flex;
         }
-        .toggle-pill button { position: relative; z-index: 1; padding: 6px 16px; font-size: 12px; font-weight: 500; color: ${subtle}; transition: color 0.3s ease; }
-        .toggle-pill .toggle-active { color: ${dark}; }
+        .toggle-pill button { position: relative; z-index: 1; padding: 6px 16px; font-size: 12px; font-weight: 600; color: ${subtle}; transition: color 0.3s ease; }
+        .toggle-pill .toggle-active { color: white; }
         .toggle-bg {
           position: absolute; top: 4px; bottom: 4px; left: 4px;
           width: calc(50% - 4px);
-          background: white;
+          background: ${ink};
           border-radius: 999px;
-          box-shadow: 0 4px 12px rgba(255,255,255,0.15);
           transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .feed-item:hover { background: rgba(0,112,243,0.06); }
+        .feed-item:hover { background: ${surface}; }
         .feed-item { transition: background 0.2s ease; }
 
         .stat-card {
           transition: all 0.3s ease; position: relative;
-          background: ${cardBg};
-          border: 1px solid ${borderD};
+          background: white;
         }
-        .stat-card:hover { background: ${cardBgHover}; border-color: ${borderD2}; }
+        .stat-card:hover { background: ${surface}; }
         .stat-card .stat-arrow { opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; }
         .stat-card:hover .stat-arrow { opacity: 1; transform: translate(2px, -2px); }
 
-        .section-divider { height: 1px; background: linear-gradient(90deg, transparent, ${borderD2}, transparent); }
-        .section-aurora-band {
-          position: absolute; left: 0; right: 0; top: 0; height: 200px;
-          background: linear-gradient(180deg, rgba(0,112,243,0.06), transparent);
-          pointer-events: none;
-        }
+        .input-light::placeholder { color: ${fade}; }
+        .input-dark::placeholder { color: ${fadeD}; }
 
-        .input-dark::placeholder { color: ${fade}; }
+        .btn-primary {
+          background: ${ink};
+          color: white;
+          transition: all 0.2s ease;
+        }
+        .btn-primary:hover { background: ${ink2}; box-shadow: 0 8px 20px -6px rgba(0,0,0,0.2); }
+
+        .btn-accent {
+          background: ${accent};
+          color: white;
+          transition: all 0.2s ease;
+        }
+        .btn-accent:hover { background: ${accentDark}; box-shadow: 0 8px 24px -6px rgba(0,112,243,0.4); }
+
+        .btn-outline {
+          background: white;
+          color: ${ink};
+          border: 1px solid ${border};
+          transition: all 0.2s ease;
+        }
+        .btn-outline:hover { border-color: ${ink}; background: ${surface}; }
       `}</style>
 
       {/* ───────── Notice ───────── */}
-      <div style={{ background: dark2, color: subtle, borderBottom: `1px solid ${borderD}` }} className="text-xs">
+      <div style={{ background: dark, color: subtleD }} className="text-xs">
         <div className="max-w-[1280px] mx-auto px-6 py-2 flex items-center justify-between">
-          <span style={{ fontFamily: 'var(--font-mono)' }}>DESIGN PREVIEW · v0.8 · ALL DARK</span>
+          <span style={{ fontFamily: 'var(--font-mono)' }}>DESIGN PREVIEW · v0.9 · LIGHT</span>
           <Link href="/" className="hover:text-white transition-colors">← Sito attuale</Link>
         </div>
       </div>
 
-      {/* ═══════════════════ HERO ═══════════════════ */}
-      <section className="relative overflow-hidden" style={{ background: dark }}>
-        <div className="aurora" />
+      {/* ═══════════════════ NAVBAR DARK ═══════════════════ */}
+      <header className="relative z-30" style={{ background: dark }}>
+        <div className="max-w-[1280px] mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-8">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: accent }}>
+                <Zap className="w-4 h-4 text-white" strokeWidth={2.5} />
+              </div>
+              <span className="text-[16px] font-semibold tracking-tight text-white" style={{ letterSpacing: '-0.01em' }}>
+                trovapro
+              </span>
+            </div>
+            <nav className="hidden md:flex items-center gap-7 text-sm font-medium" style={{ color: textMidD }}>
+              <a className="nav-link-dark hover:text-white transition-colors" href="#">Cerca</a>
+              <a className="nav-link-dark hover:text-white transition-colors" href="#">Categorie</a>
+              <a className="nav-link-dark hover:text-white transition-colors" href="#">Per professionisti</a>
+              <a className="nav-link-dark hover:text-white transition-colors" href="#">Prezzi</a>
+            </nav>
+          </div>
+          <div className="flex items-center gap-2">
+            <a className="text-sm px-3 py-1.5 rounded-md transition-colors hover:bg-white/5 font-medium" style={{ color: textMidD }} href="#">Accedi</a>
+            <button className="btn-accent text-sm font-semibold px-4 py-2 rounded-lg flex items-center gap-1.5">
+              Inizia gratis <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* ═══════════════════ HERO LIGHT ═══════════════════ */}
+      <section className="relative overflow-hidden" style={{ background: 'white' }}>
+        <div className="aurora aurora-on-light" />
         <div className="absolute inset-0 grid-bg" />
 
-        <header className="relative z-10 border-b" style={{ borderColor: borderD }}>
-          <div className="max-w-[1280px] mx-auto px-6 h-14 flex items-center justify-between">
-            <div className="flex items-center gap-8">
-              <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-md flex items-center justify-center" style={{ background: 'white' }}>
-                  <Zap className="w-3.5 h-3.5" style={{ color: dark }} strokeWidth={2.5} />
-                </div>
-                <span className="text-[15px] font-semibold tracking-tight text-white" style={{ letterSpacing: '-0.01em' }}>trovapro</span>
-              </div>
-              <nav className="hidden md:flex items-center gap-6 text-sm" style={{ color: subtle }}>
-                <a className="nav-link hover:text-white transition-colors" href="#">Cerca</a>
-                <a className="nav-link hover:text-white transition-colors" href="#">Categorie</a>
-                <a className="nav-link hover:text-white transition-colors" href="#">Per professionisti</a>
-                <a className="nav-link hover:text-white transition-colors" href="#">Prezzi</a>
-              </nav>
-            </div>
-            <div className="flex items-center gap-2">
-              <a className="text-sm px-3 py-1.5 rounded-md transition-colors hover:bg-white/5" style={{ color: textMid }} href="#">Accedi</a>
-              <button className="text-sm font-medium px-3.5 py-1.5 rounded-md transition-all hover:opacity-90 flex items-center gap-1" style={{ background: 'white', color: dark }}>
-                Inizia <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </div>
-        </header>
-
-        <div className="relative z-10 max-w-[1280px] mx-auto px-6 pt-24 pb-32">
-          <div className="flex justify-center mb-12">
-            <a href="#" className="conic-border inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs">
+        <div className="relative max-w-[1280px] mx-auto px-6 pt-20 pb-28 text-center">
+          {/* Pill */}
+          <div className="flex justify-center mb-10">
+            <a href="#" className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs border" style={{ background: 'white', borderColor: border }}>
               <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold" style={{ background: accent, color: 'white', fontFamily: 'var(--font-mono)' }}>NEW</span>
-              <span className="text-white/80">Pagamenti garantiti via Stripe</span>
-              <ArrowRight className="w-3 h-3 text-white/50" />
+              <span style={{ color: ink }}>Pagamenti garantiti via Stripe</span>
+              <ArrowRight className="w-3 h-3" style={{ color: subtle }} />
             </a>
           </div>
 
-          <h1 className="text-center font-medium tracking-[-0.05em] mx-auto max-w-5xl" style={{ fontSize: 'clamp(56px, 9vw, 112px)', lineHeight: 0.92 }}>
-            <span className="gradient-text">Trovare un professionista,</span><br />
+          {/* Headline */}
+          <h1 className="font-bold tracking-[-0.04em] mx-auto max-w-5xl" style={{ fontSize: 'clamp(48px, 7.5vw, 88px)', lineHeight: 1.0, color: ink }}>
+            Trovare un professionista,<br />
             <span className="accent-text">finalmente semplice.</span>
           </h1>
 
-          <p className="text-center mt-8 max-w-xl mx-auto text-[17px] leading-relaxed" style={{ color: subtle }}>
+          <p className="mt-7 max-w-xl mx-auto text-[18px] leading-relaxed" style={{ color: subtle }}>
             Confronta professionisti verificati nella tua zona, leggi le recensioni e ricevi preventivi gratuiti in poche ore.
           </p>
 
-          <div className="mt-14 max-w-2xl mx-auto relative">
-            <div className="absolute inset-0 -z-10 rounded-2xl" style={{ background: `radial-gradient(50% 50% at 50% 50%, ${accent}30, transparent 70%)`, filter: 'blur(40px)' }} />
-            <div className="rounded-2xl p-1.5 flex items-center gap-1 backdrop-blur-xl" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
+          {/* Search bar */}
+          <div className="mt-12 max-w-2xl mx-auto">
+            <div className="rounded-2xl p-1.5 flex items-center gap-1 bg-white" style={{ border: `1px solid ${border}`, boxShadow: '0 8px 32px -8px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04)' }}>
               <div className="flex items-center gap-2.5 px-3.5 flex-1 min-w-0">
                 <Search className="w-4 h-4 flex-shrink-0" style={{ color: subtle }} />
-                <input placeholder="Elettricista, idraulico…" className="input-dark bg-transparent outline-none text-sm w-full text-white" />
+                <input placeholder="Elettricista, idraulico…" className="input-light bg-transparent outline-none text-sm w-full" style={{ color: ink }} />
               </div>
-              <div className="w-px self-stretch my-2" style={{ background: borderD }} />
+              <div className="w-px self-stretch my-2" style={{ background: border }} />
               <div className="flex items-center gap-2.5 px-3.5 flex-1 min-w-0">
                 <MapPin className="w-4 h-4 flex-shrink-0" style={{ color: subtle }} />
-                <input placeholder="La tua città" className="input-dark bg-transparent outline-none text-sm w-full text-white" />
+                <input placeholder="La tua città" className="input-light bg-transparent outline-none text-sm w-full" style={{ color: ink }} />
               </div>
-              <button className="px-4 py-2.5 rounded-xl text-sm font-medium transition-all flex items-center gap-1.5 flex-shrink-0 hover:opacity-90" style={{ background: 'white', color: dark }}>
+              <button className="btn-accent px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-1.5 flex-shrink-0">
                 Cerca <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
 
+            {/* Quick chips */}
             <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
               <span className="text-[11px]" style={{ color: fade, fontFamily: 'var(--font-mono)' }}>POPOLARI:</span>
               {POPULAR_QUERIES.map((q) => (
-                <a key={q} href="#" className="quick-chip text-xs px-3 py-1 rounded-full" style={{ color: textMid }}>
+                <a key={q} href="#" className="quick-chip text-xs px-3 py-1 rounded-full font-medium" style={{ color: subtle }}>
                   {q}
                 </a>
               ))}
             </div>
           </div>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-xs" style={{ color: subtle }}>
+          {/* Trust */}
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-sm font-medium" style={{ color: subtle }}>
             {['Gratuito', 'P.IVA verificate', 'Risposta < 2h', 'Pagamento garantito'].map((t) => (
               <span key={t} className="flex items-center gap-1.5">
-                <Check className="w-3.5 h-3.5" style={{ color: success }} strokeWidth={3} />
+                <Check className="w-4 h-4" style={{ color: success }} strokeWidth={3} />
                 {t}
               </span>
             ))}
           </div>
 
-          <div className="mt-12 max-w-md mx-auto">
-            <div className="rounded-full px-4 py-1 flex items-center gap-3 text-xs" style={{ background: cardBg, border: `1px solid ${borderD}` }}>
+          {/* Live ticker */}
+          <div className="mt-14 max-w-md mx-auto">
+            <div className="rounded-full px-4 py-1 flex items-center gap-3 text-xs" style={{ background: 'white', border: `1px solid ${border}` }}>
               <span className="pulse-dot w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: success, boxShadow: `0 0 8px ${success}` }} />
-              <span className="flex-shrink-0 text-[10px]" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>LIVE</span>
+              <span className="flex-shrink-0 text-[10px] font-semibold" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>LIVE</span>
               <div className="live-ticker flex-1">
                 {LIVE_ACTIVITY.map((a, i) => (
-                  <span key={i} className="text-[12px] whitespace-nowrap" style={{ color: textMid }}>
-                    <span className="text-white">{a.who}</span> {a.action} · {a.city}
+                  <span key={i} className="text-[12px] whitespace-nowrap" style={{ color: subtle }}>
+                    <span style={{ color: ink, fontWeight: 500 }}>{a.who}</span> {a.action} · {a.city}
                   </span>
                 ))}
               </div>
@@ -400,38 +435,37 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ STATS ═══════════════════ */}
-      <section className="relative" style={{ background: dark }}>
-        <div className="aurora-soft" />
-        <div className="relative max-w-[1280px] mx-auto px-6 py-32">
-          <div className="grid lg:grid-cols-[1fr_320px] gap-px rounded-2xl overflow-hidden" style={{ background: borderD, border: `1px solid ${borderD}` }}>
-            <div className="grid grid-cols-2 md:grid-cols-2 gap-px" style={{ background: borderD }}>
+      {/* ═══════════════════ STATS LIGHT ═══════════════════ */}
+      <section className="relative" style={{ background: surface }}>
+        <div className="relative max-w-[1280px] mx-auto px-6 py-24">
+          <div className="grid lg:grid-cols-[1fr_320px] gap-px rounded-2xl overflow-hidden" style={{ background: border, border: `1px solid ${border}` }}>
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-px" style={{ background: border }}>
               {[
                 { value: '12.847', label: 'Lavori completati', sub: 'questo mese', trend: '+18%', spark: [40,45,50,52,58,60,68,72,75,82,88,95], color: accent },
-                { value: '4.8', label: 'Stelle medie', sub: 'su 5 — recensioni verificate', trend: '+0.2', spark: [4.5,4.6,4.6,4.7,4.7,4.8,4.7,4.8,4.8,4.9,4.8,4.8], color: '#FFB020' },
+                { value: '4.8', label: 'Stelle medie', sub: 'su 5 — recensioni verificate', trend: '+0.2', spark: [4.5,4.6,4.6,4.7,4.7,4.8,4.7,4.8,4.8,4.9,4.8,4.8], color: warning },
                 { value: '< 2h', label: 'Tempo di risposta', sub: 'media nazionale', trend: '−24m', spark: [180,165,155,140,130,125,118,112,108,102,98,95].reverse(), color: success },
                 { value: '98%', label: 'Tasso completamento', sub: 'lavori andati a fine', trend: '+3%', spark: [88,89,90,91,92,93,94,95,96,97,97,98], color: violet },
               ].map((s, i) => (
-                <div key={i} className="stat-card p-8 lg:p-10 relative" style={{ background: dark2 }}>
+                <div key={i} className="stat-card p-8 lg:p-10">
                   <div className="flex items-start justify-between mb-4">
-                    <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-md" style={{ background: `${s.color}20`, color: s.color, fontFamily: 'var(--font-mono)' }}>
+                    <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-md" style={{ background: `${s.color}15`, color: s.color, fontFamily: 'var(--font-mono)' }}>
                       {s.trend.startsWith('−') ? <TrendingDown className="w-3 h-3" /> : <TrendingUp className="w-3 h-3" />}
                       {s.trend}
                     </span>
                     <ArrowUpRight className="stat-arrow w-4 h-4" style={{ color: subtle }} />
                   </div>
-                  <div className="text-5xl lg:text-6xl number-xl font-medium mb-2 text-white">{s.value}</div>
-                  <div className="text-sm font-medium mb-1 text-white">{s.label}</div>
+                  <div className="text-5xl lg:text-6xl number-xl font-bold mb-2" style={{ color: ink }}>{s.value}</div>
+                  <div className="text-sm font-semibold mb-1" style={{ color: ink }}>{s.label}</div>
                   <div className="text-xs mb-4" style={{ color: subtle }}>{s.sub}</div>
-                  <div className="opacity-80"><Sparkline data={s.spark} color={s.color} width={120} height={28} /></div>
+                  <div className="opacity-90"><Sparkline data={s.spark} color={s.color} width={120} height={28} /></div>
                 </div>
               ))}
             </div>
 
-            <div className="p-8" style={{ background: dark2 }}>
+            <div className="bg-white p-8">
               <div className="flex items-center justify-between mb-5">
                 <div>
-                  <div className="text-xs uppercase tracking-[0.15em] text-white" style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>
+                  <div className="text-xs uppercase tracking-[0.15em] font-bold" style={{ color: ink, fontFamily: 'var(--font-mono)' }}>
                     Attività live
                   </div>
                   <div className="text-[10px] mt-1" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>
@@ -444,12 +478,12 @@ export default function DesignPreviewPage() {
               <div className="space-y-1">
                 {LIVE_ACTIVITY.slice(0, 5).map((a, i) => (
                   <div key={i} className="feed-item rounded-lg p-2.5 flex items-start gap-3">
-                    <div className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-semibold text-white flex-shrink-0" style={{ background: ['#0070F3','#7B61FF','#00C896','#FFB020','#EF4444'][i] }}>
+                    <div className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white flex-shrink-0" style={{ background: ['#0070F3','#7B61FF','#00C896','#FFB020','#EF4444'][i] }}>
                       {a.who.split(' ').map((s) => s[0]).join('')}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs leading-snug text-white">
-                        <span className="font-medium">{a.who}</span> <span style={{ color: subtle }}>{a.action}</span>
+                      <p className="text-xs leading-snug" style={{ color: ink }}>
+                        <span className="font-semibold">{a.who}</span> <span style={{ color: subtle }}>{a.action}</span>
                       </p>
                       <p className="text-[10px] mt-0.5" style={{ color: fade, fontFamily: 'var(--font-mono)' }}>
                         {a.city.toUpperCase()} · {a.t.toUpperCase()}
@@ -463,24 +497,23 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ CATEGORIE ═══════════════════ */}
-      <section className="relative" style={{ background: dark2 }}>
-        <div className="aurora-soft" />
-        <div className="relative max-w-[1280px] mx-auto px-6 py-32">
+      {/* ═══════════════════ CATEGORIE LIGHT ═══════════════════ */}
+      <section className="relative" style={{ background: 'white' }}>
+        <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="flex items-end justify-between gap-6 mb-12 flex-wrap">
             <div className="max-w-xl">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-xs uppercase tracking-[0.2em]" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>01 ◆</span>
-                <span className="text-xs uppercase tracking-[0.2em]" style={{ color: accentLight, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>Categorie</span>
+                <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>01 ◆</span>
+                <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: accent, fontFamily: 'var(--font-mono)' }}>Categorie</span>
               </div>
-              <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-medium mb-3 text-white">
+              <h2 className="text-4xl lg:text-5xl tracking-[-0.03em] font-bold mb-3" style={{ color: ink }}>
                 Cosa stai cercando?
               </h2>
               <p className="text-base" style={{ color: subtle }}>
                 Più di 8.000 professionisti verificati in 6 categorie principali.
               </p>
             </div>
-            <a className="text-sm flex items-center gap-1 hover:gap-2 transition-all font-medium text-white">
+            <a className="text-sm flex items-center gap-1 hover:gap-2 transition-all font-semibold" style={{ color: ink }}>
               Tutte le categorie <ArrowRight className="w-4 h-4" />
             </a>
           </div>
@@ -493,18 +526,18 @@ export default function DesignPreviewPage() {
                   <div className="cat-blob" style={{ background: c.gradient }} />
                   <div className="relative">
                     <div className="flex items-start justify-between mb-4">
-                      <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: c.gradient }}>
-                        <Icon className="w-4 h-4 text-white" strokeWidth={2.25} />
+                      <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: c.gradient, boxShadow: '0 4px 12px -2px rgba(0,0,0,0.12)' }}>
+                        <Icon className="w-4 h-4 text-white" strokeWidth={2.5} />
                       </div>
                       <ArrowUpRight className="cat-arrow w-3.5 h-3.5" style={{ color: subtle }} />
                     </div>
-                    <h3 className="text-base font-medium tracking-[-0.01em] text-white">{c.name}</h3>
+                    <h3 className="text-base font-bold tracking-[-0.01em]" style={{ color: ink }}>{c.name}</h3>
                     <p className="text-xs mt-0.5 mb-3" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>
                       {c.count} professionisti
                     </p>
-                    <div className="flex items-center justify-between text-[11px] pt-3 border-t" style={{ borderColor: borderD }}>
+                    <div className="flex items-center justify-between text-[11px] pt-3 border-t" style={{ borderColor: border }}>
                       <span style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>{c.avg}</span>
-                      <span className="inline-flex items-center gap-0.5" style={{ color: c.down ? '#EF4444' : success, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>
+                      <span className="inline-flex items-center gap-0.5 font-bold" style={{ color: c.down ? '#EF4444' : success, fontFamily: 'var(--font-mono)' }}>
                         {c.down ? <TrendingDown className="w-3 h-3" /> : <TrendingUp className="w-3 h-3" />}
                         {c.trend}
                       </span>
@@ -517,32 +550,31 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ FEATURED PROS ═══════════════════ */}
-      <section className="relative" style={{ background: dark }}>
-        <div className="aurora-soft" style={{ opacity: 0.7 }} />
-        <div className="relative max-w-[1280px] mx-auto px-6 py-32">
+      {/* ═══════════════════ FEATURED PROS LIGHT ═══════════════════ */}
+      <section className="relative" style={{ background: surface }}>
+        <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="flex items-end justify-between gap-6 mb-10 flex-wrap">
             <div className="max-w-xl">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-xs uppercase tracking-[0.2em]" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>02 ◆</span>
-                <span className="text-xs uppercase tracking-[0.2em]" style={{ color: accentLight, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>In evidenza</span>
+                <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>02 ◆</span>
+                <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: accent, fontFamily: 'var(--font-mono)' }}>In evidenza</span>
               </div>
-              <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-medium mb-3 text-white">
+              <h2 className="text-4xl lg:text-5xl tracking-[-0.03em] font-bold mb-3" style={{ color: ink }}>
                 Professionisti consigliati.
               </h2>
               <p className="text-base" style={{ color: subtle }}>
                 I migliori della tua zona, scelti per te in base a recensioni, esperienza e disponibilità.
               </p>
             </div>
-            <a className="text-sm flex items-center gap-1 hover:gap-2 transition-all font-medium text-white">
+            <a className="text-sm flex items-center gap-1 hover:gap-2 transition-all font-semibold" style={{ color: ink }}>
               Esplora tutti <ArrowRight className="w-4 h-4" />
             </a>
           </div>
 
           <div className="flex flex-wrap items-center gap-2 mb-8">
-            <span className="chip-active text-xs px-3 py-1.5 rounded-full font-medium">Tutti</span>
+            <span className="chip-active-light text-xs px-3 py-1.5 rounded-full font-semibold">Tutti</span>
             {['Disponibili oggi', 'Premium', 'Top rated', 'Vicino a me', 'Risposta rapida'].map((c) => (
-              <span key={c} className="chip-default text-xs px-3 py-1.5 rounded-full font-medium cursor-pointer transition-colors">
+              <span key={c} className="chip-default-light text-xs px-3 py-1.5 rounded-full font-semibold cursor-pointer transition-colors">
                 {c}
               </span>
             ))}
@@ -552,75 +584,75 @@ export default function DesignPreviewPage() {
           </div>
 
           <div className="grid lg:grid-cols-[1.4fr_1fr_1fr] gap-4">
-            {/* Spotlight card */}
-            <article className="glow-card lg:row-span-2 group rounded-2xl overflow-hidden cursor-pointer relative premium-card">
+            {/* Spotlight */}
+            <article className="light-card lg:row-span-2 group rounded-2xl overflow-hidden cursor-pointer relative premium-card">
               <div className="relative h-48 overflow-hidden" style={{ background: `linear-gradient(135deg, ${FEATURED[0].avatar}, ${FEATURED[0].avatar}AA)` }}>
-                <div className="absolute inset-0 grid-bg-faint" />
+                <div className="absolute inset-0 grid-bg-dark opacity-30" />
                 <div className="absolute top-4 left-4 flex items-center gap-2">
-                  <span className="px-2 py-1 rounded text-[10px] uppercase tracking-wider font-semibold backdrop-blur-md" style={{ background: 'rgba(0,0,0,0.5)', color: 'white', fontFamily: 'var(--font-mono)' }}>
+                  <span className="px-2 py-1 rounded text-[10px] uppercase tracking-wider font-bold backdrop-blur-md" style={{ background: 'rgba(0,0,0,0.6)', color: 'white', fontFamily: 'var(--font-mono)' }}>
                     ★ Spotlight
                   </span>
-                  <span className="px-2 py-1 rounded text-[10px] uppercase tracking-wider font-semibold" style={{ background: 'white', color: dark, fontFamily: 'var(--font-mono)' }}>
+                  <span className="px-2 py-1 rounded text-[10px] uppercase tracking-wider font-bold" style={{ background: 'white', color: ink, fontFamily: 'var(--font-mono)' }}>
                     Premium
                   </span>
                 </div>
                 <div className="absolute bottom-4 left-4 flex items-center gap-3">
-                  <div className="w-14 h-14 rounded-full flex items-center justify-center text-base font-semibold border-2" style={{ background: 'white', color: FEATURED[0].avatar, borderColor: 'rgba(255,255,255,0.3)' }}>
+                  <div className="w-14 h-14 rounded-full flex items-center justify-center text-base font-bold border-2" style={{ background: 'white', color: FEATURED[0].avatar, borderColor: 'rgba(255,255,255,0.4)' }}>
                     {FEATURED[0].initials}
                   </div>
                 </div>
                 <ArrowUpRight className="absolute top-4 right-4 w-5 h-5 text-white/80 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </div>
               <div className="p-7">
-                <h3 className="text-3xl tracking-[-0.02em] font-medium mb-1 flex items-center gap-2 text-white">
+                <h3 className="text-3xl tracking-[-0.02em] font-bold mb-1 flex items-center gap-2" style={{ color: ink }}>
                   {FEATURED[0].name}
-                  <BadgeCheck className="w-5 h-5" style={{ color: accentLight }} fill={accent} fillOpacity={0.3} strokeWidth={2} />
+                  <BadgeCheck className="w-5 h-5" style={{ color: accent }} fill={accent} fillOpacity={0.15} strokeWidth={2} />
                 </h3>
-                <p className="text-sm mb-3" style={{ color: subtle }}>
+                <p className="text-sm mb-3 font-medium" style={{ color: subtle }}>
                   {FEATURED[0].category} · {FEATURED[0].city}
                 </p>
 
                 <div className="flex flex-wrap items-center gap-2 mb-6">
-                  <span className="flex items-center gap-1.5 text-[11px] font-medium px-2 py-0.5 rounded" style={{ color: success, background: 'rgba(34,197,94,0.15)' }}>
+                  <span className="flex items-center gap-1.5 text-[11px] font-semibold px-2 py-0.5 rounded" style={{ color: success, background: successSoft }}>
                     <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: success }} />
                     Online ora
                   </span>
-                  <span className="text-[11px] inline-flex items-center gap-1 px-2 py-0.5 rounded" style={{ color: textMid, background: cardBg, fontFamily: 'var(--font-mono)' }}>
+                  <span className="text-[11px] inline-flex items-center gap-1 px-2 py-0.5 rounded font-semibold" style={{ color: ink, background: surface, fontFamily: 'var(--font-mono)' }}>
                     <Bolt className="w-3 h-3" /> {FEATURED[0].responseTime}
                   </span>
                 </div>
 
-                <p className="text-sm leading-relaxed mb-6" style={{ color: textMid }}>
+                <p className="text-sm leading-relaxed mb-6" style={{ color: ink }}>
                   &ldquo;Elettricista qualificato con 15 anni di esperienza. Specializzato in impianti civili e industriali, domotica e certificazioni.&rdquo;
                 </p>
 
-                <div className="grid grid-cols-4 gap-3 py-5 border-t" style={{ borderColor: borderD }}>
+                <div className="grid grid-cols-4 gap-3 py-5 border-t" style={{ borderColor: border }}>
                   <div>
-                    <div className="text-2xl flex items-center gap-1 number-xl font-medium text-white">
-                      <Star className="w-4 h-4" fill="white" strokeWidth={0} />
+                    <div className="text-2xl flex items-center gap-1 number-xl font-bold" style={{ color: ink }}>
+                      <Star className="w-4 h-4" fill={ink} strokeWidth={0} />
                       {FEATURED[0].rating}
                     </div>
-                    <div className="text-[10px] uppercase tracking-wider mt-1" style={{ color: fade }}>{FEATURED[0].reviews} review</div>
+                    <div className="text-[10px] uppercase tracking-wider mt-1 font-semibold" style={{ color: fade }}>{FEATURED[0].reviews} review</div>
                   </div>
                   <div>
-                    <div className="text-2xl number-xl font-medium text-white">{FEATURED[0].completedJobs}</div>
-                    <div className="text-[10px] uppercase tracking-wider mt-1" style={{ color: fade }}>Lavori</div>
+                    <div className="text-2xl number-xl font-bold" style={{ color: ink }}>{FEATURED[0].completedJobs}</div>
+                    <div className="text-[10px] uppercase tracking-wider mt-1 font-semibold" style={{ color: fade }}>Lavori</div>
                   </div>
                   <div>
-                    <div className="text-2xl number-xl font-medium text-white">{FEATURED[0].distance}</div>
-                    <div className="text-[10px] uppercase tracking-wider mt-1" style={{ color: fade }}>Distanza</div>
+                    <div className="text-2xl number-xl font-bold" style={{ color: ink }}>{FEATURED[0].distance}</div>
+                    <div className="text-[10px] uppercase tracking-wider mt-1 font-semibold" style={{ color: fade }}>Distanza</div>
                   </div>
                   <div>
-                    <div className="text-2xl number-xl font-medium text-white">{FEATURED[0].price.replace('/h','')}</div>
-                    <div className="text-[10px] uppercase tracking-wider mt-1" style={{ color: fade }}>al ora</div>
+                    <div className="text-2xl number-xl font-bold" style={{ color: ink }}>{FEATURED[0].price.replace('/h','')}</div>
+                    <div className="text-[10px] uppercase tracking-wider mt-1 font-semibold" style={{ color: fade }}>al ora</div>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2 mt-5">
-                  <button className="flex-1 py-2.5 rounded-lg text-sm font-medium transition-all hover:opacity-90 flex items-center justify-center gap-1.5" style={{ background: 'white', color: dark }}>
+                  <button className="btn-accent flex-1 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-1.5">
                     Richiedi preventivo <ArrowRight className="w-3.5 h-3.5" />
                   </button>
-                  <button className="px-4 py-2.5 rounded-lg text-sm font-medium transition-all border hover:bg-white/5" style={{ borderColor: borderD2, color: 'white' }}>
+                  <button className="btn-outline px-4 py-2.5 rounded-lg text-sm font-semibold">
                     Profilo
                   </button>
                 </div>
@@ -628,17 +660,14 @@ export default function DesignPreviewPage() {
             </article>
 
             {FEATURED.slice(1, 5).map((p, i) => (
-              <article
-                key={i}
-                className={`glow-card group rounded-2xl p-5 cursor-pointer ${p.plan === 'premium' ? 'premium-card' : ''}`}
-              >
+              <article key={i} className={`light-card group rounded-2xl p-5 cursor-pointer ${p.plan === 'premium' ? 'premium-card' : ''}`}>
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold text-white flex-shrink-0" style={{ background: p.avatar }}>
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{ background: p.avatar }}>
                       {p.initials}
                     </div>
                     {p.plan === 'premium' && (
-                      <span className="px-1.5 py-0.5 rounded text-[9px] uppercase tracking-wider font-semibold" style={{ background: 'white', color: dark, fontFamily: 'var(--font-mono)' }}>
+                      <span className="px-1.5 py-0.5 rounded text-[9px] uppercase tracking-wider font-bold" style={{ background: ink, color: 'white', fontFamily: 'var(--font-mono)' }}>
                         Premium
                       </span>
                     )}
@@ -646,36 +675,36 @@ export default function DesignPreviewPage() {
                   <ArrowUpRight className="w-4 h-4 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5" style={{ color: subtle }} />
                 </div>
 
-                <h3 className="text-lg tracking-[-0.02em] font-medium mb-0.5 flex items-center gap-1.5 text-white">
+                <h3 className="text-lg tracking-[-0.02em] font-bold mb-0.5 flex items-center gap-1.5" style={{ color: ink }}>
                   {p.name}
-                  <BadgeCheck className="w-3.5 h-3.5" style={{ color: accentLight }} fill={accent} fillOpacity={0.3} strokeWidth={2} />
+                  <BadgeCheck className="w-3.5 h-3.5" style={{ color: accent }} fill={accent} fillOpacity={0.15} strokeWidth={2} />
                 </h3>
-                <p className="text-xs mb-3" style={{ color: subtle }}>
+                <p className="text-xs mb-3 font-medium" style={{ color: subtle }}>
                   {p.category} · {p.city}
                 </p>
 
                 <div className="flex items-center gap-1.5 flex-wrap mb-4">
                   {p.available ? (
-                    <span className="text-[10px] inline-flex items-center gap-1 px-1.5 py-0.5 rounded" style={{ color: success, background: 'rgba(34,197,94,0.15)' }}>
+                    <span className="text-[10px] inline-flex items-center gap-1 px-1.5 py-0.5 rounded font-semibold" style={{ color: success, background: successSoft }}>
                       <span className="pulse-dot w-1 h-1 rounded-full" style={{ background: success }} /> Online
                     </span>
                   ) : (
-                    <span className="text-[10px] inline-flex items-center gap-1 px-1.5 py-0.5 rounded" style={{ color: subtle, background: cardBg }}>
+                    <span className="text-[10px] inline-flex items-center gap-1 px-1.5 py-0.5 rounded font-semibold" style={{ color: subtle, background: surface }}>
                       <span className="w-1 h-1 rounded-full" style={{ background: subtle }} /> Occupato
                     </span>
                   )}
-                  <span className="text-[10px] inline-flex items-center gap-1" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>
+                  <span className="text-[10px] inline-flex items-center gap-1 font-semibold" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>
                     <Bolt className="w-2.5 h-2.5" /> {p.responseTime}
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between pt-3 border-t text-xs" style={{ borderColor: borderD, fontFamily: 'var(--font-mono)' }}>
-                  <span className="inline-flex items-center gap-1 text-white" style={{ fontWeight: 500 }}>
-                    <Star className="w-3 h-3" fill="white" strokeWidth={0} /> {p.rating}
+                <div className="flex items-center justify-between pt-3 border-t text-xs" style={{ borderColor: border, fontFamily: 'var(--font-mono)' }}>
+                  <span className="inline-flex items-center gap-1 font-bold" style={{ color: ink }}>
+                    <Star className="w-3 h-3" fill={ink} strokeWidth={0} /> {p.rating}
                     <span style={{ color: subtle, fontWeight: 400 }}>({p.reviews})</span>
                   </span>
-                  <span style={{ color: subtle }}>{p.distance}</span>
-                  <span className="text-white" style={{ fontWeight: 500 }}>{p.price}</span>
+                  <span style={{ color: subtle, fontWeight: 500 }}>{p.distance}</span>
+                  <span className="font-bold" style={{ color: ink }}>{p.price}</span>
                 </div>
               </article>
             ))}
@@ -683,47 +712,48 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ BENTO ═══════════════════ */}
-      <section className="relative" style={{ background: dark2 }}>
-        <div className="relative max-w-[1280px] mx-auto px-6 py-32">
-          <div className="text-center max-w-2xl mx-auto mb-16">
+      {/* ═══════════════════ BENTO MIXED (1 dark + 4 light) ═══════════════════ */}
+      <section className="relative" style={{ background: 'white' }}>
+        <div className="relative max-w-[1280px] mx-auto px-6 py-28">
+          <div className="text-center max-w-2xl mx-auto mb-14">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <span className="text-xs uppercase tracking-[0.2em]" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>03 ◆</span>
-              <span className="text-xs uppercase tracking-[0.2em]" style={{ color: accentLight, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>Perché TrovaPro</span>
+              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>03 ◆</span>
+              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: accent, fontFamily: 'var(--font-mono)' }}>Perché TrovaPro</span>
             </div>
-            <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-medium text-white">
+            <h2 className="text-4xl lg:text-5xl tracking-[-0.03em] font-bold" style={{ color: ink }}>
               Tutto quello che ti serve, niente che non ti serve.
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="md:col-span-2 md:row-span-2 glow-card rounded-2xl p-10 relative overflow-hidden">
-              <div className="absolute inset-0 grid-bg opacity-50" />
+            {/* Big DARK card (highlight) */}
+            <div className="md:col-span-2 md:row-span-2 rounded-2xl p-10 relative overflow-hidden" style={{ background: dark, color: 'white', border: `1px solid ${dark}` }}>
+              <div className="absolute inset-0 grid-bg-dark opacity-50" />
               <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full" style={{ background: `radial-gradient(circle, ${accent}50, transparent 60%)`, filter: 'blur(60px)' }} />
 
               <div className="relative">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs mb-8" style={{ background: cardBg, border: `1px solid ${borderD}` }}>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs mb-8" style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${borderD}` }}>
                   <Bolt className="w-3 h-3" style={{ color: accentLight }} />
-                  <span style={{ color: textMid, fontFamily: 'var(--font-mono)' }}>RISPOSTA RAPIDA</span>
+                  <span style={{ color: textMidD, fontFamily: 'var(--font-mono)', fontWeight: 600 }}>RISPOSTA RAPIDA</span>
                 </div>
-                <h3 className="text-3xl lg:text-4xl tracking-[-0.03em] font-medium mb-4 max-w-md text-white">
+                <h3 className="text-3xl lg:text-4xl tracking-[-0.03em] font-bold mb-4 max-w-md text-white">
                   Ricevi i primi preventivi entro 2 ore dalla richiesta.
                 </h3>
-                <p className="text-base mb-10 max-w-md" style={{ color: subtle }}>
+                <p className="text-base mb-10 max-w-md" style={{ color: subtleD }}>
                   Niente attese, niente call center. I professionisti ti rispondono direttamente con preventivi dettagliati.
                 </p>
 
                 <div className="rounded-xl p-4 backdrop-blur-sm max-w-sm" style={{ background: 'rgba(255,255,255,0.04)', border: `1px solid ${borderD}` }}>
                   <div className="flex items-center gap-2 mb-3 pb-3 border-b" style={{ borderColor: borderD }}>
-                    <div className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-semibold" style={{ background: accent, color: 'white' }}>MR</div>
+                    <div className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold" style={{ background: accent, color: 'white' }}>MR</div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-medium truncate text-white">Mario Rossi</p>
-                      <p className="text-[10px] flex items-center gap-1" style={{ color: subtle }}>
+                      <p className="text-xs font-semibold truncate text-white">Mario Rossi</p>
+                      <p className="text-[10px] flex items-center gap-1" style={{ color: subtleD }}>
                         Elettricista · sta scrivendo
                         <span className="inline-flex gap-0.5 ml-0.5">
-                          <span className="typing-dot w-1 h-1 rounded-full" style={{ background: subtle }} />
-                          <span className="typing-dot w-1 h-1 rounded-full" style={{ background: subtle }} />
-                          <span className="typing-dot w-1 h-1 rounded-full" style={{ background: subtle }} />
+                          <span className="typing-dot w-1 h-1 rounded-full" style={{ background: subtleD }} />
+                          <span className="typing-dot w-1 h-1 rounded-full" style={{ background: subtleD }} />
+                          <span className="typing-dot w-1 h-1 rounded-full" style={{ background: subtleD }} />
                         </span>
                       </p>
                     </div>
@@ -736,13 +766,13 @@ export default function DesignPreviewPage() {
                     <div className="text-xs px-3 py-2 rounded-lg max-w-[85%] text-white" style={{ background: 'rgba(255,255,255,0.06)' }}>
                       Posso passare domani mattina alle 10. Le va bene?
                     </div>
-                    <div className="text-[10px] mt-2" style={{ color: fade, fontFamily: 'var(--font-mono)' }}>RICEVUTO 12 MIN FA</div>
+                    <div className="text-[10px] mt-2 font-bold" style={{ color: fadeD, fontFamily: 'var(--font-mono)' }}>RICEVUTO 12 MIN FA</div>
                   </div>
                 </div>
 
                 <div className="flex items-baseline gap-2 mt-10">
-                  <span className="number-xl font-medium" style={{ fontSize: 'clamp(56px, 7vw, 80px)', lineHeight: 1, color: 'white', letterSpacing: '-0.05em' }}>1h 47m</span>
-                  <span className="text-sm" style={{ color: subtle }}>tempo medio</span>
+                  <span className="number-xl font-bold" style={{ fontSize: 'clamp(56px, 7vw, 80px)', lineHeight: 1, color: 'white', letterSpacing: '-0.05em' }}>1h 47m</span>
+                  <span className="text-sm" style={{ color: subtleD }}>tempo medio</span>
                 </div>
               </div>
             </div>
@@ -755,11 +785,11 @@ export default function DesignPreviewPage() {
             ].map((f, i) => {
               const Icon = f.icon;
               return (
-                <div key={i} className="glow-card rounded-2xl p-6">
-                  <div className="w-10 h-10 rounded-lg mb-5 flex items-center justify-center" style={{ background: `${accent}20` }}>
-                    <Icon className="w-4 h-4" style={{ color: accentLight }} strokeWidth={1.75} />
+                <div key={i} className="light-card rounded-2xl p-6">
+                  <div className="w-11 h-11 rounded-xl mb-5 flex items-center justify-center" style={{ background: accentSoft }}>
+                    <Icon className="w-4 h-4" style={{ color: accent }} strokeWidth={2} />
                   </div>
-                  <h3 className="text-lg tracking-[-0.02em] font-medium mb-2 text-white">{f.title}</h3>
+                  <h3 className="text-lg tracking-[-0.02em] font-bold mb-2" style={{ color: ink }}>{f.title}</h3>
                   <p className="text-sm leading-relaxed" style={{ color: subtle }}>{f.desc}</p>
                 </div>
               );
@@ -768,24 +798,23 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ TESTIMONIALS ═══════════════════ */}
-      <section className="relative" style={{ background: dark }}>
-        <div className="aurora-soft" />
-        <div className="relative max-w-[1280px] mx-auto px-6 py-32">
+      {/* ═══════════════════ TESTIMONIALS LIGHT ═══════════════════ */}
+      <section className="relative" style={{ background: surface }}>
+        <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <span className="text-xs uppercase tracking-[0.2em]" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>04 ◆</span>
-              <span className="text-xs uppercase tracking-[0.2em]" style={{ color: accentLight, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>Testimonianze</span>
+              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>04 ◆</span>
+              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: accent, fontFamily: 'var(--font-mono)' }}>Testimonianze</span>
             </div>
-            <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-medium text-white">
+            <h2 className="text-4xl lg:text-5xl tracking-[-0.03em] font-bold" style={{ color: ink }}>
               Le storie di chi ha già scelto TrovaPro.
             </h2>
           </div>
 
-          <div className="mb-12 max-w-2xl mx-auto rounded-2xl p-5 flex items-center justify-center gap-6 flex-wrap glow-card">
+          <div className="mb-12 max-w-2xl mx-auto rounded-2xl p-5 flex items-center justify-center gap-6 flex-wrap bg-white" style={{ border: `1px solid ${border}` }}>
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded flex items-center justify-center font-bold text-white text-xs" style={{ background: '#00B67A' }}>★</div>
-              <span className="text-sm font-medium text-white">Trustpilot</span>
+              <span className="text-sm font-bold" style={{ color: ink }}>Trustpilot</span>
             </div>
             <div className="flex items-center gap-1">
               {[1,2,3,4,5].map((i) => (
@@ -795,34 +824,34 @@ export default function DesignPreviewPage() {
               ))}
             </div>
             <div className="flex items-baseline gap-1">
-              <span className="text-xl font-medium number-xl text-white">4.7</span>
-              <span className="text-xs" style={{ color: subtle }}>/5 — basato su <span className="font-medium text-white">2.143</span> recensioni</span>
+              <span className="text-xl font-bold number-xl" style={{ color: ink }}>4.7</span>
+              <span className="text-xs" style={{ color: subtle }}>/5 — basato su <span className="font-bold" style={{ color: ink }}>2.143</span> recensioni</span>
             </div>
-            <a className="text-xs flex items-center gap-1 underline ml-auto" style={{ color: subtle }} href="#">Vedi tutte <ArrowUpRight className="w-3 h-3" /></a>
+            <a className="text-xs flex items-center gap-1 underline ml-auto font-semibold" style={{ color: subtle }} href="#">Vedi tutte <ArrowUpRight className="w-3 h-3" /></a>
           </div>
 
           <div className="grid md:grid-cols-3 gap-5">
             {TESTIMONIALS.map((t, i) => (
-              <div key={i} className="glow-card relative rounded-2xl p-7">
-                <Quote className="absolute top-6 right-6 w-7 h-7" style={{ color: borderD2 }} fill={borderD2} strokeWidth={0} />
+              <div key={i} className="light-card relative rounded-2xl p-7">
+                <Quote className="absolute top-6 right-6 w-7 h-7" style={{ color: borderStrong }} fill={borderStrong} strokeWidth={0} />
                 <div className="flex items-center gap-1 mb-5">
                   {Array.from({ length: 5 }).map((_, j) => (
                     <Star key={j} className="w-4 h-4" fill="#FFB020" strokeWidth={0} />
                   ))}
-                  <span className="ml-2 text-[10px]" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>VERIFICATA</span>
+                  <span className="ml-2 text-[10px] font-bold" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>VERIFICATA</span>
                 </div>
-                <p className="text-[15px] leading-relaxed mb-6 text-white">
+                <p className="text-[15px] leading-relaxed mb-6 font-medium" style={{ color: ink }}>
                   &ldquo;{t.quote}&rdquo;
                 </p>
-                <div className="flex items-center gap-3 pt-5 border-t" style={{ borderColor: borderD }}>
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold text-white" style={{ background: t.color }}>
+                <div className="flex items-center gap-3 pt-5 border-t" style={{ borderColor: border }}>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white" style={{ background: t.color }}>
                     {t.avatar}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate text-white">{t.name}</p>
+                    <p className="text-sm font-bold truncate" style={{ color: ink }}>{t.name}</p>
                     <p className="text-xs truncate" style={{ color: subtle }}>{t.role}</p>
                   </div>
-                  <BadgeCheck className="w-4 h-4 flex-shrink-0" style={{ color: accentLight }} fill={accent} fillOpacity={0.3} />
+                  <BadgeCheck className="w-4 h-4 flex-shrink-0" style={{ color: accent }} fill={accent} fillOpacity={0.15} />
                 </div>
               </div>
             ))}
@@ -830,15 +859,15 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ PRICING ═══════════════════ */}
-      <section className="relative" style={{ background: dark2 }}>
-        <div className="relative max-w-[1280px] mx-auto px-6 py-32">
+      {/* ═══════════════════ PRICING LIGHT ═══════════════════ */}
+      <section className="relative" style={{ background: 'white' }}>
+        <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <span className="text-xs uppercase tracking-[0.2em]" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>05 ◆</span>
-              <span className="text-xs uppercase tracking-[0.2em]" style={{ color: accentLight, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>Piani</span>
+              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>05 ◆</span>
+              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: accent, fontFamily: 'var(--font-mono)' }}>Piani</span>
             </div>
-            <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-medium mb-4 text-white">
+            <h2 className="text-4xl lg:text-5xl tracking-[-0.03em] font-bold mb-4" style={{ color: ink }}>
               Inizia gratis. Cresci quando vuoi.
             </h2>
             <p className="text-base" style={{ color: subtle }}>
@@ -852,51 +881,51 @@ export default function DesignPreviewPage() {
               <button className="toggle-active">Mensile</button>
               <button>Annuale</button>
             </div>
-            <span className="text-xs px-2 py-0.5 rounded inline-flex items-center gap-1" style={{ background: 'rgba(34,197,94,0.15)', color: success, fontFamily: 'var(--font-mono)' }}>
+            <span className="text-xs px-2 py-0.5 rounded inline-flex items-center gap-1 font-semibold" style={{ background: successSoft, color: success, fontFamily: 'var(--font-mono)' }}>
               <Sparkles className="w-3 h-3" /> Risparmia fino al 25%
             </span>
           </div>
 
           <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto">
             {PLANS.map((p, i) => (
-              <div key={i} className={`relative rounded-2xl p-7 ${p.popular ? 'plan-popular' : 'glow-card'}`}>
+              <div key={i} className={`relative rounded-2xl p-7 ${p.popular ? 'plan-popular' : 'light-card'}`}>
                 {p.popular && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider" style={{ background: accent, color: 'white', fontFamily: 'var(--font-mono)' }}>
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider" style={{ background: accent, color: 'white', fontFamily: 'var(--font-mono)' }}>
                     Più scelto
                   </span>
                 )}
 
                 <div className="flex items-center justify-between mb-1">
-                  <h3 className="text-base font-medium text-white" style={{ fontFamily: 'var(--font-mono)' }}>
+                  <h3 className="text-base font-bold" style={{ color: p.popular ? 'white' : ink, fontFamily: 'var(--font-mono)' }}>
                     {p.name.toUpperCase()}
                   </h3>
                   {p.popular && <Sparkles className="w-4 h-4" style={{ color: accentLight }} fill={accent} fillOpacity={0.4} />}
                 </div>
-                <p className="text-xs mb-6" style={{ color: subtle }}>
+                <p className="text-xs mb-6" style={{ color: p.popular ? subtleD : subtle }}>
                   {p.period}
                 </p>
 
                 <div className="flex items-baseline gap-1 mb-1">
-                  <span className="text-xs" style={{ color: subtle }}>€</span>
-                  <span className="text-5xl number-xl font-medium text-white">
+                  <span className="text-xs" style={{ color: p.popular ? subtleD : subtle }}>€</span>
+                  <span className="text-5xl number-xl font-bold" style={{ color: p.popular ? 'white' : ink }}>
                     {p.priceMonthly === 0 ? '0' : p.priceMonthly.toString().replace('.', ',')}
                   </span>
-                  {p.priceMonthly !== 0 && <span className="text-xs" style={{ color: subtle }}>/mese</span>}
+                  {p.priceMonthly !== 0 && <span className="text-xs" style={{ color: p.popular ? subtleD : subtle }}>/mese</span>}
                 </div>
                 {p.priceMonthly !== 0 ? (
-                  <p className="text-[11px] mb-7" style={{ color: accentLight, fontFamily: 'var(--font-mono)' }}>
+                  <p className="text-[11px] mb-7 font-semibold" style={{ color: p.popular ? accentLight : accent, fontFamily: 'var(--font-mono)' }}>
                     o €{p.priceAnnual.toString().replace('.', ',')}/m con piano annuale
                   </p>
                 ) : <div className="mb-7" />}
 
-                <button className={`w-full py-2.5 rounded-lg text-sm font-medium transition-all hover:opacity-90 mb-7`} style={{ background: p.popular ? 'white' : 'rgba(255,255,255,0.08)', color: p.popular ? dark : 'white', border: p.popular ? 'none' : `1px solid ${borderD2}` }}>
+                <button className="w-full py-3 rounded-lg text-sm font-bold transition-all hover:opacity-90 mb-7" style={{ background: p.popular ? 'white' : ink, color: p.popular ? dark : 'white' }}>
                   {p.cta}
                 </button>
 
                 <ul className="space-y-2.5">
                   {p.features.map((f, j) => (
-                    <li key={j} className="flex items-start gap-2 text-sm text-white">
-                      <Check className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: p.popular ? accentLight : success }} strokeWidth={2.5} />
+                    <li key={j} className="flex items-start gap-2 text-sm font-medium" style={{ color: p.popular ? 'rgba(255,255,255,0.92)' : ink }}>
+                      <Check className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: p.popular ? accentLight : success }} strokeWidth={3} />
                       {f}
                     </li>
                   ))}
@@ -911,37 +940,37 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ FAQ ═══════════════════ */}
-      <section className="relative" style={{ background: dark }}>
-        <div className="relative max-w-[1280px] mx-auto px-6 py-32">
+      {/* ═══════════════════ FAQ LIGHT ═══════════════════ */}
+      <section className="relative" style={{ background: surface }}>
+        <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="grid md:grid-cols-[1fr_2fr] gap-12">
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-xs uppercase tracking-[0.2em]" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>06 ◆</span>
-                <span className="text-xs uppercase tracking-[0.2em]" style={{ color: accentLight, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>FAQ</span>
+                <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>06 ◆</span>
+                <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: accent, fontFamily: 'var(--font-mono)' }}>FAQ</span>
               </div>
-              <h2 className="text-4xl tracking-[-0.04em] font-medium mb-4 text-white">
+              <h2 className="text-4xl tracking-[-0.03em] font-bold mb-4" style={{ color: ink }}>
                 Tutto quello che vuoi sapere.
               </h2>
               <p className="text-base mb-6" style={{ color: subtle }}>
                 Non trovi una risposta? Scrivici a{' '}
-                <a href="mailto:hello@trovapro.it" className="underline text-white">hello@trovapro.it</a>
+                <a href="mailto:hello@trovapro.it" className="underline font-semibold" style={{ color: ink }}>hello@trovapro.it</a>
               </p>
-              <a className="text-sm flex items-center gap-1 hover:gap-2 transition-all font-medium" style={{ color: accentLight }}>
+              <a className="text-sm flex items-center gap-1 hover:gap-2 transition-all font-bold" style={{ color: accent }}>
                 Centro assistenza <ArrowRight className="w-4 h-4" />
               </a>
             </div>
 
             <div>
-              <div className="mb-6 rounded-xl p-1.5 flex items-center gap-2" style={{ background: cardBg, border: `1px solid ${borderD}` }}>
+              <div className="mb-6 rounded-xl p-1.5 flex items-center gap-2 bg-white" style={{ border: `1px solid ${border}` }}>
                 <Search className="w-4 h-4 ml-2" style={{ color: subtle }} />
-                <input placeholder="Cerca tra le FAQ…" className="input-dark bg-transparent outline-none text-sm flex-1 py-1.5 text-white" />
-                <span className="text-[10px] mr-2 px-1.5 py-0.5 rounded" style={{ background: cardBgHover, color: subtle, fontFamily: 'var(--font-mono)' }}>⌘K</span>
+                <input placeholder="Cerca tra le FAQ…" className="input-light bg-transparent outline-none text-sm flex-1 py-1.5" style={{ color: ink }} />
+                <span className="text-[10px] mr-2 px-1.5 py-0.5 rounded font-bold" style={{ background: surface, color: subtle, fontFamily: 'var(--font-mono)' }}>⌘K</span>
               </div>
 
               <div className="flex flex-wrap items-center gap-2 mb-6">
                 {['Tutte', 'Generale', 'Pagamenti', 'Sicurezza', 'Tempi'].map((c, i) => (
-                  <span key={c} className={`text-xs px-3 py-1.5 rounded-full font-medium cursor-pointer transition-colors ${i === 0 ? 'chip-active' : 'chip-default'}`}>
+                  <span key={c} className={`text-xs px-3 py-1.5 rounded-full font-semibold cursor-pointer transition-colors ${i === 0 ? 'chip-active-light' : 'chip-default-light'}`}>
                     {c}
                   </span>
                 ))}
@@ -949,17 +978,17 @@ export default function DesignPreviewPage() {
 
               <div className="space-y-3">
                 {FAQS.map((f, i) => (
-                  <details key={i} className="faq group rounded-xl transition-all" style={{ background: cardBg, border: `1px solid ${borderD}` }}>
+                  <details key={i} className="faq group rounded-xl bg-white transition-all" style={{ border: `1px solid ${border}` }}>
                     <summary className="flex items-center justify-between gap-4 p-5">
                       <div className="flex items-start gap-3 flex-1 min-w-0">
-                        <span className="text-[10px] px-1.5 py-0.5 rounded mt-1 flex-shrink-0" style={{ background: cardBgHover, color: subtle, fontFamily: 'var(--font-mono)' }}>
+                        <span className="text-[10px] px-1.5 py-0.5 rounded mt-1 flex-shrink-0 font-bold" style={{ background: surface, color: subtle, fontFamily: 'var(--font-mono)' }}>
                           {f.cat.toUpperCase()}
                         </span>
-                        <h3 className="text-[15px] font-medium tracking-[-0.01em] flex-1 text-white">
+                        <h3 className="text-[15px] font-bold tracking-[-0.01em] flex-1" style={{ color: ink }}>
                           {f.q}
                         </h3>
                       </div>
-                      <Plus className="faq-icon w-4 h-4 flex-shrink-0" style={{ color: subtle }} strokeWidth={2} />
+                      <Plus className="faq-icon w-4 h-4 flex-shrink-0" style={{ color: subtle }} strokeWidth={2.5} />
                     </summary>
                     <div className="px-5 pb-5 -mt-1">
                       <p className="text-sm leading-relaxed pl-[68px]" style={{ color: subtle }}>{f.a}</p>
@@ -972,46 +1001,46 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ PRO CTA ═══════════════════ */}
-      <section className="relative overflow-hidden" style={{ background: dark2 }}>
-        <div className="aurora" style={{ opacity: 0.6 }} />
+      {/* ═══════════════════ PRO CTA DARK BAND ═══════════════════ */}
+      <section className="relative overflow-hidden" style={{ background: dark }}>
+        <div className="aurora aurora-on-dark" />
 
-        <div className="relative max-w-[1280px] mx-auto px-6 py-32">
+        <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="grid lg:grid-cols-[1fr_1.1fr] gap-16 items-center">
             <div>
               <div className="flex items-center gap-3 mb-5">
-                <span className="text-xs uppercase tracking-[0.2em]" style={{ color: fade, fontFamily: 'var(--font-mono)' }}>07 ◆</span>
-                <span className="text-xs uppercase tracking-[0.2em]" style={{ color: '#7AA8FF', fontFamily: 'var(--font-mono)', fontWeight: 500 }}>Per professionisti</span>
+                <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: fadeD, fontFamily: 'var(--font-mono)' }}>07 ◆</span>
+                <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: '#7AA8FF', fontFamily: 'var(--font-mono)' }}>Per professionisti</span>
               </div>
-              <h2 className="font-medium tracking-[-0.05em]" style={{ fontSize: 'clamp(48px, 6vw, 72px)', lineHeight: 0.95 }}>
-                <span className="gradient-text">Più clienti.</span><br />
+              <h2 className="font-bold tracking-[-0.04em]" style={{ fontSize: 'clamp(48px, 6vw, 72px)', lineHeight: 0.95 }}>
+                <span className="gradient-text-dark">Più clienti.</span><br />
                 <span className="accent-text">Meno fatica.</span>
               </h2>
-              <p className="mt-8 max-w-md text-base" style={{ color: textMid }}>
+              <p className="mt-8 max-w-md text-base" style={{ color: textMidD }}>
                 Crea il tuo profilo in 5 minuti. Ricevi richieste qualificate, gestisci tutto da una sola dashboard.
               </p>
 
               <div className="mt-10 flex items-center gap-3 flex-wrap">
-                <button className="px-5 py-3 rounded-xl text-sm font-medium transition-all hover:opacity-90 flex items-center gap-1.5" style={{ background: 'white', color: dark }}>
+                <button className="btn-accent px-5 py-3 rounded-xl text-sm font-semibold flex items-center gap-1.5">
                   Inizia gratis <ArrowRight className="w-4 h-4" />
                 </button>
-                <button className="px-5 py-3 rounded-xl text-sm font-medium transition-all hover:bg-white/5 border" style={{ borderColor: borderD2, color: 'white' }}>
+                <button className="px-5 py-3 rounded-xl text-sm font-semibold transition-all hover:bg-white/5 border" style={{ borderColor: borderD2, color: 'white' }}>
                   Vedi i piani
                 </button>
               </div>
 
               <div className="mt-12 flex items-center gap-6 pt-8 border-t" style={{ borderColor: borderD }}>
                 <div>
-                  <div className="text-2xl number-xl font-medium text-white">1.247</div>
-                  <div className="text-xs" style={{ color: subtle }}>professionisti attivi</div>
+                  <div className="text-2xl number-xl font-bold text-white">1.247</div>
+                  <div className="text-xs" style={{ color: subtleD }}>professionisti attivi</div>
                 </div>
                 <div>
-                  <div className="text-2xl number-xl font-medium text-white">€2.4M</div>
-                  <div className="text-xs" style={{ color: subtle }}>fatturato generato</div>
+                  <div className="text-2xl number-xl font-bold text-white">€2.4M</div>
+                  <div className="text-xs" style={{ color: subtleD }}>fatturato generato</div>
                 </div>
                 <div>
-                  <div className="text-2xl number-xl font-medium text-white">4.7★</div>
-                  <div className="text-xs" style={{ color: subtle }}>valutazione pro</div>
+                  <div className="text-2xl number-xl font-bold text-white">4.7★</div>
+                  <div className="text-xs" style={{ color: subtleD }}>valutazione pro</div>
                 </div>
               </div>
             </div>
@@ -1019,26 +1048,26 @@ export default function DesignPreviewPage() {
             <div className="relative float">
               <div className="absolute inset-0 -z-10 rounded-3xl" style={{ background: `radial-gradient(50% 50% at 50% 50%, ${accent}50, transparent 70%)`, filter: 'blur(60px)' }} />
 
-              <div className="notif-pop absolute -top-6 -right-4 z-10 rounded-xl p-3.5 backdrop-blur-xl flex items-center gap-3 max-w-[260px]" style={{ background: 'rgba(255,255,255,0.95)', boxShadow: '0 20px 50px -10px rgba(0,0,0,0.6)' }}>
-                <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: `${accent}15` }}>
-                  <Bell className="w-4 h-4" style={{ color: accent }} fill={accent} fillOpacity={0.2} strokeWidth={2} />
+              <div className="notif-pop absolute -top-6 -right-4 z-10 rounded-xl p-3.5 backdrop-blur-xl flex items-center gap-3 max-w-[260px]" style={{ background: 'white', boxShadow: '0 20px 50px -10px rgba(0,0,0,0.6)' }}>
+                <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: accentSoft }}>
+                  <Bell className="w-4 h-4" style={{ color: accent }} fill={accent} fillOpacity={0.2} strokeWidth={2.5} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-semibold mb-0.5" style={{ color: dark }}>Nuova richiesta!</p>
+                  <p className="text-xs font-bold mb-0.5" style={{ color: ink }}>Nuova richiesta!</p>
                   <p className="text-[10px] truncate" style={{ color: subtle }}>Anna M. · Impianto cucina · Roma</p>
                 </div>
                 <span className="pulse-dot w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: accent, boxShadow: `0 0 8px ${accent}` }} />
               </div>
 
               <div className="rounded-2xl p-2 backdrop-blur-xl" style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${borderD2}` }}>
-                <div className="rounded-xl overflow-hidden" style={{ background: dark3 }}>
+                <div className="rounded-xl overflow-hidden" style={{ background: '#0F0F0F' }}>
                   <div className="flex items-center gap-2 px-4 py-2.5 border-b" style={{ borderColor: borderD }}>
                     <div className="flex gap-1.5">
                       <span className="w-2.5 h-2.5 rounded-full" style={{ background: '#FF5F57' }} />
                       <span className="w-2.5 h-2.5 rounded-full" style={{ background: '#FFBD2E' }} />
                       <span className="w-2.5 h-2.5 rounded-full" style={{ background: '#28CA42' }} />
                     </div>
-                    <div className="ml-3 px-2 py-0.5 rounded text-[10px]" style={{ background: cardBg, color: subtle, fontFamily: 'var(--font-mono)' }}>
+                    <div className="ml-3 px-2 py-0.5 rounded text-[10px] font-bold" style={{ background: 'rgba(255,255,255,0.05)', color: subtleD, fontFamily: 'var(--font-mono)' }}>
                       trovapro.it/dashboard
                     </div>
                   </div>
@@ -1046,26 +1075,26 @@ export default function DesignPreviewPage() {
                   <div className="p-5">
                     <div className="flex items-center justify-between mb-5">
                       <div>
-                        <h4 className="text-sm text-white font-medium">Buongiorno, Mario</h4>
-                        <p className="text-[10px] mt-0.5" style={{ color: fade, fontFamily: 'var(--font-mono)' }}>
+                        <h4 className="text-sm text-white font-bold">Buongiorno, Mario</h4>
+                        <p className="text-[10px] mt-0.5 font-bold" style={{ color: fadeD, fontFamily: 'var(--font-mono)' }}>
                           <Calendar className="w-3 h-3 inline mr-1" />
                           MARTEDÌ, 6 MAGGIO
                         </p>
                       </div>
-                      <span className="text-[10px] px-1.5 py-0.5 rounded inline-flex items-center gap-1" style={{ background: 'rgba(34,197,94,0.2)', color: success, fontFamily: 'var(--font-mono)' }}>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded inline-flex items-center gap-1 font-bold" style={{ background: 'rgba(34,197,94,0.2)', color: '#4ADE80', fontFamily: 'var(--font-mono)' }}>
                         <TrendingUp className="w-2.5 h-2.5" /> +18% MESE
                       </span>
                     </div>
 
                     <div className="grid grid-cols-3 gap-2 mb-5">
                       {[
-                        { v: '€3.420', l: 'Fatturato', c: success },
-                        { v: '24', l: 'Lead', c: accent },
+                        { v: '€3.420', l: 'Fatturato', c: '#4ADE80' },
+                        { v: '24', l: 'Lead', c: accentLight },
                         { v: '4.9', l: 'Rating', c: '#FFB020' },
                       ].map((k, i) => (
-                        <div key={i} className="rounded-lg p-3" style={{ background: cardBg, border: `1px solid ${borderD}` }}>
-                          <div className="text-base text-white font-medium number-xl">{k.v}</div>
-                          <div className="text-[10px] mt-0.5 inline-flex items-center gap-1" style={{ color: subtle }}>
+                        <div key={i} className="rounded-lg p-3" style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${borderD}` }}>
+                          <div className="text-base text-white font-bold number-xl">{k.v}</div>
+                          <div className="text-[10px] mt-0.5 inline-flex items-center gap-1" style={{ color: subtleD }}>
                             <span className="w-1 h-1 rounded-full" style={{ background: k.c }} />
                             {k.l}
                           </div>
@@ -1073,29 +1102,29 @@ export default function DesignPreviewPage() {
                       ))}
                     </div>
 
-                    <div className="rounded-lg p-3 mb-5" style={{ background: cardBg, border: `1px solid ${borderD}` }}>
+                    <div className="rounded-lg p-3 mb-5" style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${borderD}` }}>
                       <div className="flex items-center justify-between mb-3">
-                        <span className="text-[10px]" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>VISUALIZZAZIONI · 30G</span>
-                        <span className="text-[10px] inline-flex items-center gap-1" style={{ color: success, fontFamily: 'var(--font-mono)' }}>
+                        <span className="text-[10px] font-bold" style={{ color: subtleD, fontFamily: 'var(--font-mono)' }}>VISUALIZZAZIONI · 30G</span>
+                        <span className="text-[10px] inline-flex items-center gap-1 font-bold" style={{ color: '#4ADE80', fontFamily: 'var(--font-mono)' }}>
                           <TrendingUp className="w-2.5 h-2.5" /> +24%
                         </span>
                       </div>
-                      <Sparkline data={[12,18,22,15,28,32,38,35,42,48,45,52]} color={accent} height={48} width={280} />
+                      <Sparkline data={[12,18,22,15,28,32,38,35,42,48,45,52]} color={accentLight} height={48} width={280} />
                     </div>
 
                     <div className="space-y-2">
                       {[
-                        { n: 'Anna M.', d: 'Impianto cucina', t: '2m fa', dot: success },
+                        { n: 'Anna M.', d: 'Impianto cucina', t: '2m fa', dot: '#4ADE80' },
                         { n: 'Roberto C.', d: 'Quadro elettrico', t: '15m fa', dot: '#FFB020' },
-                        { n: 'Laura S.', d: 'Domotica', t: '1h fa', dot: subtle },
+                        { n: 'Laura S.', d: 'Domotica', t: '1h fa', dot: subtleD },
                       ].map((l, i) => (
                         <div key={i} className="flex items-center gap-3 rounded-lg p-2.5" style={{ background: 'rgba(255,255,255,0.02)' }}>
                           <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: l.dot, boxShadow: i === 0 ? `0 0 8px ${l.dot}` : 'none' }} />
                           <div className="flex-1 min-w-0">
-                            <p className="text-xs text-white truncate">{l.n}</p>
-                            <p className="text-[10px] truncate" style={{ color: subtle }}>{l.d}</p>
+                            <p className="text-xs text-white truncate font-medium">{l.n}</p>
+                            <p className="text-[10px] truncate" style={{ color: subtleD }}>{l.d}</p>
                           </div>
-                          <span className="text-[10px]" style={{ color: fade, fontFamily: 'var(--font-mono)' }}>{l.t}</span>
+                          <span className="text-[10px] font-bold" style={{ color: fadeD, fontFamily: 'var(--font-mono)' }}>{l.t}</span>
                         </div>
                       ))}
                     </div>
@@ -1107,101 +1136,99 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ FOOTER ═══════════════════ */}
-      <footer style={{ background: dark }}>
-        <div className="border-t" style={{ borderColor: borderD }}>
-          <div className="max-w-[1280px] mx-auto px-6 pt-20 pb-12">
-            <div className="rounded-2xl p-8 lg:p-12 mb-16 grid md:grid-cols-[1.4fr_1fr] gap-8 items-center glow-card">
-              <div>
-                <h3 className="text-2xl tracking-[-0.02em] font-medium mb-2 text-white">
-                  La newsletter dei professionisti.
-                </h3>
-                <p className="text-sm" style={{ color: subtle }}>
-                  Ogni 2 settimane: novità, consigli, casi studio. Niente spam, cancellazione in 1 click.
-                </p>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="flex-1 rounded-lg p-1 flex items-center" style={{ background: cardBg, border: `1px solid ${borderD}` }}>
-                  <Mail className="w-4 h-4 ml-2 mr-2 flex-shrink-0" style={{ color: subtle }} />
-                  <input placeholder="tu@email.it" className="input-dark bg-transparent outline-none text-sm flex-1 py-2 text-white" />
-                </div>
-                <button className="px-4 py-2.5 rounded-lg text-sm font-medium transition-all hover:opacity-90 flex items-center gap-1.5" style={{ background: 'white', color: dark }}>
-                  Iscriviti <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
+      {/* ═══════════════════ FOOTER DARK ═══════════════════ */}
+      <footer style={{ background: '#000' }}>
+        <div className="max-w-[1280px] mx-auto px-6 pt-20 pb-12">
+          <div className="rounded-2xl p-8 lg:p-12 mb-16 grid md:grid-cols-[1.4fr_1fr] gap-8 items-center" style={{ background: dark2, border: `1px solid ${borderD}` }}>
+            <div>
+              <h3 className="text-2xl tracking-[-0.02em] font-bold mb-2 text-white">
+                La newsletter dei professionisti.
+              </h3>
+              <p className="text-sm" style={{ color: subtleD }}>
+                Ogni 2 settimane: novità, consigli, casi studio. Niente spam, cancellazione in 1 click.
+              </p>
             </div>
-
-            <div className="rounded-xl py-5 mb-12 flex items-center justify-center gap-x-10 gap-y-3 flex-wrap" style={{ borderTop: `1px solid ${borderD}`, borderBottom: `1px solid ${borderD}` }}>
-              <span className="text-[11px] uppercase tracking-[0.2em] font-medium" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>VISTI SU</span>
-              {['IL SOLE 24 ORE', 'CORRIERE', 'WIRED IT', 'ECONOMYUP', 'STARTUP ITALIA'].map((m, i) => (
-                <span key={i} className="text-sm font-semibold" style={{ color: subtle, opacity: 0.4, letterSpacing: '0.02em' }}>{m}</span>
-              ))}
-            </div>
-
-            <div className="grid md:grid-cols-[2fr_1fr_1fr_1fr_1fr] gap-12 mb-16">
-              <div className="max-w-xs">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-7 h-7 rounded-md flex items-center justify-center" style={{ background: 'white' }}>
-                    <Zap className="w-3.5 h-3.5" style={{ color: dark }} strokeWidth={2.5} />
-                  </div>
-                  <span className="text-[15px] font-semibold tracking-tight text-white" style={{ letterSpacing: '-0.01em' }}>trovapro</span>
-                </div>
-                <p className="text-sm leading-relaxed mb-6" style={{ color: subtle }}>
-                  Il modo più semplice di trovare professionisti qualificati nella tua zona. Verificati, valutati, pronti a partire.
-                </p>
-                <div className="flex items-center gap-2">
-                  {[Twitter, Instagram, Linkedin, Mail].map((Icon, i) => (
-                    <a key={i} className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-white/5" style={{ border: `1px solid ${borderD}`, color: textMid }}>
-                      <Icon className="w-3.5 h-3.5" strokeWidth={1.75} />
-                    </a>
-                  ))}
-                </div>
+            <div className="flex items-center gap-2">
+              <div className="flex-1 rounded-lg p-1 flex items-center" style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${borderD}` }}>
+                <Mail className="w-4 h-4 ml-2 mr-2 flex-shrink-0" style={{ color: subtleD }} />
+                <input placeholder="tu@email.it" className="input-dark bg-transparent outline-none text-sm flex-1 py-2 text-white" />
               </div>
-
-              {[
-                { title: 'Prodotto', links: ['Cerca professionisti', 'Categorie', 'Mappa', 'Mobile app'] },
-                { title: 'Per professionisti', links: ['Iscriviti', 'Piani e prezzi', 'Centro risorse', 'Affiliati'] },
-                { title: 'Azienda', links: ['Chi siamo', 'Blog', 'Lavora con noi', 'Press'] },
-                { title: 'Legale', links: ['Termini', 'Privacy', 'Cookie', 'Aiuto'] },
-              ].map((col) => (
-                <div key={col.title}>
-                  <h4 className="text-xs uppercase tracking-[0.15em] mb-4 text-white" style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>
-                    {col.title}
-                  </h4>
-                  <ul className="space-y-2.5">
-                    {col.links.map((l) => (
-                      <li key={l}>
-                        <a className="text-sm hover:text-white transition-colors" style={{ color: subtle }}>{l}</a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex items-center justify-between flex-wrap gap-4 pt-8 border-t text-xs" style={{ borderColor: borderD, color: subtle }}>
-              <div className="flex items-center gap-4">
-                <span style={{ fontFamily: 'var(--font-mono)' }}>© 2026 TrovaPro · P.IVA 12345678901</span>
-                <span className="hidden md:inline">·</span>
-                <a className="hidden md:inline hover:text-white transition-colors">Sitemap</a>
-              </div>
-              <div className="flex items-center gap-5">
-                <span className="flex items-center gap-1.5">
-                  <Globe className="w-3 h-3" /> Italia (IT)
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: success }} />
-                  All systems operational
-                </span>
-              </div>
+              <button className="btn-accent px-4 py-2.5 rounded-lg text-sm font-semibold flex items-center gap-1.5">
+                Iscriviti <ArrowRight className="w-3.5 h-3.5" />
+              </button>
             </div>
           </div>
 
-          <div className="border-t" style={{ borderColor: borderD, background: dark2 }}>
-            <div className="max-w-[1280px] mx-auto px-6 py-4 text-center text-xs" style={{ color: subtle }}>
-              v0.8 · ALL DARK · glassmorphism cards · aurora soft transitions ·{' '}
-              <Link href="/" className="text-white" style={{ fontWeight: 500 }}>Torna al sito attuale →</Link>
+          <div className="rounded-xl py-5 mb-12 flex items-center justify-center gap-x-10 gap-y-3 flex-wrap" style={{ borderTop: `1px solid ${borderD}`, borderBottom: `1px solid ${borderD}` }}>
+            <span className="text-[11px] uppercase tracking-[0.2em] font-bold" style={{ color: subtleD, fontFamily: 'var(--font-mono)' }}>VISTI SU</span>
+            {['IL SOLE 24 ORE', 'CORRIERE', 'WIRED IT', 'ECONOMYUP', 'STARTUP ITALIA'].map((m, i) => (
+              <span key={i} className="text-sm font-bold" style={{ color: subtleD, opacity: 0.5, letterSpacing: '0.02em' }}>{m}</span>
+            ))}
+          </div>
+
+          <div className="grid md:grid-cols-[2fr_1fr_1fr_1fr_1fr] gap-12 mb-16">
+            <div className="max-w-xs">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: accent }}>
+                  <Zap className="w-4 h-4 text-white" strokeWidth={2.5} />
+                </div>
+                <span className="text-[16px] font-bold tracking-tight text-white" style={{ letterSpacing: '-0.01em' }}>trovapro</span>
+              </div>
+              <p className="text-sm leading-relaxed mb-6" style={{ color: subtleD }}>
+                Il modo più semplice di trovare professionisti qualificati nella tua zona. Verificati, valutati, pronti a partire.
+              </p>
+              <div className="flex items-center gap-2">
+                {[Twitter, Instagram, Linkedin, Mail].map((Icon, i) => (
+                  <a key={i} className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-white/5" style={{ border: `1px solid ${borderD}`, color: textMidD }}>
+                    <Icon className="w-3.5 h-3.5" strokeWidth={1.75} />
+                  </a>
+                ))}
+              </div>
             </div>
+
+            {[
+              { title: 'Prodotto', links: ['Cerca professionisti', 'Categorie', 'Mappa', 'Mobile app'] },
+              { title: 'Per professionisti', links: ['Iscriviti', 'Piani e prezzi', 'Centro risorse', 'Affiliati'] },
+              { title: 'Azienda', links: ['Chi siamo', 'Blog', 'Lavora con noi', 'Press'] },
+              { title: 'Legale', links: ['Termini', 'Privacy', 'Cookie', 'Aiuto'] },
+            ].map((col) => (
+              <div key={col.title}>
+                <h4 className="text-xs uppercase tracking-[0.15em] mb-4 text-white font-bold" style={{ fontFamily: 'var(--font-mono)' }}>
+                  {col.title}
+                </h4>
+                <ul className="space-y-2.5">
+                  {col.links.map((l) => (
+                    <li key={l}>
+                      <a className="text-sm hover:text-white transition-colors" style={{ color: subtleD }}>{l}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex items-center justify-between flex-wrap gap-4 pt-8 border-t text-xs" style={{ borderColor: borderD, color: subtleD }}>
+            <div className="flex items-center gap-4">
+              <span style={{ fontFamily: 'var(--font-mono)' }}>© 2026 TrovaPro · P.IVA 12345678901</span>
+              <span className="hidden md:inline">·</span>
+              <a className="hidden md:inline hover:text-white transition-colors">Sitemap</a>
+            </div>
+            <div className="flex items-center gap-5">
+              <span className="flex items-center gap-1.5">
+                <Globe className="w-3 h-3" /> Italia (IT)
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: success }} />
+                All systems operational
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t" style={{ borderColor: borderD, background: '#000' }}>
+          <div className="max-w-[1280px] mx-auto px-6 py-4 text-center text-xs" style={{ color: subtleD }}>
+            v0.9 · LIGHT con band dark di highlight (header / 1 card bento / pro CTA / footer) ·{' '}
+            <Link href="/" className="text-white font-semibold">Torna al sito attuale →</Link>
           </div>
         </div>
       </footer>

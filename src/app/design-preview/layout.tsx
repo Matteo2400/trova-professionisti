@@ -25,8 +25,8 @@ export default function PreviewLayout({ children }: { children: React.ReactNode 
       className={`${montserrat.variable} ${geistMono.variable}`}
       style={{
         fontFamily: 'var(--font-sans)',
-        background: '#050505',
-        color: '#FFFFFF',
+        background: '#FFFFFF',
+        color: '#0A0A0A',
         minHeight: '100vh',
       }}
     >
