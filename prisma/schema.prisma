@@ -4,11 +4,7 @@ generator client {
 }
 
 datasource db {
-  // Dev: sqlite (file:./dev.db). Production: change to "postgresql" and
-  // point DATABASE_URL to your Neon/Supabase/etc. connection string.
-  // The schema only uses string-encoded JSON columns, so it is portable
-  // between sqlite and postgresql with no schema changes required.
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
