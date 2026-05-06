@@ -1,17 +1,10 @@
 import type { Metadata } from 'next';
-import { Inter, Fraunces, Geist_Mono } from 'next/font/google';
+import { Geist, Geist_Mono } from 'next/font/google';
 
-const inter = Inter({
+const geist = Geist({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-body',
-});
-
-const fraunces = Fraunces({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-display',
-  axes: ['SOFT', 'WONK', 'opsz'],
+  variable: '--font-sans',
 });
 
 const geistMono = Geist_Mono({
@@ -28,11 +21,11 @@ export const metadata: Metadata = {
 export default function PreviewLayout({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className={`${inter.variable} ${fraunces.variable} ${geistMono.variable}`}
+      className={`${geist.variable} ${geistMono.variable}`}
       style={{
-        fontFamily: 'var(--font-body)',
-        background: '#FAF8F3',
-        color: '#1A1410',
+        fontFamily: 'var(--font-sans)',
+        background: '#FFFFFF',
+        color: '#0A0A0A',
         minHeight: '100vh',
       }}
     >
