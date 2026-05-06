@@ -118,7 +118,7 @@ export default function DesignPreviewPage() {
       {/* ───────── Notice ───────── */}
       <div style={{ background: dark, color: '#999' }} className="text-xs">
         <div className="max-w-[1280px] mx-auto px-6 py-2 flex items-center justify-between">
-          <span style={{ fontFamily: 'var(--font-mono)' }}>DESIGN PREVIEW · v0.4 · INTER</span>
+          <span style={{ fontFamily: 'var(--font-mono)' }}>DESIGN PREVIEW · v0.5 · MONTSERRAT</span>
           <Link href="/" className="hover:text-white transition-colors">← Sito attuale</Link>
         </div>
       </div>
@@ -422,7 +422,7 @@ export default function DesignPreviewPage() {
       <section className="bg-white border-t" style={{ borderColor: border }}>
         <div className="max-w-[1280px] mx-auto px-6 py-12 text-center">
           <p className="text-sm mb-2" style={{ color: subtle }}>
-            v0.4 · Inter (display + body) · Geist Mono (numeri tabular)
+            v0.5 · Montserrat (display + body, geometrico) · Geist Mono (numeri tabular)
           </p>
           <Link href="/" className="text-sm font-medium" style={{ color: ink }}>
             Torna al sito attuale →

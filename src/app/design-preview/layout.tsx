@@ -1,12 +1,11 @@
 import type { Metadata } from 'next';
-import { Inter, Geist_Mono } from 'next/font/google';
+import { Montserrat, Geist_Mono } from 'next/font/google';
 
-const inter = Inter({
+const montserrat = Montserrat({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-sans',
-  // Use the OpenType "ss01" stylistic set for a slightly more refined "a"
-  axes: ['opsz'],
+  weight: ['400', '500', '600', '700', '800'],
 });
 
 const geistMono = Geist_Mono({
@@ -23,13 +22,12 @@ export const metadata: Metadata = {
 export default function PreviewLayout({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className={`${inter.variable} ${geistMono.variable}`}
+      className={`${montserrat.variable} ${geistMono.variable}`}
       style={{
         fontFamily: 'var(--font-sans)',
         background: '#FFFFFF',
         color: '#0A0A0A',
         minHeight: '100vh',
-        fontFeatureSettings: '"cv11", "ss03", "cv02"',
       }}
     >
       {children}
