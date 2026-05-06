@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import {
-  Search, MapPin, Star, Shield, ArrowRight, ArrowUpRight, Check,
+  Search, MapPin, Star, ArrowRight, ArrowUpRight, Check,
   Zap, Sparkles, MessageSquare, Lock, BadgeCheck, Bolt,
-  TrendingUp, Quote, Plus, Wrench, Droplets, Paintbrush, Hammer, Key, TreePine,
-  Twitter, Instagram, Linkedin, Mail, Globe,
+  TrendingUp, TrendingDown, Quote, Plus, Wrench, Droplets, Paintbrush, Hammer, Key, TreePine,
+  Twitter, Instagram, Linkedin, Mail, Globe, Bell,
+  Calendar,
 } from 'lucide-react';
 
 const ink = '#0A0A0A';
@@ -17,96 +18,74 @@ const dark = '#050505';
 const surface = '#FAFAFA';
 
 const FEATURED = [
-  { name: 'Mario Rossi', category: 'Elettricista', city: 'Roma', rating: 4.9, reviews: 127, price: '€45/h', distance: '2.1 km', available: true, plan: 'premium' as const, completedJobs: 312, responseTime: '12 min' },
-  { name: 'Giuseppe Verdi', category: 'Imbianchino', city: 'Torino', rating: 5.0, reviews: 89, price: '€30/h', distance: '4.8 km', available: true, plan: 'pro' as const, completedJobs: 178, responseTime: '34 min' },
-  { name: 'Luigi Bianchi', category: 'Idraulico', city: 'Milano', rating: 4.8, reviews: 213, price: '€40/h', distance: '1.3 km', available: false, plan: 'pro' as const, completedJobs: 421, responseTime: '1h 12m' },
-  { name: 'Antonio Esposito', category: 'Elettricista', city: 'Napoli', rating: 4.7, reviews: 94, price: '€35/h', distance: '3.4 km', available: true, plan: 'pro' as const, completedJobs: 156, responseTime: '8 min' },
-  { name: 'Carlo Ricci', category: 'Muratore', city: 'Roma', rating: 4.9, reviews: 167, price: '€42/h', distance: '5.2 km', available: true, plan: 'premium' as const, completedJobs: 289, responseTime: '22 min' },
-  { name: 'Andrea Martini', category: 'Fabbro', city: 'Firenze', rating: 4.8, reviews: 76, price: '€55/h', distance: '6.1 km', available: false, plan: 'pro' as const, completedJobs: 134, responseTime: '45 min' },
+  { name: 'Mario Rossi', category: 'Elettricista', city: 'Roma', rating: 4.9, reviews: 127, price: '€45/h', distance: '2.1 km', available: true, plan: 'premium' as const, completedJobs: 312, responseTime: '12 min', avatar: '#0070F3', initials: 'MR' },
+  { name: 'Giuseppe Verdi', category: 'Imbianchino', city: 'Torino', rating: 5.0, reviews: 89, price: '€30/h', distance: '4.8 km', available: true, plan: 'pro' as const, completedJobs: 178, responseTime: '34 min', avatar: '#7B61FF', initials: 'GV' },
+  { name: 'Luigi Bianchi', category: 'Idraulico', city: 'Milano', rating: 4.8, reviews: 213, price: '€40/h', distance: '1.3 km', available: false, plan: 'pro' as const, completedJobs: 421, responseTime: '1h 12m', avatar: '#00C896', initials: 'LB' },
+  { name: 'Antonio Esposito', category: 'Elettricista', city: 'Napoli', rating: 4.7, reviews: 94, price: '€35/h', distance: '3.4 km', available: true, plan: 'pro' as const, completedJobs: 156, responseTime: '8 min', avatar: '#FFB020', initials: 'AE' },
+  { name: 'Carlo Ricci', category: 'Muratore', city: 'Roma', rating: 4.9, reviews: 167, price: '€42/h', distance: '5.2 km', available: true, plan: 'premium' as const, completedJobs: 289, responseTime: '22 min', avatar: '#EF4444', initials: 'CR' },
 ];
 
 const CATEGORIES = [
-  { name: 'Elettricisti', slug: 'elettricista', count: '2.847', icon: Zap, gradient: 'linear-gradient(135deg, #FFB020, #FF6B00)' },
-  { name: 'Idraulici', slug: 'idraulico', count: '1.923', icon: Droplets, gradient: 'linear-gradient(135deg, #0070F3, #00D4FF)' },
-  { name: 'Imbianchini', slug: 'imbianchino', count: '1.456', icon: Paintbrush, gradient: 'linear-gradient(135deg, #00C896, #00E5A8)' },
-  { name: 'Muratori', slug: 'muratore', count: '987', icon: Hammer, gradient: 'linear-gradient(135deg, #7B61FF, #A78BFA)' },
-  { name: 'Fabbri', slug: 'fabbro', count: '534', icon: Key, gradient: 'linear-gradient(135deg, #EF4444, #F97316)' },
-  { name: 'Giardinieri', slug: 'giardiniere', count: '712', icon: TreePine, gradient: 'linear-gradient(135deg, #22C55E, #84CC16)' },
+  { name: 'Elettricisti', slug: 'elettricista', count: '2.847', icon: Zap, gradient: 'linear-gradient(135deg, #FFB020, #FF6B00)', trend: '+12%', avg: '€42/h' },
+  { name: 'Idraulici', slug: 'idraulico', count: '1.923', icon: Droplets, gradient: 'linear-gradient(135deg, #0070F3, #00D4FF)', trend: '+8%', avg: '€38/h' },
+  { name: 'Imbianchini', slug: 'imbianchino', count: '1.456', icon: Paintbrush, gradient: 'linear-gradient(135deg, #00C896, #00E5A8)', trend: '+15%', avg: '€32/h' },
+  { name: 'Muratori', slug: 'muratore', count: '987', icon: Hammer, gradient: 'linear-gradient(135deg, #7B61FF, #A78BFA)', trend: '+4%', avg: '€45/h' },
+  { name: 'Fabbri', slug: 'fabbro', count: '534', icon: Key, gradient: 'linear-gradient(135deg, #EF4444, #F97316)', trend: '−2%', avg: '€55/h', down: true },
+  { name: 'Giardinieri', slug: 'giardiniere', count: '712', icon: TreePine, gradient: 'linear-gradient(135deg, #22C55E, #84CC16)', trend: '+22%', avg: '€28/h' },
 ];
 
 const TESTIMONIALS = [
-  {
-    name: 'Anna Moretti',
-    role: 'Cliente · Roma',
-    avatar: 'AM',
-    color: '#0070F3',
-    quote:
-      'Ho trovato un elettricista in 20 minuti. Lavoro fatto lo stesso pomeriggio, prezzo onesto, persona seria. La piattaforma fa esattamente quello che promette.',
-  },
-  {
-    name: 'Roberto Conti',
-    role: 'Idraulico professionista · Milano',
-    avatar: 'RC',
-    color: '#7B61FF',
-    quote:
-      'Da quando uso TrovaPro ho raddoppiato i clienti senza spendere in pubblicità. Le richieste sono qualificate, niente perdite di tempo con clienti incerti.',
-  },
-  {
-    name: 'Francesca Baldi',
-    role: 'Cliente · Torino',
-    avatar: 'FB',
-    color: '#00C896',
-    quote:
-      'Avevo bisogno di tinteggiare casa, ho confrontato 4 preventivi in un giorno e scelto in base alle recensioni. Risultato impeccabile.',
-  },
+  { name: 'Anna Moretti', role: 'Cliente · Roma', avatar: 'AM', color: '#0070F3', quote: 'Ho trovato un elettricista in 20 minuti. Lavoro fatto lo stesso pomeriggio, prezzo onesto, persona seria. La piattaforma fa esattamente quello che promette.' },
+  { name: 'Roberto Conti', role: 'Idraulico · Milano', avatar: 'RC', color: '#7B61FF', quote: 'Da quando uso TrovaPro ho raddoppiato i clienti senza spendere in pubblicità. Le richieste sono qualificate, niente perdite di tempo.' },
+  { name: 'Francesca Baldi', role: 'Cliente · Torino', avatar: 'FB', color: '#00C896', quote: 'Avevo bisogno di tinteggiare casa, ho confrontato 4 preventivi in un giorno e scelto in base alle recensioni. Risultato impeccabile.' },
 ];
 
 const PLANS = [
-  {
-    name: 'Base', price: '0', period: 'gratis per sempre',
-    features: ['Profilo visibile', 'Ricezione richieste', '5 foto in galleria', 'Supporto email'],
-    cta: 'Inizia gratis', popular: false,
-  },
-  {
-    name: 'Pro', price: '19,90', period: 'al mese',
-    features: ['Tutto del Base', 'Badge Pro', 'Priorità in zona', 'Statistiche avanzate', '20 foto galleria', 'Supporto prioritario'],
-    cta: 'Passa a Pro', popular: true,
-  },
-  {
-    name: 'Premium', price: '39,90', period: 'al mese',
-    features: ['Tutto del Pro', 'Badge Premium dorato', 'Sempre in cima', 'Galleria illimitata', 'Account manager 1-a-1', 'Report mensile'],
-    cta: 'Sblocca Premium', popular: false,
-  },
+  { name: 'Base', priceMonthly: 0, priceAnnual: 0, period: 'gratis per sempre', features: ['Profilo visibile', 'Ricezione richieste', '5 foto in galleria', 'Supporto email'], cta: 'Inizia gratis', popular: false },
+  { name: 'Pro', priceMonthly: 19.9, priceAnnual: 14.9, period: 'al mese', features: ['Tutto del Base', 'Badge Pro verificato', 'Priorità nei risultati', 'Statistiche avanzate', '20 foto galleria', 'Supporto prioritario'], cta: 'Passa a Pro', popular: true },
+  { name: 'Premium', priceMonthly: 39.9, priceAnnual: 29.9, period: 'al mese', features: ['Tutto del Pro', 'Badge Premium dorato', 'Sempre in cima', 'Galleria illimitata', 'Account manager 1-a-1', 'Report mensile dedicato'], cta: 'Sblocca Premium', popular: false },
 ];
 
 const FAQS = [
-  { q: 'Quanto costa usare TrovaPro come cliente?', a: 'È completamente gratuito. Non paghi commissioni, registrazione né costi nascosti. Paghi solo il professionista direttamente per il lavoro svolto.' },
-  { q: 'Come fate a verificare i professionisti?', a: 'Verifichiamo manualmente partita IVA, documenti e referenze prima di approvare ogni profilo. Il badge "Verificato" indica che il check è stato completato.' },
-  { q: 'Posso annullare un preventivo dopo averlo richiesto?', a: 'Sì, puoi annullare in qualsiasi momento prima di accettarlo. Il professionista riceverà una notifica automatica e la richiesta si chiuderà.' },
-  { q: 'Cosa succede se il lavoro non viene completato?', a: 'I pagamenti sono protetti da Stripe Connect: il professionista riceve i fondi solo dopo conferma del lavoro completato. In caso di problemi, il rimborso è automatico.' },
-  { q: 'Quanto tempo ci mette un professionista a rispondere?', a: 'In media meno di 2 ore per i preventivi standard, meno di 30 minuti per le emergenze. Vedi il tempo medio sul profilo di ogni professionista.' },
+  { cat: 'Generale', q: 'Quanto costa usare TrovaPro come cliente?', a: 'È completamente gratuito. Non paghi commissioni, registrazione né costi nascosti. Paghi solo il professionista direttamente per il lavoro svolto.' },
+  { cat: 'Sicurezza', q: 'Come fate a verificare i professionisti?', a: 'Verifichiamo manualmente partita IVA, documenti e referenze prima di approvare ogni profilo. Il badge "Verificato" indica che il check è stato completato.' },
+  { cat: 'Generale', q: 'Posso annullare un preventivo dopo averlo richiesto?', a: 'Sì, puoi annullare in qualsiasi momento prima di accettarlo. Il professionista riceverà una notifica automatica e la richiesta si chiuderà.' },
+  { cat: 'Pagamenti', q: 'Cosa succede se il lavoro non viene completato?', a: 'I pagamenti sono protetti da Stripe Connect: il professionista riceve i fondi solo dopo conferma del lavoro completato. In caso di problemi, il rimborso è automatico.' },
+  { cat: 'Tempi', q: 'Quanto tempo ci mette un professionista a rispondere?', a: 'In media meno di 2 ore per i preventivi standard, meno di 30 minuti per le emergenze. Vedi il tempo medio sul profilo di ogni professionista.' },
 ];
 
-// Sparkline component
 function Sparkline({ data, color = ink, height = 32, width = 80 }: { data: number[]; color?: string; height?: number; width?: number }) {
   const max = Math.max(...data);
   const min = Math.min(...data);
   const range = max - min || 1;
   const stepX = width / (data.length - 1);
   const points = data.map((v, i) => `${i * stepX},${height - ((v - min) / range) * height}`).join(' ');
+  const id = `spk-${color.replace('#', '')}-${data.length}`;
   return (
     <svg width={width} height={height} className="inline-block">
       <defs>
-        <linearGradient id={`spark-${color.replace('#', '')}`} x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="0.2" />
+        <linearGradient id={id} x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity="0.25" />
           <stop offset="100%" stopColor={color} stopOpacity="0" />
         </linearGradient>
       </defs>
       <polyline fill="none" stroke={color} strokeWidth="1.5" strokeLinejoin="round" points={points} />
-      <polygon fill={`url(#spark-${color.replace('#', '')})`} points={`0,${height} ${points} ${width},${height}`} />
+      <polygon fill={`url(#${id})`} points={`0,${height} ${points} ${width},${height}`} />
     </svg>
   );
 }
+
+const POPULAR_QUERIES = [
+  'Elettricista urgente', 'Idraulico h24', 'Imbianchino casa', 'Pulizie domestiche', 'Riparazione caldaia', 'Montaggio mobili',
+];
+
+const LIVE_ACTIVITY = [
+  { who: 'Anna M.', action: 'ha richiesto un elettricista', city: 'Roma', t: 'ora' },
+  { who: 'Marco T.', action: 'ha lasciato 5★ a Mario R.', city: 'Roma', t: '2m fa' },
+  { who: 'Sofia L.', action: 'ha completato un lavoro', city: 'Milano', t: '4m fa' },
+  { who: 'Luca B.', action: 'ha chiesto un preventivo', city: 'Torino', t: '6m fa' },
+  { who: 'Elena C.', action: 'ha valutato 5★ Giuseppe V.', city: 'Torino', t: '8m fa' },
+];
 
 export default function DesignPreviewPage() {
   return (
@@ -116,12 +95,15 @@ export default function DesignPreviewPage() {
         @keyframes pulse-glow { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
         @keyframes slide-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-        .glow-card {
-          position: relative;
-          isolation: isolate;
-          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+        @keyframes typing-dot { 0%, 60%, 100% { transform: scale(0.85); opacity: 0.4; } 30% { transform: scale(1.1); opacity: 1; } }
+        @keyframes draw-line {
+          from { stroke-dashoffset: 1000; }
+          to { stroke-dashoffset: 0; }
         }
+        @keyframes notif-in { 0% { transform: translateY(-12px) scale(0.9); opacity: 0; } 100% { transform: translateY(0) scale(1); opacity: 1; } }
+        @keyframes ticker-up { 0% { transform: translateY(100%); opacity: 0; } 20%, 80% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-100%); opacity: 0; } }
+
+        .glow-card { position: relative; isolation: isolate; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease; }
         .glow-card::before {
           content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
           background: linear-gradient(135deg, transparent 30%, rgba(0,112,243,0.5) 50%, transparent 70%);
@@ -154,7 +136,7 @@ export default function DesignPreviewPage() {
 
         .number-xl { font-feature-settings: "tnum"; letter-spacing: -0.06em; }
         .pulse-dot { animation: pulse-glow 2s ease-in-out infinite; }
-        .float { animation: float 4s ease-in-out infinite; }
+        .float { animation: float 5s ease-in-out infinite; }
 
         .conic-border { position: relative; background: white; border-radius: 16px; }
         .conic-border::before {
@@ -165,10 +147,7 @@ export default function DesignPreviewPage() {
           -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
         }
 
-        .cat-card {
-          position: relative; isolation: isolate; overflow: hidden;
-          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        .cat-card { position: relative; isolation: isolate; overflow: hidden; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .cat-card .cat-blob {
           position: absolute; bottom: -40px; right: -40px; width: 140px; height: 140px;
           border-radius: 50%; opacity: 0; transition: opacity 0.5s ease, transform 0.5s ease;
@@ -176,22 +155,20 @@ export default function DesignPreviewPage() {
         }
         .cat-card:hover { transform: translateY(-3px); }
         .cat-card:hover .cat-blob { opacity: 0.5; transform: scale(1); }
+        .cat-card .cat-arrow { opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; }
+        .cat-card:hover .cat-arrow { opacity: 1; transform: translate(2px, -2px); }
 
         details.faq[open] summary .faq-icon { transform: rotate(45deg); }
         details.faq summary { list-style: none; cursor: pointer; }
         details.faq summary::-webkit-details-marker { display: none; }
         details.faq .faq-icon { transition: transform 0.25s ease; }
+        details.faq[open] { box-shadow: 0 4px 16px rgba(0,0,0,0.04); }
 
-        .marquee { overflow: hidden; mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent); }
-        .marquee-track { display: flex; gap: 64px; animation: slide-marquee 30s linear infinite; width: max-content; }
-
-        .chip-active { background: ${ink}; color: white; }
+        .chip-active { background: ${ink}; color: white; border: 1px solid ${ink}; }
         .chip-default { background: white; color: ${ink}; border: 1px solid ${border}; }
 
         .plan-popular {
-          position: relative;
-          background: ${dark};
-          color: white;
+          position: relative; background: ${dark}; color: white;
           box-shadow: 0 30px 60px -20px rgba(0,112,243,0.4), 0 0 80px -20px rgba(123,97,255,0.3);
         }
         .plan-popular::before {
@@ -201,17 +178,88 @@ export default function DesignPreviewPage() {
           -webkit-mask-composite: xor; mask-composite: exclude;
           pointer-events: none;
         }
+
+        .typing-dot { animation: typing-dot 1.4s ease-in-out infinite; }
+        .typing-dot:nth-child(2) { animation-delay: 0.15s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.3s; }
+
+        .notif-pop { animation: notif-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.2s both; }
+
+        .live-ticker { position: relative; height: 32px; overflow: hidden; }
+        .live-ticker > * {
+          position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+          animation: ticker-up 12s ease-in-out infinite;
+        }
+        .live-ticker > *:nth-child(1) { animation-delay: 0s; }
+        .live-ticker > *:nth-child(2) { animation-delay: 2.4s; }
+        .live-ticker > *:nth-child(3) { animation-delay: 4.8s; }
+        .live-ticker > *:nth-child(4) { animation-delay: 7.2s; }
+        .live-ticker > *:nth-child(5) { animation-delay: 9.6s; }
+
+        .nav-link { position: relative; }
+        .nav-link::after {
+          content: ""; position: absolute; left: 50%; bottom: -4px; height: 1px; width: 0;
+          background: white; transition: all 0.3s ease;
+        }
+        .nav-link:hover::after { left: 0; width: 100%; }
+
+        .quick-chip {
+          transition: all 0.3s ease;
+          border: 1px solid rgba(255,255,255,0.08);
+        }
+        .quick-chip:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); transform: translateY(-1px); }
+
+        .section-divider {
+          height: 1px;
+          background: linear-gradient(90deg, transparent, ${border}, transparent);
+        }
+
+        .toggle-pill {
+          position: relative;
+          background: ${border};
+          border-radius: 999px;
+          padding: 4px;
+          display: inline-flex;
+        }
+        .toggle-pill button { position: relative; z-index: 1; padding: 6px 16px; font-size: 12px; font-weight: 500; color: ${subtle}; transition: color 0.3s ease; }
+        .toggle-pill .toggle-active { color: ${ink}; }
+        .toggle-bg {
+          position: absolute; top: 4px; bottom: 4px; left: 4px;
+          width: calc(50% - 4px);
+          background: white;
+          border-radius: 999px;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .trust-strip {
+          background: linear-gradient(90deg, transparent, rgba(0,0,0,0.02), transparent);
+        }
+
+        .feed-item:hover { background: rgba(0,112,243,0.04); }
+        .feed-item { transition: background 0.2s ease; }
+
+        .stat-card { transition: all 0.3s ease; position: relative; }
+        .stat-card:hover { background: ${surface}; }
+        .stat-card .stat-arrow { opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; }
+        .stat-card:hover .stat-arrow { opacity: 1; transform: translate(2px, -2px); }
+
+        .number-line {
+          width: 24px; height: 1px; background: ${border}; flex-shrink: 0;
+        }
+        .number-line-dark { background: rgba(255,255,255,0.15); }
       `}</style>
 
       {/* ───────── Notice ───────── */}
       <div style={{ background: dark, color: '#999' }} className="text-xs">
         <div className="max-w-[1280px] mx-auto px-6 py-2 flex items-center justify-between">
-          <span style={{ fontFamily: 'var(--font-mono)' }}>DESIGN PREVIEW · v0.6 · FULL</span>
+          <span style={{ fontFamily: 'var(--font-mono)' }}>DESIGN PREVIEW · v0.7 · POLISHED</span>
           <Link href="/" className="hover:text-white transition-colors">← Sito attuale</Link>
         </div>
       </div>
 
-      {/* ───────── Dark Hero (no change) ───────── */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* HERO                                                          */}
+      {/* ═══════════════════════════════════════════════════════════ */}
       <section className="relative overflow-hidden" style={{ background: dark }}>
         <div className="aurora" />
         <div className="absolute inset-0 grid-bg" />
@@ -226,10 +274,10 @@ export default function DesignPreviewPage() {
                 <span className="text-[15px] font-semibold tracking-tight text-white" style={{ letterSpacing: '-0.01em' }}>trovapro</span>
               </div>
               <nav className="hidden md:flex items-center gap-6 text-sm" style={{ color: '#999' }}>
-                <a className="hover:text-white transition-colors" href="#">Cerca</a>
-                <a className="hover:text-white transition-colors" href="#">Categorie</a>
-                <a className="hover:text-white transition-colors" href="#">Per professionisti</a>
-                <a className="hover:text-white transition-colors" href="#">Prezzi</a>
+                <a className="nav-link hover:text-white transition-colors" href="#">Cerca</a>
+                <a className="nav-link hover:text-white transition-colors" href="#">Categorie</a>
+                <a className="nav-link hover:text-white transition-colors" href="#">Per professionisti</a>
+                <a className="nav-link hover:text-white transition-colors" href="#">Prezzi</a>
               </nav>
             </div>
             <div className="flex items-center gap-2">
@@ -241,7 +289,7 @@ export default function DesignPreviewPage() {
           </div>
         </header>
 
-        <div className="relative z-10 max-w-[1280px] mx-auto px-6 pt-32 pb-40">
+        <div className="relative z-10 max-w-[1280px] mx-auto px-6 pt-24 pb-32">
           <div className="flex justify-center mb-12">
             <a href="#" className="conic-border inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs" style={{ background: 'rgba(255,255,255,0.04)' }}>
               <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold" style={{ background: accent, color: 'white', fontFamily: 'var(--font-mono)' }}>NEW</span>
@@ -275,6 +323,16 @@ export default function DesignPreviewPage() {
                 Cerca <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
+
+            {/* Quick chips */}
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+              <span className="text-[11px]" style={{ color: '#666', fontFamily: 'var(--font-mono)' }}>POPOLARI:</span>
+              {POPULAR_QUERIES.map((q) => (
+                <a key={q} href="#" className="quick-chip text-xs px-3 py-1 rounded-full" style={{ background: 'rgba(255,255,255,0.03)', color: 'rgba(255,255,255,0.7)' }}>
+                  {q}
+                </a>
+              ))}
+            </div>
           </div>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-xs" style={{ color: '#888' }}>
@@ -285,50 +343,102 @@ export default function DesignPreviewPage() {
               </span>
             ))}
           </div>
+
+          {/* Live ticker */}
+          <div className="mt-12 max-w-md mx-auto">
+            <div className="rounded-full px-4 py-1 flex items-center gap-3 text-xs" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <span className="pulse-dot w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: success, boxShadow: `0 0 8px ${success}` }} />
+              <span className="flex-shrink-0 text-[10px]" style={{ color: '#888', fontFamily: 'var(--font-mono)' }}>LIVE</span>
+              <div className="live-ticker flex-1">
+                {LIVE_ACTIVITY.map((a, i) => (
+                  <span key={i} className="text-[12px] whitespace-nowrap" style={{ color: '#bbb' }}>
+                    <span className="text-white">{a.who}</span> {a.action} · {a.city}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none" style={{ background: 'linear-gradient(to bottom, transparent, white)' }} />
       </section>
 
-      {/* ───────── Stats con sparkline + trend ───────── */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* STATS — asymmetric layout                                     */}
+      {/* ═══════════════════════════════════════════════════════════ */}
       <section className="relative bg-white">
         <div className="max-w-[1280px] mx-auto px-6 py-32">
-          <div className="grid md:grid-cols-4 gap-px rounded-2xl overflow-hidden" style={{ background: border }}>
-            {[
-              { value: '12.847', label: 'Lavori completati', sub: 'questo mese', trend: '+18%', spark: [40,45,50,52,58,60,68,72,75,82,88,95], color: accent },
-              { value: '4.8', label: 'Stelle medie', sub: 'su 5 — recensioni verificate', trend: '+0.2', spark: [4.5,4.6,4.6,4.7,4.7,4.8,4.7,4.8,4.8,4.9,4.8,4.8], color: '#FFB020' },
-              { value: '< 2h', label: 'Tempo di risposta', sub: 'media nazionale', trend: '−24m', spark: [180,165,155,140,130,125,118,112,108,102,98,95].reverse(), color: success },
-              { value: '98%', label: 'Tasso completamento', sub: 'lavori andati a fine', trend: '+3%', spark: [88,89,90,91,92,93,94,95,96,97,97,98], color: '#7B61FF' },
-            ].map((s, i) => (
-              <div key={i} className="bg-white p-8 lg:p-10 group hover:bg-neutral-50 transition-colors">
-                <div className="flex items-start justify-between mb-4">
-                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-md" style={{ background: `${s.color}15`, color: s.color, fontFamily: 'var(--font-mono)' }}>
-                    <TrendingUp className="w-3 h-3" />
-                    {s.trend}
-                  </span>
-                  <div className="opacity-50 group-hover:opacity-100 transition-opacity">
-                    <Sparkline data={s.spark} color={s.color} />
+          <div className="grid lg:grid-cols-[1fr_320px] gap-px rounded-2xl overflow-hidden" style={{ background: border }}>
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-px" style={{ background: border }}>
+              {[
+                { value: '12.847', label: 'Lavori completati', sub: 'questo mese', trend: '+18%', spark: [40,45,50,52,58,60,68,72,75,82,88,95], color: accent },
+                { value: '4.8', label: 'Stelle medie', sub: 'su 5 — recensioni verificate', trend: '+0.2', spark: [4.5,4.6,4.6,4.7,4.7,4.8,4.7,4.8,4.8,4.9,4.8,4.8], color: '#FFB020' },
+                { value: '< 2h', label: 'Tempo di risposta', sub: 'media nazionale', trend: '−24m', spark: [180,165,155,140,130,125,118,112,108,102,98,95].reverse(), color: success },
+                { value: '98%', label: 'Tasso completamento', sub: 'lavori andati a fine', trend: '+3%', spark: [88,89,90,91,92,93,94,95,96,97,97,98], color: '#7B61FF' },
+              ].map((s, i) => (
+                <div key={i} className="stat-card bg-white p-8 lg:p-10 relative">
+                  <div className="flex items-start justify-between mb-4">
+                    <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-md" style={{ background: `${s.color}15`, color: s.color, fontFamily: 'var(--font-mono)' }}>
+                      {s.trend.startsWith('−') ? <TrendingDown className="w-3 h-3" /> : <TrendingUp className="w-3 h-3" />}
+                      {s.trend}
+                    </span>
+                    <ArrowUpRight className="stat-arrow w-4 h-4" style={{ color: subtle }} />
+                  </div>
+                  <div className="text-5xl lg:text-6xl number-xl font-medium mb-2" style={{ color: ink }}>{s.value}</div>
+                  <div className="text-sm font-medium mb-1" style={{ color: ink }}>{s.label}</div>
+                  <div className="text-xs mb-4" style={{ color: subtle }}>{s.sub}</div>
+                  <div className="opacity-60"><Sparkline data={s.spark} color={s.color} width={120} height={28} /></div>
+                </div>
+              ))}
+            </div>
+
+            {/* Live activity feed */}
+            <div className="bg-white p-8" style={{ borderLeft: `1px solid ${border}` }}>
+              <div className="flex items-center justify-between mb-5">
+                <div>
+                  <div className="text-xs uppercase tracking-[0.15em]" style={{ color: ink, fontFamily: 'var(--font-mono)', fontWeight: 600 }}>
+                    Attività live
+                  </div>
+                  <div className="text-[10px] mt-1" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>
+                    AGGIORNATO IN TEMPO REALE
                   </div>
                 </div>
-                <div className="text-5xl lg:text-6xl number-xl font-medium mb-2" style={{ color: ink }}>
-                  {s.value}
-                </div>
-                <div className="text-sm font-medium mb-1" style={{ color: ink }}>{s.label}</div>
-                <div className="text-xs" style={{ color: subtle }}>{s.sub}</div>
+                <span className="pulse-dot w-2 h-2 rounded-full" style={{ background: success, boxShadow: `0 0 8px ${success}` }} />
               </div>
-            ))}
+
+              <div className="space-y-1">
+                {LIVE_ACTIVITY.slice(0, 5).map((a, i) => (
+                  <div key={i} className="feed-item rounded-lg p-2.5 flex items-start gap-3">
+                    <div className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-semibold text-white flex-shrink-0" style={{ background: ['#0070F3','#7B61FF','#00C896','#FFB020','#EF4444'][i] }}>
+                      {a.who.split(' ').map((s) => s[0]).join('')}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs leading-snug" style={{ color: ink }}>
+                        <span className="font-medium">{a.who}</span> <span style={{ color: subtle }}>{a.action}</span>
+                      </p>
+                      <p className="text-[10px] mt-0.5" style={{ color: fade, fontFamily: 'var(--font-mono)' }}>
+                        {a.city.toUpperCase()} · {a.t.toUpperCase()}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ───────── Categories grid ───────── */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* CATEGORIE                                                     */}
+      {/* ═══════════════════════════════════════════════════════════ */}
       <section className="bg-white pb-32">
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="flex items-end justify-between gap-6 mb-12 flex-wrap">
             <div className="max-w-xl">
-              <span className="text-xs uppercase tracking-[0.2em] block mb-4" style={{ color: accent, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>
-                ◆ Categorie
-              </span>
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-xs uppercase tracking-[0.2em]" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>01 ◆</span>
+                <span className="text-xs uppercase tracking-[0.2em]" style={{ color: accent, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>Categorie</span>
+              </div>
               <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-medium mb-3" style={{ color: ink }}>
                 Cosa stai cercando?
               </h2>
@@ -345,21 +455,26 @@ export default function DesignPreviewPage() {
             {CATEGORIES.map((c, i) => {
               const Icon = c.icon;
               return (
-                <a
-                  key={i}
-                  href={`#${c.slug}`}
-                  className="cat-card rounded-2xl p-5 bg-white block"
-                  style={{ border: `1px solid ${border}` }}
-                >
+                <a key={i} href={`#${c.slug}`} className="cat-card rounded-2xl p-5 bg-white block" style={{ border: `1px solid ${border}` }}>
                   <div className="cat-blob" style={{ background: c.gradient }} />
                   <div className="relative">
-                    <div className="w-10 h-10 rounded-xl mb-4 flex items-center justify-center" style={{ background: c.gradient }}>
-                      <Icon className="w-4 h-4 text-white" strokeWidth={2.25} />
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: c.gradient }}>
+                        <Icon className="w-4 h-4 text-white" strokeWidth={2.25} />
+                      </div>
+                      <ArrowUpRight className="cat-arrow w-3.5 h-3.5" style={{ color: subtle }} />
                     </div>
                     <h3 className="text-base font-medium tracking-[-0.01em]" style={{ color: ink }}>{c.name}</h3>
-                    <p className="text-xs mt-0.5" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>
-                      {c.count} pro
+                    <p className="text-xs mt-0.5 mb-3" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>
+                      {c.count} professionisti
                     </p>
+                    <div className="flex items-center justify-between text-[11px] pt-3 border-t" style={{ borderColor: border }}>
+                      <span style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>{c.avg}</span>
+                      <span className="inline-flex items-center gap-0.5" style={{ color: c.down ? '#EF4444' : success, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>
+                        {c.down ? <TrendingDown className="w-3 h-3" /> : <TrendingUp className="w-3 h-3" />}
+                        {c.trend}
+                      </span>
+                    </div>
                   </div>
                 </a>
               );
@@ -368,14 +483,17 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ───────── Featured pros: filter + 6 card ───────── */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* FEATURED PROS — spotlight + small cards                      */}
+      {/* ═══════════════════════════════════════════════════════════ */}
       <section className="relative pb-32" style={{ background: surface }}>
         <div className="max-w-[1280px] mx-auto px-6 pt-20">
           <div className="flex items-end justify-between gap-6 mb-10 flex-wrap">
             <div className="max-w-xl">
-              <span className="text-xs uppercase tracking-[0.2em] block mb-4" style={{ color: accent, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>
-                ◆ In evidenza
-              </span>
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-xs uppercase tracking-[0.2em]" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>02 ◆</span>
+                <span className="text-xs uppercase tracking-[0.2em]" style={{ color: accent, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>In evidenza</span>
+              </div>
               <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-medium mb-3" style={{ color: ink }}>
                 Professionisti consigliati.
               </h2>
@@ -388,86 +506,146 @@ export default function DesignPreviewPage() {
             </a>
           </div>
 
-          {/* Filter chips */}
           <div className="flex flex-wrap items-center gap-2 mb-8">
             <span className="chip-active text-xs px-3 py-1.5 rounded-full font-medium">Tutti</span>
-            {['Disponibili oggi', 'Premium', 'Top rated', 'Vicino a me'].map((c) => (
+            {['Disponibili oggi', 'Premium', 'Top rated', 'Vicino a me', 'Risposta rapida'].map((c) => (
               <span key={c} className="chip-default text-xs px-3 py-1.5 rounded-full font-medium hover:bg-neutral-50 cursor-pointer transition-colors">
                 {c}
               </span>
             ))}
             <span className="ml-auto text-xs" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>
-              {FEATURED.length} risultati
+              {FEATURED.length} risultati · ordinati per rilevanza
             </span>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {FEATURED.map((p, i) => (
-              <article
-                key={i}
-                className={`glow-card group bg-white rounded-2xl p-6 cursor-pointer ${p.plan === 'premium' ? 'premium-glow' : ''}`}
-                style={{ border: `1px solid ${border}` }}
-              >
-                <div className="flex items-start justify-between mb-6">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {p.plan === 'premium' && (
-                      <span className="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider font-semibold" style={{ background: ink, color: 'white', fontFamily: 'var(--font-mono)' }}>
-                        Premium
-                      </span>
-                    )}
-                    {p.plan === 'pro' && (
-                      <span className="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider font-semibold border" style={{ borderColor: border, color: ink, fontFamily: 'var(--font-mono)' }}>
-                        Pro
-                      </span>
-                    )}
-                    {p.available ? (
-                      <span className="flex items-center gap-1.5 text-[11px] font-medium" style={{ color: success }}>
-                        <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: success, boxShadow: `0 0 8px ${success}` }} />
-                        Online
-                      </span>
-                    ) : (
-                      <span className="flex items-center gap-1.5 text-[11px]" style={{ color: fade }}>
-                        <span className="w-1.5 h-1.5 rounded-full" style={{ background: fade }} />
-                        Occupato
-                      </span>
-                    )}
+          {/* Spotlight + 4 small */}
+          <div className="grid lg:grid-cols-[1.4fr_1fr_1fr] gap-4">
+            {/* Spotlight card */}
+            <article className="glow-card lg:row-span-2 group bg-white rounded-2xl overflow-hidden cursor-pointer relative premium-glow" style={{ border: `1px solid ${border}` }}>
+              <div className="relative h-48 overflow-hidden" style={{ background: `linear-gradient(135deg, ${FEATURED[0].avatar}, ${FEATURED[0].avatar}AA)` }}>
+                <div className="absolute inset-0 grid-bg opacity-20" />
+                <div className="absolute top-4 left-4 flex items-center gap-2">
+                  <span className="px-2 py-1 rounded text-[10px] uppercase tracking-wider font-semibold backdrop-blur-md" style={{ background: 'rgba(0,0,0,0.4)', color: 'white', fontFamily: 'var(--font-mono)' }}>
+                    ★ Spotlight
+                  </span>
+                  <span className="px-2 py-1 rounded text-[10px] uppercase tracking-wider font-semibold" style={{ background: ink, color: 'white', fontFamily: 'var(--font-mono)' }}>
+                    Premium
+                  </span>
+                </div>
+                <div className="absolute bottom-4 left-4 flex items-center gap-3">
+                  <div className="w-14 h-14 rounded-full flex items-center justify-center text-base font-semibold text-white border-2 border-white/30" style={{ background: '#fff', color: FEATURED[0].avatar }}>
+                    {FEATURED[0].initials}
                   </div>
-                  <ArrowUpRight className="w-5 h-5 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5" style={{ color: subtle }} />
+                </div>
+                <ArrowUpRight className="absolute top-4 right-4 w-5 h-5 text-white/80 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </div>
+              <div className="p-7">
+                <h3 className="text-3xl tracking-[-0.02em] font-medium mb-1 flex items-center gap-2" style={{ color: ink }}>
+                  {FEATURED[0].name}
+                  <BadgeCheck className="w-5 h-5" style={{ color: accent }} fill={accent} fillOpacity={0.15} strokeWidth={2} />
+                </h3>
+                <p className="text-sm mb-3" style={{ color: subtle }}>
+                  {FEATURED[0].category} · {FEATURED[0].city}
+                </p>
+
+                <div className="flex flex-wrap items-center gap-2 mb-6">
+                  <span className="flex items-center gap-1.5 text-[11px] font-medium px-2 py-0.5 rounded" style={{ color: success, background: '#E8F7F0' }}>
+                    <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: success }} />
+                    Online ora
+                  </span>
+                  <span className="text-[11px] inline-flex items-center gap-1 px-2 py-0.5 rounded" style={{ color: subtle, background: surface, fontFamily: 'var(--font-mono)' }}>
+                    <Bolt className="w-3 h-3" /> {FEATURED[0].responseTime}
+                  </span>
                 </div>
 
-                <h3 className="text-2xl tracking-[-0.02em] font-medium mb-1 flex items-center gap-2" style={{ color: ink }}>
-                  {p.name}
-                  <BadgeCheck className="w-4 h-4" style={{ color: accent }} fill={accent} fillOpacity={0.15} strokeWidth={2} />
-                </h3>
-                <p className="text-sm mb-2" style={{ color: subtle }}>
-                  {p.category} · {p.city}
+                <p className="text-sm leading-relaxed mb-6" style={{ color: ink }}>
+                  &ldquo;Elettricista qualificato con 15 anni di esperienza. Specializzato in impianti civili e industriali, domotica e certificazioni.&rdquo;
                 </p>
 
-                <p className="text-xs mb-6 inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md" style={{ color: success, background: '#E8F7F0', fontFamily: 'var(--font-mono)' }}>
-                  <Bolt className="w-3 h-3" /> Risponde in {p.responseTime}
-                </p>
-
-                <div className="grid grid-cols-3 gap-3 py-4 border-t" style={{ borderColor: border }}>
+                <div className="grid grid-cols-4 gap-3 py-5 border-t" style={{ borderColor: border }}>
                   <div>
-                    <div className="text-xl flex items-center gap-1 number-xl font-medium" style={{ color: ink }}>
-                      <Star className="w-3.5 h-3.5" fill={ink} strokeWidth={0} />
-                      {p.rating}
+                    <div className="text-2xl flex items-center gap-1 number-xl font-medium" style={{ color: ink }}>
+                      <Star className="w-4 h-4" fill={ink} strokeWidth={0} />
+                      {FEATURED[0].rating}
                     </div>
-                    <div className="text-[10px] uppercase tracking-wider mt-1" style={{ color: fade }}>{p.reviews} review</div>
+                    <div className="text-[10px] uppercase tracking-wider mt-1" style={{ color: fade }}>{FEATURED[0].reviews} review</div>
                   </div>
                   <div>
-                    <div className="text-xl number-xl font-medium" style={{ color: ink }}>{p.completedJobs}</div>
+                    <div className="text-2xl number-xl font-medium" style={{ color: ink }}>{FEATURED[0].completedJobs}</div>
                     <div className="text-[10px] uppercase tracking-wider mt-1" style={{ color: fade }}>Lavori</div>
                   </div>
                   <div>
-                    <div className="text-xl number-xl font-medium" style={{ color: ink }}>{p.distance}</div>
+                    <div className="text-2xl number-xl font-medium" style={{ color: ink }}>{FEATURED[0].distance}</div>
                     <div className="text-[10px] uppercase tracking-wider mt-1" style={{ color: fade }}>Distanza</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl number-xl font-medium" style={{ color: ink }}>{FEATURED[0].price.replace('/h','')}</div>
+                    <div className="text-[10px] uppercase tracking-wider mt-1" style={{ color: fade }}>al ora</div>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between mt-5 pt-5 border-t" style={{ borderColor: border }}>
-                  <span className="text-xs" style={{ color: subtle }}>Tariffa da</span>
-                  <span className="text-base number-xl font-medium" style={{ color: ink }}>{p.price}</span>
+                <div className="flex items-center gap-2 mt-5">
+                  <button className="flex-1 py-2.5 rounded-lg text-sm font-medium transition-all hover:opacity-90 flex items-center justify-center gap-1.5" style={{ background: ink, color: 'white' }}>
+                    Richiedi preventivo <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                  <button className="px-4 py-2.5 rounded-lg text-sm font-medium transition-all border hover:bg-neutral-50" style={{ borderColor: border, color: ink }}>
+                    Profilo
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            {/* Small cards */}
+            {FEATURED.slice(1, 5).map((p, i) => (
+              <article
+                key={i}
+                className={`glow-card group bg-white rounded-2xl p-5 cursor-pointer ${p.plan === 'premium' ? 'premium-glow' : ''}`}
+                style={{ border: `1px solid ${border}` }}
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold text-white flex-shrink-0" style={{ background: p.avatar }}>
+                      {p.initials}
+                    </div>
+                    {p.plan === 'premium' && (
+                      <span className="px-1.5 py-0.5 rounded text-[9px] uppercase tracking-wider font-semibold" style={{ background: ink, color: 'white', fontFamily: 'var(--font-mono)' }}>
+                        Premium
+                      </span>
+                    )}
+                  </div>
+                  <ArrowUpRight className="w-4 h-4 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5" style={{ color: subtle }} />
+                </div>
+
+                <h3 className="text-lg tracking-[-0.02em] font-medium mb-0.5 flex items-center gap-1.5" style={{ color: ink }}>
+                  {p.name}
+                  <BadgeCheck className="w-3.5 h-3.5" style={{ color: accent }} fill={accent} fillOpacity={0.15} strokeWidth={2} />
+                </h3>
+                <p className="text-xs mb-3" style={{ color: subtle }}>
+                  {p.category} · {p.city}
+                </p>
+
+                <div className="flex items-center gap-1.5 flex-wrap mb-4">
+                  {p.available ? (
+                    <span className="text-[10px] inline-flex items-center gap-1 px-1.5 py-0.5 rounded" style={{ color: success, background: '#E8F7F0' }}>
+                      <span className="pulse-dot w-1 h-1 rounded-full" style={{ background: success }} /> Online
+                    </span>
+                  ) : (
+                    <span className="text-[10px] inline-flex items-center gap-1 px-1.5 py-0.5 rounded" style={{ color: fade, background: surface }}>
+                      <span className="w-1 h-1 rounded-full" style={{ background: fade }} /> Occupato
+                    </span>
+                  )}
+                  <span className="text-[10px] inline-flex items-center gap-1" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>
+                    <Bolt className="w-2.5 h-2.5" /> {p.responseTime}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between pt-3 border-t text-xs" style={{ borderColor: border, fontFamily: 'var(--font-mono)' }}>
+                  <span className="inline-flex items-center gap-1" style={{ color: ink, fontWeight: 500 }}>
+                    <Star className="w-3 h-3" fill={ink} strokeWidth={0} /> {p.rating}
+                    <span style={{ color: subtle, fontWeight: 400 }}>({p.reviews})</span>
+                  </span>
+                  <span style={{ color: subtle }}>{p.distance}</span>
+                  <span style={{ color: ink, fontWeight: 500 }}>{p.price}</span>
                 </div>
               </article>
             ))}
@@ -475,20 +653,23 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ───────── Bento "Perché TrovaPro" potenziato ───────── */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* BENTO con chat typing + earnings widget                      */}
+      {/* ═══════════════════════════════════════════════════════════ */}
       <section className="bg-white py-32">
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs uppercase tracking-[0.2em] block mb-4" style={{ color: accent, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>
-              ◆ Perché TrovaPro
-            </span>
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="text-xs uppercase tracking-[0.2em]" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>03 ◆</span>
+              <span className="text-xs uppercase tracking-[0.2em]" style={{ color: accent, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>Perché TrovaPro</span>
+            </div>
             <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-medium" style={{ color: ink }}>
               Tutto quello che ti serve, niente che non ti serve.
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Big dark card with chat mockup */}
+            {/* Big dark card */}
             <div className="md:col-span-2 md:row-span-2 glow-card rounded-2xl p-10 relative overflow-hidden" style={{ background: dark, color: 'white', border: `1px solid ${dark}` }}>
               <div className="absolute inset-0 grid-bg opacity-50" />
               <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full" style={{ background: `radial-gradient(circle, ${accent}40, transparent 60%)`, filter: 'blur(60px)' }} />
@@ -505,13 +686,19 @@ export default function DesignPreviewPage() {
                   Niente attese, niente call center. I professionisti ti rispondono direttamente con preventivi dettagliati.
                 </p>
 
-                {/* Mini chat mockup */}
                 <div className="rounded-xl p-4 backdrop-blur-sm max-w-sm" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
                   <div className="flex items-center gap-2 mb-3 pb-3 border-b" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
                     <div className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-semibold" style={{ background: accent, color: 'white' }}>MR</div>
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-medium truncate">Mario Rossi</p>
-                      <p className="text-[10px]" style={{ color: '#888' }}>Elettricista · sta scrivendo…</p>
+                      <p className="text-[10px] flex items-center gap-1" style={{ color: '#888' }}>
+                        Elettricista · sta scrivendo
+                        <span className="inline-flex gap-0.5 ml-0.5">
+                          <span className="typing-dot w-1 h-1 rounded-full" style={{ background: '#888' }} />
+                          <span className="typing-dot w-1 h-1 rounded-full" style={{ background: '#888' }} />
+                          <span className="typing-dot w-1 h-1 rounded-full" style={{ background: '#888' }} />
+                        </span>
+                      </p>
                     </div>
                     <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: success, boxShadow: `0 0 8px ${success}` }} />
                   </div>
@@ -534,7 +721,7 @@ export default function DesignPreviewPage() {
             </div>
 
             {[
-              { icon: Lock, title: 'Pagamento sicuro', desc: 'Versiamo i fondi al professionista solo a lavoro completato. Protezione Stripe Connect.' },
+              { icon: Lock, title: 'Pagamento sicuro', desc: 'I fondi vengono versati solo a lavoro completato. Protezione Stripe Connect.' },
               { icon: BadgeCheck, title: 'P.IVA verificate', desc: 'Ogni professionista è verificato manualmente dal nostro team.' },
               { icon: MessageSquare, title: 'Chat integrata', desc: 'Comunichi direttamente, senza scambiare numeri di telefono.' },
               { icon: Sparkles, title: 'Recensioni reali', desc: 'Solo chi ha completato un lavoro può lasciare una recensione.' },
@@ -554,26 +741,50 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ───────── Testimonials ───────── */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* TESTIMONIALS + Trustpilot                                     */}
+      {/* ═══════════════════════════════════════════════════════════ */}
       <section className="bg-white pb-32 border-t" style={{ borderColor: border }}>
         <div className="max-w-[1280px] mx-auto px-6 pt-32">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs uppercase tracking-[0.2em] block mb-4" style={{ color: accent, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>
-              ◆ Testimonianze
-            </span>
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="text-xs uppercase tracking-[0.2em]" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>04 ◆</span>
+              <span className="text-xs uppercase tracking-[0.2em]" style={{ color: accent, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>Testimonianze</span>
+            </div>
             <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-medium" style={{ color: ink }}>
               Le storie di chi ha già scelto TrovaPro.
             </h2>
           </div>
 
+          {/* Trustpilot bar */}
+          <div className="mb-12 max-w-2xl mx-auto rounded-2xl p-5 flex items-center justify-center gap-6 flex-wrap" style={{ background: surface, border: `1px solid ${border}` }}>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded flex items-center justify-center font-bold text-white text-xs" style={{ background: '#00B67A' }}>★</div>
+              <span className="text-sm font-medium" style={{ color: ink }}>Trustpilot</span>
+            </div>
+            <div className="flex items-center gap-1">
+              {[1,2,3,4,5].map((i) => (
+                <div key={i} className="w-6 h-6 rounded-sm flex items-center justify-center" style={{ background: '#00B67A' }}>
+                  <Star className="w-3.5 h-3.5 text-white" fill="white" strokeWidth={0} />
+                </div>
+              ))}
+            </div>
+            <div className="flex items-baseline gap-1">
+              <span className="text-xl font-medium number-xl" style={{ color: ink }}>4.7</span>
+              <span className="text-xs" style={{ color: subtle }}>/5 — basato su <span className="font-medium" style={{ color: ink }}>2.143</span> recensioni</span>
+            </div>
+            <a className="text-xs flex items-center gap-1 underline ml-auto" style={{ color: subtle }} href="#">Vedi tutte <ArrowUpRight className="w-3 h-3" /></a>
+          </div>
+
           <div className="grid md:grid-cols-3 gap-5">
             {TESTIMONIALS.map((t, i) => (
               <div key={i} className="glow-card relative rounded-2xl p-7 bg-white" style={{ border: `1px solid ${border}` }}>
-                <Quote className="absolute top-7 right-7 w-7 h-7" style={{ color: border }} fill={border} strokeWidth={0} />
+                <Quote className="absolute top-6 right-6 w-7 h-7" style={{ color: border }} fill={border} strokeWidth={0} />
                 <div className="flex items-center gap-1 mb-5">
                   {Array.from({ length: 5 }).map((_, j) => (
                     <Star key={j} className="w-4 h-4" fill="#FFB020" strokeWidth={0} />
                   ))}
+                  <span className="ml-2 text-[10px]" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>VERIFICATA</span>
                 </div>
                 <p className="text-[15px] leading-relaxed mb-6" style={{ color: ink }}>
                   &ldquo;{t.quote}&rdquo;
@@ -582,10 +793,11 @@ export default function DesignPreviewPage() {
                   <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold text-white" style={{ background: t.color }}>
                     {t.avatar}
                   </div>
-                  <div>
-                    <p className="text-sm font-medium" style={{ color: ink }}>{t.name}</p>
-                    <p className="text-xs" style={{ color: subtle }}>{t.role}</p>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium truncate" style={{ color: ink }}>{t.name}</p>
+                    <p className="text-xs truncate" style={{ color: subtle }}>{t.role}</p>
                   </div>
+                  <BadgeCheck className="w-4 h-4 flex-shrink-0" style={{ color: accent }} fill={accent} fillOpacity={0.15} />
                 </div>
               </div>
             ))}
@@ -593,13 +805,16 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ───────── Pricing ───────── */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* PRICING con toggle                                            */}
+      {/* ═══════════════════════════════════════════════════════════ */}
       <section className="bg-white pb-32 border-t" style={{ borderColor: border }}>
         <div className="max-w-[1280px] mx-auto px-6 pt-32">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs uppercase tracking-[0.2em] block mb-4" style={{ color: accent, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>
-              ◆ Piani per professionisti
-            </span>
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="text-xs uppercase tracking-[0.2em]" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>05 ◆</span>
+              <span className="text-xs uppercase tracking-[0.2em]" style={{ color: accent, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>Piani</span>
+            </div>
             <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-medium mb-4" style={{ color: ink }}>
               Inizia gratis. Cresci quando vuoi.
             </h2>
@@ -608,41 +823,52 @@ export default function DesignPreviewPage() {
             </p>
           </div>
 
+          {/* Toggle mensile/annuale */}
+          <div className="flex items-center justify-center gap-3 mb-12">
+            <div className="toggle-pill">
+              <span className="toggle-bg" />
+              <button className="toggle-active">Mensile</button>
+              <button>Annuale</button>
+            </div>
+            <span className="text-xs px-2 py-0.5 rounded inline-flex items-center gap-1" style={{ background: '#E8F7F0', color: success, fontFamily: 'var(--font-mono)' }}>
+              <Sparkles className="w-3 h-3" /> Risparmia fino al 25%
+            </span>
+          </div>
+
           <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto">
             {PLANS.map((p, i) => (
-              <div
-                key={i}
-                className={`relative rounded-2xl p-7 ${p.popular ? 'plan-popular' : 'bg-white'}`}
-                style={{ border: p.popular ? '1px solid transparent' : `1px solid ${border}` }}
-              >
+              <div key={i} className={`relative rounded-2xl p-7 ${p.popular ? 'plan-popular' : 'bg-white'}`} style={{ border: p.popular ? '1px solid transparent' : `1px solid ${border}` }}>
                 {p.popular && (
-                  <span
-                    className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider"
-                    style={{ background: accent, color: 'white', fontFamily: 'var(--font-mono)' }}
-                  >
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider" style={{ background: accent, color: 'white', fontFamily: 'var(--font-mono)' }}>
                     Più scelto
                   </span>
                 )}
 
-                <h3 className="text-base font-medium mb-1" style={{ color: p.popular ? 'white' : ink, fontFamily: 'var(--font-mono)' }}>
-                  {p.name.toUpperCase()}
-                </h3>
+                <div className="flex items-center justify-between mb-1">
+                  <h3 className="text-base font-medium" style={{ color: p.popular ? 'white' : ink, fontFamily: 'var(--font-mono)' }}>
+                    {p.name.toUpperCase()}
+                  </h3>
+                  {p.popular && <Sparkles className="w-4 h-4" style={{ color: accent }} fill={accent} fillOpacity={0.3} />}
+                </div>
                 <p className="text-xs mb-6" style={{ color: p.popular ? '#999' : subtle }}>
                   {p.period}
                 </p>
 
-                <div className="flex items-baseline gap-1 mb-7">
+                <div className="flex items-baseline gap-1 mb-1">
                   <span className="text-xs" style={{ color: p.popular ? '#999' : subtle }}>€</span>
                   <span className="text-5xl number-xl font-medium" style={{ color: p.popular ? 'white' : ink }}>
-                    {p.price}
+                    {p.priceMonthly === 0 ? '0' : p.priceMonthly.toString().replace('.', ',')}
                   </span>
-                  {p.price !== '0' && <span className="text-xs" style={{ color: p.popular ? '#999' : subtle }}>/mese</span>}
+                  {p.priceMonthly !== 0 && <span className="text-xs" style={{ color: p.popular ? '#999' : subtle }}>/mese</span>}
                 </div>
+                {p.priceMonthly !== 0 && (
+                  <p className="text-[11px] mb-7" style={{ color: p.popular ? '#7AA8FF' : accent, fontFamily: 'var(--font-mono)' }}>
+                    o €{p.priceAnnual.toString().replace('.', ',')}/m con piano annuale
+                  </p>
+                )}
+                {p.priceMonthly === 0 && <div className="mb-7" />}
 
-                <button
-                  className="w-full py-2.5 rounded-lg text-sm font-medium transition-all hover:opacity-90 mb-7"
-                  style={{ background: p.popular ? 'white' : ink, color: p.popular ? dark : 'white' }}
-                >
+                <button className="w-full py-2.5 rounded-lg text-sm font-medium transition-all hover:opacity-90 mb-7" style={{ background: p.popular ? 'white' : ink, color: p.popular ? dark : 'white' }}>
                   {p.cta}
                 </button>
 
@@ -657,17 +883,24 @@ export default function DesignPreviewPage() {
               </div>
             ))}
           </div>
+
+          <p className="text-xs text-center mt-10" style={{ color: subtle }}>
+            Tutti i piani includono cancellazione gratuita in qualsiasi momento. Nessun vincolo.
+          </p>
         </div>
       </section>
 
-      {/* ───────── FAQ accordion ───────── */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* FAQ con categorie + search                                    */}
+      {/* ═══════════════════════════════════════════════════════════ */}
       <section className="bg-white pb-32 border-t" style={{ borderColor: border }}>
         <div className="max-w-[1280px] mx-auto px-6 pt-32">
           <div className="grid md:grid-cols-[1fr_2fr] gap-12">
             <div>
-              <span className="text-xs uppercase tracking-[0.2em] block mb-4" style={{ color: accent, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>
-                ◆ Domande frequenti
-              </span>
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-xs uppercase tracking-[0.2em]" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>06 ◆</span>
+                <span className="text-xs uppercase tracking-[0.2em]" style={{ color: accent, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>FAQ</span>
+              </div>
               <h2 className="text-4xl tracking-[-0.04em] font-medium mb-4" style={{ color: ink }}>
                 Tutto quello che vuoi sapere.
               </h2>
@@ -680,35 +913,61 @@ export default function DesignPreviewPage() {
               </a>
             </div>
 
-            <div className="space-y-3">
-              {FAQS.map((f, i) => (
-                <details key={i} className="faq group rounded-xl bg-white open:shadow-[0_4px_16px_rgba(0,0,0,0.04)] transition-shadow" style={{ border: `1px solid ${border}` }}>
-                  <summary className="flex items-center justify-between gap-4 p-5">
-                    <h3 className="text-[15px] font-medium tracking-[-0.01em] flex-1" style={{ color: ink }}>
-                      {f.q}
-                    </h3>
-                    <Plus className="faq-icon w-4 h-4 flex-shrink-0" style={{ color: subtle }} strokeWidth={2} />
-                  </summary>
-                  <div className="px-5 pb-5 -mt-1">
-                    <p className="text-sm leading-relaxed" style={{ color: subtle }}>{f.a}</p>
-                  </div>
-                </details>
-              ))}
+            <div>
+              {/* Search FAQ */}
+              <div className="mb-6 rounded-xl p-1.5 flex items-center gap-2" style={{ background: 'white', border: `1px solid ${border}` }}>
+                <Search className="w-4 h-4 ml-2" style={{ color: subtle }} />
+                <input placeholder="Cerca tra le FAQ…" className="bg-transparent outline-none text-sm flex-1 py-1.5 placeholder:text-neutral-400" style={{ color: ink }} />
+                <span className="text-[10px] mr-2 px-1.5 py-0.5 rounded" style={{ background: surface, color: subtle, fontFamily: 'var(--font-mono)' }}>⌘K</span>
+              </div>
+
+              {/* Categories */}
+              <div className="flex flex-wrap items-center gap-2 mb-6">
+                {['Tutte', 'Generale', 'Pagamenti', 'Sicurezza', 'Tempi'].map((c, i) => (
+                  <span key={c} className={`text-xs px-3 py-1.5 rounded-full font-medium cursor-pointer transition-colors ${i === 0 ? 'chip-active' : 'chip-default hover:bg-neutral-50'}`}>
+                    {c}
+                  </span>
+                ))}
+              </div>
+
+              <div className="space-y-3">
+                {FAQS.map((f, i) => (
+                  <details key={i} className="faq group rounded-xl bg-white transition-shadow" style={{ border: `1px solid ${border}` }}>
+                    <summary className="flex items-center justify-between gap-4 p-5">
+                      <div className="flex items-start gap-3 flex-1 min-w-0">
+                        <span className="text-[10px] px-1.5 py-0.5 rounded mt-1 flex-shrink-0" style={{ background: surface, color: subtle, fontFamily: 'var(--font-mono)' }}>
+                          {f.cat.toUpperCase()}
+                        </span>
+                        <h3 className="text-[15px] font-medium tracking-[-0.01em] flex-1" style={{ color: ink }}>
+                          {f.q}
+                        </h3>
+                      </div>
+                      <Plus className="faq-icon w-4 h-4 flex-shrink-0" style={{ color: subtle }} strokeWidth={2} />
+                    </summary>
+                    <div className="px-5 pb-5 -mt-1">
+                      <p className="text-sm leading-relaxed pl-[68px]" style={{ color: subtle }}>{f.a}</p>
+                    </div>
+                  </details>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ───────── Pro CTA con dashboard mockup ───────── */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* PRO CTA + dashboard mockup + notifica live                   */}
+      {/* ═══════════════════════════════════════════════════════════ */}
       <section className="relative overflow-hidden" style={{ background: dark }}>
         <div className="aurora" style={{ opacity: 0.6 }} />
 
         <div className="relative max-w-[1280px] mx-auto px-6 py-32">
           <div className="grid lg:grid-cols-[1fr_1.1fr] gap-16 items-center">
             <div>
-              <span className="text-xs uppercase tracking-[0.2em] block mb-5" style={{ color: '#7AA8FF', fontFamily: 'var(--font-mono)', fontWeight: 500 }}>
-                ◆ Per professionisti
-              </span>
+              <div className="flex items-center gap-3 mb-5">
+                <span className="text-xs uppercase tracking-[0.2em]" style={{ color: '#666', fontFamily: 'var(--font-mono)' }}>07 ◆</span>
+                <span className="text-xs uppercase tracking-[0.2em]" style={{ color: '#7AA8FF', fontFamily: 'var(--font-mono)', fontWeight: 500 }}>Per professionisti</span>
+              </div>
               <h2 className="font-medium tracking-[-0.05em]" style={{ fontSize: 'clamp(48px, 6vw, 72px)', lineHeight: 0.95 }}>
                 <span className="gradient-text">Più clienti.</span><br />
                 <span className="accent-text">Meno fatica.</span>
@@ -742,13 +1001,24 @@ export default function DesignPreviewPage() {
               </div>
             </div>
 
-            {/* Dashboard mockup */}
+            {/* Dashboard mockup with notification floating */}
             <div className="relative float">
               <div className="absolute inset-0 -z-10 rounded-3xl" style={{ background: `radial-gradient(50% 50% at 50% 50%, ${accent}40, transparent 70%)`, filter: 'blur(60px)' }} />
 
+              {/* Floating notification */}
+              <div className="notif-pop absolute -top-6 -right-4 z-10 rounded-xl p-3.5 backdrop-blur-xl flex items-center gap-3 max-w-[260px]" style={{ background: 'rgba(255,255,255,0.95)', boxShadow: '0 20px 50px -10px rgba(0,0,0,0.4)' }}>
+                <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: `${accent}15` }}>
+                  <Bell className="w-4 h-4" style={{ color: accent }} fill={accent} fillOpacity={0.2} strokeWidth={2} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-semibold mb-0.5" style={{ color: ink }}>Nuova richiesta!</p>
+                  <p className="text-[10px] truncate" style={{ color: subtle }}>Anna M. · Impianto cucina · Roma</p>
+                </div>
+                <span className="pulse-dot w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: accent, boxShadow: `0 0 8px ${accent}` }} />
+              </div>
+
               <div className="rounded-2xl p-2 backdrop-blur-xl" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
                 <div className="rounded-xl overflow-hidden" style={{ background: '#0F0F0F' }}>
-                  {/* Window chrome */}
                   <div className="flex items-center gap-2 px-4 py-2.5 border-b" style={{ borderColor: borderDark }}>
                     <div className="flex gap-1.5">
                       <span className="w-2.5 h-2.5 rounded-full" style={{ background: '#FF5F57' }} />
@@ -762,36 +1032,44 @@ export default function DesignPreviewPage() {
 
                   <div className="p-5">
                     <div className="flex items-center justify-between mb-5">
-                      <h4 className="text-sm text-white font-medium">Buongiorno, Mario</h4>
-                      <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: success + '20', color: success, fontFamily: 'var(--font-mono)' }}>
-                        +18% MESE
+                      <div>
+                        <h4 className="text-sm text-white font-medium">Buongiorno, Mario</h4>
+                        <p className="text-[10px] mt-0.5" style={{ color: '#666', fontFamily: 'var(--font-mono)' }}>
+                          <Calendar className="w-3 h-3 inline mr-1" />
+                          MARTEDÌ, 6 MAGGIO
+                        </p>
+                      </div>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded inline-flex items-center gap-1" style={{ background: success + '20', color: success, fontFamily: 'var(--font-mono)' }}>
+                        <TrendingUp className="w-2.5 h-2.5" /> +18% MESE
                       </span>
                     </div>
 
-                    {/* KPI row */}
                     <div className="grid grid-cols-3 gap-2 mb-5">
                       {[
-                        { v: '€3.420', l: 'Fatturato' },
-                        { v: '24', l: 'Lead' },
-                        { v: '4.9', l: 'Rating' },
+                        { v: '€3.420', l: 'Fatturato', c: success },
+                        { v: '24', l: 'Lead', c: accent },
+                        { v: '4.9', l: 'Rating', c: '#FFB020' },
                       ].map((k, i) => (
                         <div key={i} className="rounded-lg p-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
                           <div className="text-base text-white font-medium number-xl">{k.v}</div>
-                          <div className="text-[10px]" style={{ color: '#888' }}>{k.l}</div>
+                          <div className="text-[10px] mt-0.5 inline-flex items-center gap-1" style={{ color: '#888' }}>
+                            <span className="w-1 h-1 rounded-full" style={{ background: k.c }} />
+                            {k.l}
+                          </div>
                         </div>
                       ))}
                     </div>
 
-                    {/* Mini chart */}
                     <div className="rounded-lg p-3 mb-5" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
                       <div className="flex items-center justify-between mb-3">
-                        <span className="text-[10px]" style={{ color: '#888', fontFamily: 'var(--font-mono)' }}>VISUALIZZAZIONI</span>
-                        <span className="text-[10px]" style={{ color: success, fontFamily: 'var(--font-mono)' }}>+24%</span>
+                        <span className="text-[10px]" style={{ color: '#888', fontFamily: 'var(--font-mono)' }}>VISUALIZZAZIONI · 30G</span>
+                        <span className="text-[10px] inline-flex items-center gap-1" style={{ color: success, fontFamily: 'var(--font-mono)' }}>
+                          <TrendingUp className="w-2.5 h-2.5" /> +24%
+                        </span>
                       </div>
                       <Sparkline data={[12,18,22,15,28,32,38,35,42,48,45,52]} color={accent} height={48} width={280} />
                     </div>
 
-                    {/* Recent leads */}
                     <div className="space-y-2">
                       {[
                         { n: 'Anna M.', d: 'Impianto cucina', t: '2m fa', dot: success },
@@ -799,7 +1077,7 @@ export default function DesignPreviewPage() {
                         { n: 'Laura S.', d: 'Domotica', t: '1h fa', dot: subtle },
                       ].map((l, i) => (
                         <div key={i} className="flex items-center gap-3 rounded-lg p-2.5" style={{ background: 'rgba(255,255,255,0.02)' }}>
-                          <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: l.dot }} />
+                          <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: l.dot, boxShadow: i === 0 ? `0 0 8px ${l.dot}` : 'none' }} />
                           <div className="flex-1 min-w-0">
                             <p className="text-xs text-white truncate">{l.n}</p>
                             <p className="text-[10px] truncate" style={{ color: '#888' }}>{l.d}</p>
@@ -816,9 +1094,40 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ───────── Footer ───────── */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* FOOTER con newsletter + trust badges                          */}
+      {/* ═══════════════════════════════════════════════════════════ */}
       <footer className="bg-white border-t" style={{ borderColor: border }}>
-        <div className="max-w-[1280px] mx-auto px-6 py-16">
+        <div className="max-w-[1280px] mx-auto px-6 pt-20 pb-12">
+          {/* Newsletter strip */}
+          <div className="rounded-2xl p-8 lg:p-12 mb-16 grid md:grid-cols-[1.4fr_1fr] gap-8 items-center" style={{ background: surface, border: `1px solid ${border}` }}>
+            <div>
+              <h3 className="text-2xl tracking-[-0.02em] font-medium mb-2" style={{ color: ink }}>
+                La newsletter dei professionisti.
+              </h3>
+              <p className="text-sm" style={{ color: subtle }}>
+                Ogni 2 settimane: novità, consigli, casi studio. Niente spam, cancellazione in 1 click.
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="flex-1 rounded-lg p-1 flex items-center" style={{ background: 'white', border: `1px solid ${border}` }}>
+                <Mail className="w-4 h-4 ml-2 mr-2 flex-shrink-0" style={{ color: subtle }} />
+                <input placeholder="tu@email.it" className="bg-transparent outline-none text-sm flex-1 py-2 placeholder:text-neutral-400" style={{ color: ink }} />
+              </div>
+              <button className="px-4 py-2.5 rounded-lg text-sm font-medium transition-all hover:opacity-90 flex items-center gap-1.5" style={{ background: ink, color: 'white' }}>
+                Iscriviti <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Trust badges strip */}
+          <div className="trust-strip rounded-xl py-5 mb-12 flex items-center justify-center gap-x-10 gap-y-3 flex-wrap">
+            <span className="text-[11px] uppercase tracking-[0.2em] font-medium" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>VISTI SU</span>
+            {['IL SOLE 24 ORE', 'CORRIERE', 'WIRED IT', 'ECONOMYUP', 'STARTUP ITALIA'].map((m, i) => (
+              <span key={i} className="text-sm font-semibold" style={{ color: subtle, opacity: 0.5, letterSpacing: '0.02em' }}>{m}</span>
+            ))}
+          </div>
+
           <div className="grid md:grid-cols-[2fr_1fr_1fr_1fr_1fr] gap-12 mb-16">
             <div className="max-w-xs">
               <div className="flex items-center gap-2 mb-4">
@@ -831,18 +1140,11 @@ export default function DesignPreviewPage() {
                 Il modo più semplice di trovare professionisti qualificati nella tua zona. Verificati, valutati, pronti a partire.
               </p>
               <div className="flex items-center gap-2">
-                <a className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-neutral-100" style={{ border: `1px solid ${border}`, color: ink }}>
-                  <Twitter className="w-3.5 h-3.5" strokeWidth={1.75} />
-                </a>
-                <a className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-neutral-100" style={{ border: `1px solid ${border}`, color: ink }}>
-                  <Instagram className="w-3.5 h-3.5" strokeWidth={1.75} />
-                </a>
-                <a className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-neutral-100" style={{ border: `1px solid ${border}`, color: ink }}>
-                  <Linkedin className="w-3.5 h-3.5" strokeWidth={1.75} />
-                </a>
-                <a className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-neutral-100" style={{ border: `1px solid ${border}`, color: ink }}>
-                  <Mail className="w-3.5 h-3.5" strokeWidth={1.75} />
-                </a>
+                {[Twitter, Instagram, Linkedin, Mail].map((Icon, i) => (
+                  <a key={i} className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-neutral-100" style={{ border: `1px solid ${border}`, color: ink }}>
+                    <Icon className="w-3.5 h-3.5" strokeWidth={1.75} />
+                  </a>
+                ))}
               </div>
             </div>
 
@@ -870,11 +1172,12 @@ export default function DesignPreviewPage() {
           <div className="flex items-center justify-between flex-wrap gap-4 pt-8 border-t text-xs" style={{ borderColor: border, color: subtle }}>
             <div className="flex items-center gap-4">
               <span style={{ fontFamily: 'var(--font-mono)' }}>© 2026 TrovaPro · P.IVA 12345678901</span>
+              <span className="hidden md:inline">·</span>
+              <a className="hidden md:inline hover:text-black transition-colors">Sitemap</a>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-5">
               <span className="flex items-center gap-1.5">
-                <Globe className="w-3 h-3" />
-                Italia
+                <Globe className="w-3 h-3" /> Italia (IT)
               </span>
               <span className="flex items-center gap-1.5">
                 <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: success }} />
@@ -886,7 +1189,7 @@ export default function DesignPreviewPage() {
 
         <div className="border-t" style={{ borderColor: border, background: surface }}>
           <div className="max-w-[1280px] mx-auto px-6 py-4 text-center text-xs" style={{ color: subtle }}>
-            v0.6 · Montserrat · Hero dark · Stats sparkline · Categories · Featured · Bento + chat · Testimonials · Pricing · FAQ · Pro CTA + dashboard mockup ·{' '}
+            v0.7 · Polished + activity feed + spotlight + typing chat + toggle pricing + faq cat ·{' '}
             <Link href="/" style={{ color: ink, fontWeight: 500 }}>Torna al sito attuale →</Link>
           </div>
         </div>
