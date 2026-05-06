@@ -6,20 +6,20 @@ import {
   Twitter, Instagram, Linkedin, Mail, Globe, Bell, Calendar,
 } from 'lucide-react';
 
-// ── Light corporate palette (iodentista-inspired) ──
+// Light tokens
 const ink = '#0A0A0A';
-const ink2 = '#1A1A1A';
 const subtle = '#6B7280';
 const fade = '#9CA3AF';
-const text = '#0A0A0A';
 const surface = '#FAFAFA';
-const surface2 = '#F5F5F5';
 const border = '#E5E5E5';
 const borderStrong = '#D4D4D4';
 
-// Dark sections (header/footer/highlight bands)
-const dark = '#0A0A0A';
-const dark2 = '#111111';
+// Dark tokens
+const dark = '#050505';
+const dark2 = '#0A0A0A';
+const dark3 = '#0F0F0F';
+const cardBgD = 'rgba(255,255,255,0.03)';
+const cardBgDHover = 'rgba(255,255,255,0.05)';
 const borderD = 'rgba(255,255,255,0.08)';
 const borderD2 = 'rgba(255,255,255,0.14)';
 const subtleD = '#888';
@@ -33,6 +33,7 @@ const accentLight = '#3B92FF';
 const accentSoft = '#EFF4FF';
 const violet = '#7B61FF';
 const success = '#16A34A';
+const successD = '#22C55E';
 const successSoft = '#ECFDF5';
 const warning = '#F59E0B';
 
@@ -104,7 +105,7 @@ function Sparkline({ data, color = accent, height = 32, width = 80 }: { data: nu
 
 export default function DesignPreviewPage() {
   return (
-    <main style={{ background: '#FFFFFF', color: text }}>
+    <main>
       <style>{`
         @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes pulse-glow { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
@@ -113,7 +114,7 @@ export default function DesignPreviewPage() {
         @keyframes notif-in { 0% { transform: translateY(-12px) scale(0.9); opacity: 0; } 100% { transform: translateY(0) scale(1); opacity: 1; } }
         @keyframes ticker-up { 0% { transform: translateY(100%); opacity: 0; } 20%, 80% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-100%); opacity: 0; } }
 
-        /* ─── Light card ─── */
+        /* ─── Light cards ─── */
         .light-card {
           background: white;
           border: 1px solid ${border};
@@ -122,43 +123,61 @@ export default function DesignPreviewPage() {
         .light-card:hover {
           transform: translateY(-2px);
           border-color: ${accent};
-          box-shadow: 0 12px 32px -12px rgba(0,112,243,0.18), 0 0 0 1px rgba(0,112,243,0.1);
+          box-shadow: 0 12px 32px -12px rgba(0,112,243,0.18);
         }
-        .premium-card {
-          box-shadow: 0 0 0 1px rgba(0,112,243,0.15), 0 8px 24px -8px rgba(0,112,243,0.15);
-        }
+        .light-premium { box-shadow: 0 0 0 1px rgba(0,112,243,0.15), 0 8px 24px -8px rgba(0,112,243,0.15); }
 
-        /* ─── Dark card (for highlight bands) ─── */
+        /* ─── Dark cards ─── */
         .dark-card {
-          background: rgba(255,255,255,0.04);
+          background: ${cardBgD};
           border: 1px solid ${borderD};
           backdrop-filter: blur(20px);
-          transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+          -webkit-backdrop-filter: blur(20px);
+          transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+          position: relative;
+          isolation: isolate;
+        }
+        .dark-card::before {
+          content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
+          background: linear-gradient(135deg, transparent 30%, rgba(0,112,243,0.6) 50%, transparent 70%);
+          -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          -webkit-mask-composite: xor; mask-composite: exclude;
+          opacity: 0; transition: opacity 0.4s ease; pointer-events: none;
         }
         .dark-card:hover {
-          background: rgba(255,255,255,0.07);
+          background: ${cardBgDHover};
           border-color: ${borderD2};
-          transform: translateY(-2px);
+          transform: translateY(-3px);
+          box-shadow: 0 30px 60px -20px rgba(0,112,243,0.4), 0 0 60px -10px rgba(0,112,243,0.2);
         }
+        .dark-card:hover::before { opacity: 1; }
+        .dark-premium { box-shadow: 0 0 0 1px rgba(0,112,243,0.25), 0 8px 40px -8px rgba(0,112,243,0.25); }
 
-        .aurora { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
-        .aurora::before, .aurora::after {
+        /* ─── Aurora ─── */
+        .aurora-d { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+        .aurora-d::before, .aurora-d::after {
+          content: ""; position: absolute; width: 800px; height: 800px;
+          border-radius: 50%; filter: blur(80px); opacity: 0.45;
+        }
+        .aurora-d::before { background: radial-gradient(circle, ${accent} 0%, transparent 50%); top: -300px; left: -200px; }
+        .aurora-d::after  { background: radial-gradient(circle, ${violet} 0%, transparent 50%); top: -200px; right: -300px; }
+
+        .aurora-d-soft { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+        .aurora-d-soft::before, .aurora-d-soft::after {
+          content: ""; position: absolute; width: 600px; height: 600px;
+          border-radius: 50%; filter: blur(100px); opacity: 0.18;
+        }
+        .aurora-d-soft::before { background: radial-gradient(circle, ${accent} 0%, transparent 60%); top: 50%; left: -200px; }
+        .aurora-d-soft::after  { background: radial-gradient(circle, ${violet} 0%, transparent 60%); top: 20%; right: -200px; }
+
+        .aurora-l { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+        .aurora-l::before, .aurora-l::after {
           content: ""; position: absolute; width: 600px; height: 600px;
           border-radius: 50%; filter: blur(80px);
         }
-        .aurora-on-dark::before { background: radial-gradient(circle, #0070F3 0%, transparent 50%); top: -200px; left: -100px; opacity: 0.5; }
-        .aurora-on-dark::after  { background: radial-gradient(circle, #7B61FF 0%, transparent 50%); top: -100px; right: -200px; opacity: 0.4; }
-        .aurora-on-light::before { background: radial-gradient(circle, #0070F3 0%, transparent 50%); top: -300px; left: -200px; opacity: 0.07; }
-        .aurora-on-light::after  { background: radial-gradient(circle, #7B61FF 0%, transparent 50%); top: -200px; right: -300px; opacity: 0.06; }
+        .aurora-l::before { background: radial-gradient(circle, ${accent} 0%, transparent 50%); top: -300px; left: -200px; opacity: 0.07; }
+        .aurora-l::after  { background: radial-gradient(circle, ${violet} 0%, transparent 50%); top: -200px; right: -300px; opacity: 0.06; }
 
-        .grid-bg {
-          background-image:
-            linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px);
-          background-size: 80px 80px;
-          mask-image: radial-gradient(ellipse 80% 50% at 50% 30%, black 30%, transparent 80%);
-          -webkit-mask-image: radial-gradient(ellipse 80% 50% at 50% 30%, black 30%, transparent 80%);
-        }
         .grid-bg-dark {
           background-image:
             linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
@@ -167,9 +186,17 @@ export default function DesignPreviewPage() {
           mask-image: radial-gradient(ellipse 80% 50% at 50% 30%, black 30%, transparent 80%);
           -webkit-mask-image: radial-gradient(ellipse 80% 50% at 50% 30%, black 30%, transparent 80%);
         }
+        .grid-bg-light {
+          background-image:
+            linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px);
+          background-size: 80px 80px;
+          mask-image: radial-gradient(ellipse 80% 50% at 50% 30%, black 30%, transparent 80%);
+          -webkit-mask-image: radial-gradient(ellipse 80% 50% at 50% 30%, black 30%, transparent 80%);
+        }
 
-        .accent-text { background: linear-gradient(90deg, ${violet} 0%, ${accent} 50%, #00B5D6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .gradient-text-dark { background: linear-gradient(180deg, #FFFFFF 0%, #888 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .accent-text { background: linear-gradient(90deg, ${violet} 0%, ${accent} 50%, #00B5D6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
         .number-xl { font-feature-settings: "tnum"; letter-spacing: -0.06em; }
         .pulse-dot { animation: pulse-glow 2s ease-in-out infinite; }
@@ -204,10 +231,7 @@ export default function DesignPreviewPage() {
         details.faq summary { list-style: none; cursor: pointer; }
         details.faq summary::-webkit-details-marker { display: none; }
         details.faq .faq-icon { transition: transform 0.25s ease; }
-        details.faq[open] {
-          background: ${surface};
-          border-color: ${borderStrong};
-        }
+        details.faq[open].faq-light { background: ${surface}; border-color: ${borderStrong}; }
 
         .chip-active-light { background: ${ink}; color: white; border: 1px solid ${ink}; }
         .chip-default-light { background: white; color: ${ink}; border: 1px solid ${border}; }
@@ -215,9 +239,9 @@ export default function DesignPreviewPage() {
 
         .plan-popular {
           position: relative;
-          background: linear-gradient(180deg, ${dark} 0%, ${dark2} 100%);
+          background: linear-gradient(180deg, rgba(0,112,243,0.08) 0%, ${dark2} 60%);
           color: white;
-          box-shadow: 0 30px 60px -20px rgba(0,112,243,0.4), 0 0 0 1px rgba(0,112,243,0.4);
+          box-shadow: 0 30px 60px -20px rgba(0,112,243,0.5), 0 0 80px -10px rgba(123,97,255,0.4);
         }
         .plan-popular::before {
           content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
@@ -243,13 +267,6 @@ export default function DesignPreviewPage() {
         .live-ticker > *:nth-child(4) { animation-delay: 7.2s; }
         .live-ticker > *:nth-child(5) { animation-delay: 9.6s; }
 
-        .nav-link-light { position: relative; }
-        .nav-link-light::after {
-          content: ""; position: absolute; left: 50%; bottom: -4px; height: 1px; width: 0;
-          background: ${ink}; transition: all 0.3s ease;
-        }
-        .nav-link-light:hover::after { left: 0; width: 100%; }
-
         .nav-link-dark { position: relative; }
         .nav-link-dark::after {
           content: ""; position: absolute; left: 50%; bottom: -4px; height: 1px; width: 0;
@@ -259,36 +276,28 @@ export default function DesignPreviewPage() {
 
         .quick-chip {
           transition: all 0.3s ease;
-          border: 1px solid ${border};
-          background: white;
+          border: 1px solid ${borderD};
+          background: ${cardBgD};
         }
-        .quick-chip:hover { background: ${surface}; border-color: ${accent}; color: ${accent}; transform: translateY(-1px); }
+        .quick-chip:hover { background: ${cardBgDHover}; border-color: ${borderD2}; transform: translateY(-1px); }
 
-        .toggle-pill {
-          position: relative;
-          background: ${surface};
-          border: 1px solid ${border};
-          border-radius: 999px;
-          padding: 4px;
-          display: inline-flex;
+        .toggle-pill-dark {
+          position: relative; background: rgba(255,255,255,0.05); border: 1px solid ${borderD};
+          border-radius: 999px; padding: 4px; display: inline-flex;
         }
-        .toggle-pill button { position: relative; z-index: 1; padding: 6px 16px; font-size: 12px; font-weight: 600; color: ${subtle}; transition: color 0.3s ease; }
-        .toggle-pill .toggle-active { color: white; }
-        .toggle-bg {
-          position: absolute; top: 4px; bottom: 4px; left: 4px;
-          width: calc(50% - 4px);
-          background: ${ink};
-          border-radius: 999px;
+        .toggle-pill-dark button { position: relative; z-index: 1; padding: 6px 16px; font-size: 12px; font-weight: 600; color: ${subtleD}; transition: color 0.3s ease; }
+        .toggle-pill-dark .toggle-active { color: ${dark}; }
+        .toggle-bg-dark {
+          position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px);
+          background: white; border-radius: 999px;
+          box-shadow: 0 4px 12px rgba(255,255,255,0.15);
           transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .feed-item:hover { background: ${surface}; }
+        .feed-item:hover { background: rgba(0,112,243,0.04); }
         .feed-item { transition: background 0.2s ease; }
 
-        .stat-card {
-          transition: all 0.3s ease; position: relative;
-          background: white;
-        }
+        .stat-card { transition: all 0.3s ease; position: relative; background: white; }
         .stat-card:hover { background: ${surface}; }
         .stat-card .stat-arrow { opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; }
         .stat-card:hover .stat-arrow { opacity: 1; transform: translate(2px, -2px); }
@@ -296,137 +305,119 @@ export default function DesignPreviewPage() {
         .input-light::placeholder { color: ${fade}; }
         .input-dark::placeholder { color: ${fadeD}; }
 
-        .btn-primary {
-          background: ${ink};
-          color: white;
-          transition: all 0.2s ease;
-        }
-        .btn-primary:hover { background: ${ink2}; box-shadow: 0 8px 20px -6px rgba(0,0,0,0.2); }
-
         .btn-accent {
-          background: ${accent};
-          color: white;
+          background: ${accent}; color: white;
           transition: all 0.2s ease;
         }
         .btn-accent:hover { background: ${accentDark}; box-shadow: 0 8px 24px -6px rgba(0,112,243,0.4); }
 
-        .btn-outline {
-          background: white;
-          color: ${ink};
-          border: 1px solid ${border};
+        .btn-outline-light {
+          background: white; color: ${ink}; border: 1px solid ${border};
           transition: all 0.2s ease;
         }
-        .btn-outline:hover { border-color: ${ink}; background: ${surface}; }
+        .btn-outline-light:hover { border-color: ${ink}; background: ${surface}; }
       `}</style>
 
       {/* ───────── Notice ───────── */}
       <div style={{ background: dark, color: subtleD }} className="text-xs">
         <div className="max-w-[1280px] mx-auto px-6 py-2 flex items-center justify-between">
-          <span style={{ fontFamily: 'var(--font-mono)' }}>DESIGN PREVIEW · v0.9 · LIGHT</span>
+          <span style={{ fontFamily: 'var(--font-mono)' }}>DESIGN PREVIEW · v1.0 · ALTERNATING</span>
           <Link href="/" className="hover:text-white transition-colors">← Sito attuale</Link>
         </div>
       </div>
 
-      {/* ═══════════════════ NAVBAR DARK ═══════════════════ */}
-      <header className="relative z-30" style={{ background: dark }}>
-        <div className="max-w-[1280px] mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-8">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: accent }}>
-                <Zap className="w-4 h-4 text-white" strokeWidth={2.5} />
+      {/* ═══════════════════ HERO (DARK) ═══════════════════ */}
+      <section className="relative overflow-hidden" style={{ background: dark }}>
+        <div className="aurora-d" />
+        <div className="absolute inset-0 grid-bg-dark" />
+
+        <header className="relative z-10 border-b" style={{ borderColor: borderD }}>
+          <div className="max-w-[1280px] mx-auto px-6 h-14 flex items-center justify-between">
+            <div className="flex items-center gap-8">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-md flex items-center justify-center" style={{ background: 'white' }}>
+                  <Zap className="w-3.5 h-3.5" style={{ color: dark }} strokeWidth={2.5} />
+                </div>
+                <span className="text-[15px] font-semibold tracking-tight text-white" style={{ letterSpacing: '-0.01em' }}>trovapro</span>
               </div>
-              <span className="text-[16px] font-semibold tracking-tight text-white" style={{ letterSpacing: '-0.01em' }}>
-                trovapro
-              </span>
+              <nav className="hidden md:flex items-center gap-6 text-sm font-medium" style={{ color: subtleD }}>
+                <a className="nav-link-dark hover:text-white transition-colors" href="#">Cerca</a>
+                <a className="nav-link-dark hover:text-white transition-colors" href="#">Categorie</a>
+                <a className="nav-link-dark hover:text-white transition-colors" href="#">Per professionisti</a>
+                <a className="nav-link-dark hover:text-white transition-colors" href="#">Prezzi</a>
+              </nav>
             </div>
-            <nav className="hidden md:flex items-center gap-7 text-sm font-medium" style={{ color: textMidD }}>
-              <a className="nav-link-dark hover:text-white transition-colors" href="#">Cerca</a>
-              <a className="nav-link-dark hover:text-white transition-colors" href="#">Categorie</a>
-              <a className="nav-link-dark hover:text-white transition-colors" href="#">Per professionisti</a>
-              <a className="nav-link-dark hover:text-white transition-colors" href="#">Prezzi</a>
-            </nav>
+            <div className="flex items-center gap-2">
+              <a className="text-sm px-3 py-1.5 rounded-md transition-colors hover:bg-white/5" style={{ color: textMidD }} href="#">Accedi</a>
+              <button className="text-sm font-semibold px-3.5 py-1.5 rounded-md transition-all hover:opacity-90 flex items-center gap-1" style={{ background: 'white', color: dark }}>
+                Inizia <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <a className="text-sm px-3 py-1.5 rounded-md transition-colors hover:bg-white/5 font-medium" style={{ color: textMidD }} href="#">Accedi</a>
-            <button className="btn-accent text-sm font-semibold px-4 py-2 rounded-lg flex items-center gap-1.5">
-              Inizia gratis <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
-      </header>
+        </header>
 
-      {/* ═══════════════════ HERO LIGHT ═══════════════════ */}
-      <section className="relative overflow-hidden" style={{ background: 'white' }}>
-        <div className="aurora aurora-on-light" />
-        <div className="absolute inset-0 grid-bg" />
-
-        <div className="relative max-w-[1280px] mx-auto px-6 pt-20 pb-28 text-center">
-          {/* Pill */}
-          <div className="flex justify-center mb-10">
-            <a href="#" className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs border" style={{ background: 'white', borderColor: border }}>
-              <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold" style={{ background: accent, color: 'white', fontFamily: 'var(--font-mono)' }}>NEW</span>
-              <span style={{ color: ink }}>Pagamenti garantiti via Stripe</span>
-              <ArrowRight className="w-3 h-3" style={{ color: subtle }} />
+        <div className="relative z-10 max-w-[1280px] mx-auto px-6 pt-24 pb-32">
+          <div className="flex justify-center mb-12">
+            <a href="#" className="conic-border-dark inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs">
+              <span className="px-1.5 py-0.5 rounded text-[10px] font-bold" style={{ background: accent, color: 'white', fontFamily: 'var(--font-mono)' }}>NEW</span>
+              <span className="text-white/80">Pagamenti garantiti via Stripe</span>
+              <ArrowRight className="w-3 h-3 text-white/50" />
             </a>
           </div>
 
-          {/* Headline */}
-          <h1 className="font-bold tracking-[-0.04em] mx-auto max-w-5xl" style={{ fontSize: 'clamp(48px, 7.5vw, 88px)', lineHeight: 1.0, color: ink }}>
-            Trovare un professionista,<br />
+          <h1 className="text-center font-bold tracking-[-0.05em] mx-auto max-w-5xl" style={{ fontSize: 'clamp(56px, 9vw, 112px)', lineHeight: 0.92 }}>
+            <span className="gradient-text-dark">Trovare un professionista,</span><br />
             <span className="accent-text">finalmente semplice.</span>
           </h1>
 
-          <p className="mt-7 max-w-xl mx-auto text-[18px] leading-relaxed" style={{ color: subtle }}>
+          <p className="text-center mt-8 max-w-xl mx-auto text-[17px] leading-relaxed" style={{ color: subtleD }}>
             Confronta professionisti verificati nella tua zona, leggi le recensioni e ricevi preventivi gratuiti in poche ore.
           </p>
 
-          {/* Search bar */}
-          <div className="mt-12 max-w-2xl mx-auto">
-            <div className="rounded-2xl p-1.5 flex items-center gap-1 bg-white" style={{ border: `1px solid ${border}`, boxShadow: '0 8px 32px -8px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04)' }}>
+          <div className="mt-14 max-w-2xl mx-auto relative">
+            <div className="absolute inset-0 -z-10 rounded-2xl" style={{ background: `radial-gradient(50% 50% at 50% 50%, ${accent}30, transparent 70%)`, filter: 'blur(40px)' }} />
+            <div className="rounded-2xl p-1.5 flex items-center gap-1 backdrop-blur-xl" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
               <div className="flex items-center gap-2.5 px-3.5 flex-1 min-w-0">
-                <Search className="w-4 h-4 flex-shrink-0" style={{ color: subtle }} />
-                <input placeholder="Elettricista, idraulico…" className="input-light bg-transparent outline-none text-sm w-full" style={{ color: ink }} />
+                <Search className="w-4 h-4 flex-shrink-0" style={{ color: subtleD }} />
+                <input placeholder="Elettricista, idraulico…" className="input-dark bg-transparent outline-none text-sm w-full text-white" />
               </div>
-              <div className="w-px self-stretch my-2" style={{ background: border }} />
+              <div className="w-px self-stretch my-2" style={{ background: borderD }} />
               <div className="flex items-center gap-2.5 px-3.5 flex-1 min-w-0">
-                <MapPin className="w-4 h-4 flex-shrink-0" style={{ color: subtle }} />
-                <input placeholder="La tua città" className="input-light bg-transparent outline-none text-sm w-full" style={{ color: ink }} />
+                <MapPin className="w-4 h-4 flex-shrink-0" style={{ color: subtleD }} />
+                <input placeholder="La tua città" className="input-dark bg-transparent outline-none text-sm w-full text-white" />
               </div>
-              <button className="btn-accent px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-1.5 flex-shrink-0">
+              <button className="px-4 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-1.5 flex-shrink-0 hover:opacity-90" style={{ background: 'white', color: dark }}>
                 Cerca <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
 
-            {/* Quick chips */}
             <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-              <span className="text-[11px]" style={{ color: fade, fontFamily: 'var(--font-mono)' }}>POPOLARI:</span>
+              <span className="text-[11px] font-bold" style={{ color: fadeD, fontFamily: 'var(--font-mono)' }}>POPOLARI:</span>
               {POPULAR_QUERIES.map((q) => (
-                <a key={q} href="#" className="quick-chip text-xs px-3 py-1 rounded-full font-medium" style={{ color: subtle }}>
+                <a key={q} href="#" className="quick-chip text-xs px-3 py-1 rounded-full font-medium" style={{ color: textMidD }}>
                   {q}
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Trust */}
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-sm font-medium" style={{ color: subtle }}>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-xs font-medium" style={{ color: subtleD }}>
             {['Gratuito', 'P.IVA verificate', 'Risposta < 2h', 'Pagamento garantito'].map((t) => (
               <span key={t} className="flex items-center gap-1.5">
-                <Check className="w-4 h-4" style={{ color: success }} strokeWidth={3} />
+                <Check className="w-3.5 h-3.5" style={{ color: successD }} strokeWidth={3} />
                 {t}
               </span>
             ))}
           </div>
 
-          {/* Live ticker */}
-          <div className="mt-14 max-w-md mx-auto">
-            <div className="rounded-full px-4 py-1 flex items-center gap-3 text-xs" style={{ background: 'white', border: `1px solid ${border}` }}>
-              <span className="pulse-dot w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: success, boxShadow: `0 0 8px ${success}` }} />
-              <span className="flex-shrink-0 text-[10px] font-semibold" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>LIVE</span>
+          <div className="mt-12 max-w-md mx-auto">
+            <div className="rounded-full px-4 py-1 flex items-center gap-3 text-xs" style={{ background: cardBgD, border: `1px solid ${borderD}` }}>
+              <span className="pulse-dot w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: successD, boxShadow: `0 0 8px ${successD}` }} />
+              <span className="flex-shrink-0 text-[10px] font-bold" style={{ color: subtleD, fontFamily: 'var(--font-mono)' }}>LIVE</span>
               <div className="live-ticker flex-1">
                 {LIVE_ACTIVITY.map((a, i) => (
-                  <span key={i} className="text-[12px] whitespace-nowrap" style={{ color: subtle }}>
-                    <span style={{ color: ink, fontWeight: 500 }}>{a.who}</span> {a.action} · {a.city}
+                  <span key={i} className="text-[12px] whitespace-nowrap" style={{ color: textMidD }}>
+                    <span className="text-white font-semibold">{a.who}</span> {a.action} · {a.city}
                   </span>
                 ))}
               </div>
@@ -435,9 +426,10 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ STATS LIGHT ═══════════════════ */}
-      <section className="relative" style={{ background: surface }}>
-        <div className="relative max-w-[1280px] mx-auto px-6 py-24">
+      {/* ═══════════════════ STATS (LIGHT) ═══════════════════ */}
+      <section className="relative" style={{ background: 'white' }}>
+        <div className="aurora-l" />
+        <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="grid lg:grid-cols-[1fr_320px] gap-px rounded-2xl overflow-hidden" style={{ background: border, border: `1px solid ${border}` }}>
             <div className="grid grid-cols-2 md:grid-cols-2 gap-px" style={{ background: border }}>
               {[
@@ -455,14 +447,14 @@ export default function DesignPreviewPage() {
                     <ArrowUpRight className="stat-arrow w-4 h-4" style={{ color: subtle }} />
                   </div>
                   <div className="text-5xl lg:text-6xl number-xl font-bold mb-2" style={{ color: ink }}>{s.value}</div>
-                  <div className="text-sm font-semibold mb-1" style={{ color: ink }}>{s.label}</div>
+                  <div className="text-sm font-bold mb-1" style={{ color: ink }}>{s.label}</div>
                   <div className="text-xs mb-4" style={{ color: subtle }}>{s.sub}</div>
                   <div className="opacity-90"><Sparkline data={s.spark} color={s.color} width={120} height={28} /></div>
                 </div>
               ))}
             </div>
 
-            <div className="bg-white p-8">
+            <div className="bg-white p-8" style={{ borderLeft: `1px solid ${border}` }}>
               <div className="flex items-center justify-between mb-5">
                 <div>
                   <div className="text-xs uppercase tracking-[0.15em] font-bold" style={{ color: ink, fontFamily: 'var(--font-mono)' }}>
@@ -483,7 +475,7 @@ export default function DesignPreviewPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-xs leading-snug" style={{ color: ink }}>
-                        <span className="font-semibold">{a.who}</span> <span style={{ color: subtle }}>{a.action}</span>
+                        <span className="font-bold">{a.who}</span> <span style={{ color: subtle }}>{a.action}</span>
                       </p>
                       <p className="text-[10px] mt-0.5" style={{ color: fade, fontFamily: 'var(--font-mono)' }}>
                         {a.city.toUpperCase()} · {a.t.toUpperCase()}
@@ -497,23 +489,24 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ CATEGORIE LIGHT ═══════════════════ */}
-      <section className="relative" style={{ background: 'white' }}>
+      {/* ═══════════════════ CATEGORIE (DARK) ═══════════════════ */}
+      <section className="relative" style={{ background: dark }}>
+        <div className="aurora-d-soft" />
         <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="flex items-end justify-between gap-6 mb-12 flex-wrap">
             <div className="max-w-xl">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>01 ◆</span>
-                <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: accent, fontFamily: 'var(--font-mono)' }}>Categorie</span>
+                <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtleD, fontFamily: 'var(--font-mono)' }}>01 ◆</span>
+                <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: accentLight, fontFamily: 'var(--font-mono)' }}>Categorie</span>
               </div>
-              <h2 className="text-4xl lg:text-5xl tracking-[-0.03em] font-bold mb-3" style={{ color: ink }}>
+              <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold mb-3 text-white">
                 Cosa stai cercando?
               </h2>
-              <p className="text-base" style={{ color: subtle }}>
+              <p className="text-base" style={{ color: subtleD }}>
                 Più di 8.000 professionisti verificati in 6 categorie principali.
               </p>
             </div>
-            <a className="text-sm flex items-center gap-1 hover:gap-2 transition-all font-semibold" style={{ color: ink }}>
+            <a className="text-sm flex items-center gap-1 hover:gap-2 transition-all font-semibold text-white">
               Tutte le categorie <ArrowRight className="w-4 h-4" />
             </a>
           </div>
@@ -522,22 +515,21 @@ export default function DesignPreviewPage() {
             {CATEGORIES.map((c, i) => {
               const Icon = c.icon;
               return (
-                <a key={i} href={`#${c.slug}`} className="cat-card rounded-2xl p-5 block">
-                  <div className="cat-blob" style={{ background: c.gradient }} />
+                <a key={i} href={`#${c.slug}`} className="dark-card rounded-2xl p-5 block">
                   <div className="relative">
                     <div className="flex items-start justify-between mb-4">
-                      <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: c.gradient, boxShadow: '0 4px 12px -2px rgba(0,0,0,0.12)' }}>
+                      <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: c.gradient, boxShadow: '0 4px 16px -2px rgba(0,0,0,0.4)' }}>
                         <Icon className="w-4 h-4 text-white" strokeWidth={2.5} />
                       </div>
-                      <ArrowUpRight className="cat-arrow w-3.5 h-3.5" style={{ color: subtle }} />
+                      <ArrowUpRight className="w-3.5 h-3.5" style={{ color: subtleD }} />
                     </div>
-                    <h3 className="text-base font-bold tracking-[-0.01em]" style={{ color: ink }}>{c.name}</h3>
-                    <p className="text-xs mt-0.5 mb-3" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>
+                    <h3 className="text-base font-bold tracking-[-0.01em] text-white">{c.name}</h3>
+                    <p className="text-xs mt-0.5 mb-3" style={{ color: subtleD, fontFamily: 'var(--font-mono)' }}>
                       {c.count} professionisti
                     </p>
-                    <div className="flex items-center justify-between text-[11px] pt-3 border-t" style={{ borderColor: border }}>
-                      <span style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>{c.avg}</span>
-                      <span className="inline-flex items-center gap-0.5 font-bold" style={{ color: c.down ? '#EF4444' : success, fontFamily: 'var(--font-mono)' }}>
+                    <div className="flex items-center justify-between text-[11px] pt-3 border-t" style={{ borderColor: borderD }}>
+                      <span style={{ color: subtleD, fontFamily: 'var(--font-mono)' }}>{c.avg}</span>
+                      <span className="inline-flex items-center gap-0.5 font-bold" style={{ color: c.down ? '#EF4444' : successD, fontFamily: 'var(--font-mono)' }}>
                         {c.down ? <TrendingDown className="w-3 h-3" /> : <TrendingUp className="w-3 h-3" />}
                         {c.trend}
                       </span>
@@ -550,8 +542,8 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ FEATURED PROS LIGHT ═══════════════════ */}
-      <section className="relative" style={{ background: surface }}>
+      {/* ═══════════════════ FEATURED (LIGHT) ═══════════════════ */}
+      <section className="relative" style={{ background: 'white' }}>
         <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="flex items-end justify-between gap-6 mb-10 flex-wrap">
             <div className="max-w-xl">
@@ -559,7 +551,7 @@ export default function DesignPreviewPage() {
                 <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>02 ◆</span>
                 <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: accent, fontFamily: 'var(--font-mono)' }}>In evidenza</span>
               </div>
-              <h2 className="text-4xl lg:text-5xl tracking-[-0.03em] font-bold mb-3" style={{ color: ink }}>
+              <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold mb-3" style={{ color: ink }}>
                 Professionisti consigliati.
               </h2>
               <p className="text-base" style={{ color: subtle }}>
@@ -578,14 +570,13 @@ export default function DesignPreviewPage() {
                 {c}
               </span>
             ))}
-            <span className="ml-auto text-xs" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>
+            <span className="ml-auto text-xs font-medium" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>
               {FEATURED.length} risultati · ordinati per rilevanza
             </span>
           </div>
 
           <div className="grid lg:grid-cols-[1.4fr_1fr_1fr] gap-4">
-            {/* Spotlight */}
-            <article className="light-card lg:row-span-2 group rounded-2xl overflow-hidden cursor-pointer relative premium-card">
+            <article className="light-card lg:row-span-2 group rounded-2xl overflow-hidden cursor-pointer relative light-premium">
               <div className="relative h-48 overflow-hidden" style={{ background: `linear-gradient(135deg, ${FEATURED[0].avatar}, ${FEATURED[0].avatar}AA)` }}>
                 <div className="absolute inset-0 grid-bg-dark opacity-30" />
                 <div className="absolute top-4 left-4 flex items-center gap-2">
@@ -632,19 +623,19 @@ export default function DesignPreviewPage() {
                       <Star className="w-4 h-4" fill={ink} strokeWidth={0} />
                       {FEATURED[0].rating}
                     </div>
-                    <div className="text-[10px] uppercase tracking-wider mt-1 font-semibold" style={{ color: fade }}>{FEATURED[0].reviews} review</div>
+                    <div className="text-[10px] uppercase tracking-wider mt-1 font-bold" style={{ color: fade }}>{FEATURED[0].reviews} review</div>
                   </div>
                   <div>
                     <div className="text-2xl number-xl font-bold" style={{ color: ink }}>{FEATURED[0].completedJobs}</div>
-                    <div className="text-[10px] uppercase tracking-wider mt-1 font-semibold" style={{ color: fade }}>Lavori</div>
+                    <div className="text-[10px] uppercase tracking-wider mt-1 font-bold" style={{ color: fade }}>Lavori</div>
                   </div>
                   <div>
                     <div className="text-2xl number-xl font-bold" style={{ color: ink }}>{FEATURED[0].distance}</div>
-                    <div className="text-[10px] uppercase tracking-wider mt-1 font-semibold" style={{ color: fade }}>Distanza</div>
+                    <div className="text-[10px] uppercase tracking-wider mt-1 font-bold" style={{ color: fade }}>Distanza</div>
                   </div>
                   <div>
                     <div className="text-2xl number-xl font-bold" style={{ color: ink }}>{FEATURED[0].price.replace('/h','')}</div>
-                    <div className="text-[10px] uppercase tracking-wider mt-1 font-semibold" style={{ color: fade }}>al ora</div>
+                    <div className="text-[10px] uppercase tracking-wider mt-1 font-bold" style={{ color: fade }}>al ora</div>
                   </div>
                 </div>
 
@@ -652,7 +643,7 @@ export default function DesignPreviewPage() {
                   <button className="btn-accent flex-1 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-1.5">
                     Richiedi preventivo <ArrowRight className="w-3.5 h-3.5" />
                   </button>
-                  <button className="btn-outline px-4 py-2.5 rounded-lg text-sm font-semibold">
+                  <button className="btn-outline-light px-4 py-2.5 rounded-lg text-sm font-semibold">
                     Profilo
                   </button>
                 </div>
@@ -660,7 +651,7 @@ export default function DesignPreviewPage() {
             </article>
 
             {FEATURED.slice(1, 5).map((p, i) => (
-              <article key={i} className={`light-card group rounded-2xl p-5 cursor-pointer ${p.plan === 'premium' ? 'premium-card' : ''}`}>
+              <article key={i} className={`light-card group rounded-2xl p-5 cursor-pointer ${p.plan === 'premium' ? 'light-premium' : ''}`}>
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <div className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{ background: p.avatar }}>
@@ -712,27 +703,26 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ BENTO MIXED (1 dark + 4 light) ═══════════════════ */}
-      <section className="relative" style={{ background: 'white' }}>
+      {/* ═══════════════════ BENTO (DARK) ═══════════════════ */}
+      <section className="relative" style={{ background: dark2 }}>
         <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="text-center max-w-2xl mx-auto mb-14">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>03 ◆</span>
-              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: accent, fontFamily: 'var(--font-mono)' }}>Perché TrovaPro</span>
+              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtleD, fontFamily: 'var(--font-mono)' }}>03 ◆</span>
+              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: accentLight, fontFamily: 'var(--font-mono)' }}>Perché TrovaPro</span>
             </div>
-            <h2 className="text-4xl lg:text-5xl tracking-[-0.03em] font-bold" style={{ color: ink }}>
+            <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold text-white">
               Tutto quello che ti serve, niente che non ti serve.
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Big DARK card (highlight) */}
-            <div className="md:col-span-2 md:row-span-2 rounded-2xl p-10 relative overflow-hidden" style={{ background: dark, color: 'white', border: `1px solid ${dark}` }}>
+            <div className="md:col-span-2 md:row-span-2 dark-card rounded-2xl p-10 relative overflow-hidden">
               <div className="absolute inset-0 grid-bg-dark opacity-50" />
               <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full" style={{ background: `radial-gradient(circle, ${accent}50, transparent 60%)`, filter: 'blur(60px)' }} />
 
               <div className="relative">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs mb-8" style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${borderD}` }}>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs mb-8" style={{ background: cardBgD, border: `1px solid ${borderD}` }}>
                   <Bolt className="w-3 h-3" style={{ color: accentLight }} />
                   <span style={{ color: textMidD, fontFamily: 'var(--font-mono)', fontWeight: 600 }}>RISPOSTA RAPIDA</span>
                 </div>
@@ -757,7 +747,7 @@ export default function DesignPreviewPage() {
                         </span>
                       </p>
                     </div>
-                    <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: success, boxShadow: `0 0 8px ${success}` }} />
+                    <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: successD, boxShadow: `0 0 8px ${successD}` }} />
                   </div>
                   <div className="space-y-2">
                     <div className="text-xs px-3 py-2 rounded-lg max-w-[85%] text-white" style={{ background: 'rgba(255,255,255,0.06)' }}>
@@ -785,12 +775,12 @@ export default function DesignPreviewPage() {
             ].map((f, i) => {
               const Icon = f.icon;
               return (
-                <div key={i} className="light-card rounded-2xl p-6">
-                  <div className="w-11 h-11 rounded-xl mb-5 flex items-center justify-center" style={{ background: accentSoft }}>
-                    <Icon className="w-4 h-4" style={{ color: accent }} strokeWidth={2} />
+                <div key={i} className="dark-card rounded-2xl p-6">
+                  <div className="w-11 h-11 rounded-xl mb-5 flex items-center justify-center" style={{ background: `${accent}20` }}>
+                    <Icon className="w-4 h-4" style={{ color: accentLight }} strokeWidth={2} />
                   </div>
-                  <h3 className="text-lg tracking-[-0.02em] font-bold mb-2" style={{ color: ink }}>{f.title}</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: subtle }}>{f.desc}</p>
+                  <h3 className="text-lg tracking-[-0.02em] font-bold mb-2 text-white">{f.title}</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: subtleD }}>{f.desc}</p>
                 </div>
               );
             })}
@@ -798,15 +788,16 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ TESTIMONIALS LIGHT ═══════════════════ */}
-      <section className="relative" style={{ background: surface }}>
+      {/* ═══════════════════ TESTIMONIALS (LIGHT) ═══════════════════ */}
+      <section className="relative" style={{ background: 'white' }}>
+        <div className="aurora-l" />
         <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <div className="flex items-center justify-center gap-3 mb-4">
               <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>04 ◆</span>
               <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: accent, fontFamily: 'var(--font-mono)' }}>Testimonianze</span>
             </div>
-            <h2 className="text-4xl lg:text-5xl tracking-[-0.03em] font-bold" style={{ color: ink }}>
+            <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold" style={{ color: ink }}>
               Le storie di chi ha già scelto TrovaPro.
             </h2>
           </div>
@@ -859,36 +850,37 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ PRICING LIGHT ═══════════════════ */}
-      <section className="relative" style={{ background: 'white' }}>
+      {/* ═══════════════════ PRICING (DARK) ═══════════════════ */}
+      <section className="relative" style={{ background: dark }}>
+        <div className="aurora-d-soft" />
         <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>05 ◆</span>
-              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: accent, fontFamily: 'var(--font-mono)' }}>Piani</span>
+              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtleD, fontFamily: 'var(--font-mono)' }}>05 ◆</span>
+              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: accentLight, fontFamily: 'var(--font-mono)' }}>Piani</span>
             </div>
-            <h2 className="text-4xl lg:text-5xl tracking-[-0.03em] font-bold mb-4" style={{ color: ink }}>
+            <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold mb-4 text-white">
               Inizia gratis. Cresci quando vuoi.
             </h2>
-            <p className="text-base" style={{ color: subtle }}>
+            <p className="text-base" style={{ color: subtleD }}>
               I clienti non pagano nulla. I professionisti scelgono il piano che preferiscono.
             </p>
           </div>
 
           <div className="flex items-center justify-center gap-3 mb-12">
-            <div className="toggle-pill">
-              <span className="toggle-bg" />
+            <div className="toggle-pill-dark">
+              <span className="toggle-bg-dark" />
               <button className="toggle-active">Mensile</button>
               <button>Annuale</button>
             </div>
-            <span className="text-xs px-2 py-0.5 rounded inline-flex items-center gap-1 font-semibold" style={{ background: successSoft, color: success, fontFamily: 'var(--font-mono)' }}>
+            <span className="text-xs px-2 py-0.5 rounded inline-flex items-center gap-1 font-semibold" style={{ background: 'rgba(34,197,94,0.15)', color: successD, fontFamily: 'var(--font-mono)' }}>
               <Sparkles className="w-3 h-3" /> Risparmia fino al 25%
             </span>
           </div>
 
           <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto">
             {PLANS.map((p, i) => (
-              <div key={i} className={`relative rounded-2xl p-7 ${p.popular ? 'plan-popular' : 'light-card'}`}>
+              <div key={i} className={`relative rounded-2xl p-7 ${p.popular ? 'plan-popular' : 'dark-card'}`}>
                 {p.popular && (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider" style={{ background: accent, color: 'white', fontFamily: 'var(--font-mono)' }}>
                     Più scelto
@@ -896,36 +888,36 @@ export default function DesignPreviewPage() {
                 )}
 
                 <div className="flex items-center justify-between mb-1">
-                  <h3 className="text-base font-bold" style={{ color: p.popular ? 'white' : ink, fontFamily: 'var(--font-mono)' }}>
+                  <h3 className="text-base font-bold text-white" style={{ fontFamily: 'var(--font-mono)' }}>
                     {p.name.toUpperCase()}
                   </h3>
                   {p.popular && <Sparkles className="w-4 h-4" style={{ color: accentLight }} fill={accent} fillOpacity={0.4} />}
                 </div>
-                <p className="text-xs mb-6" style={{ color: p.popular ? subtleD : subtle }}>
+                <p className="text-xs mb-6" style={{ color: subtleD }}>
                   {p.period}
                 </p>
 
                 <div className="flex items-baseline gap-1 mb-1">
-                  <span className="text-xs" style={{ color: p.popular ? subtleD : subtle }}>€</span>
-                  <span className="text-5xl number-xl font-bold" style={{ color: p.popular ? 'white' : ink }}>
+                  <span className="text-xs" style={{ color: subtleD }}>€</span>
+                  <span className="text-5xl number-xl font-bold text-white">
                     {p.priceMonthly === 0 ? '0' : p.priceMonthly.toString().replace('.', ',')}
                   </span>
-                  {p.priceMonthly !== 0 && <span className="text-xs" style={{ color: p.popular ? subtleD : subtle }}>/mese</span>}
+                  {p.priceMonthly !== 0 && <span className="text-xs" style={{ color: subtleD }}>/mese</span>}
                 </div>
                 {p.priceMonthly !== 0 ? (
-                  <p className="text-[11px] mb-7 font-semibold" style={{ color: p.popular ? accentLight : accent, fontFamily: 'var(--font-mono)' }}>
+                  <p className="text-[11px] mb-7 font-semibold" style={{ color: accentLight, fontFamily: 'var(--font-mono)' }}>
                     o €{p.priceAnnual.toString().replace('.', ',')}/m con piano annuale
                   </p>
                 ) : <div className="mb-7" />}
 
-                <button className="w-full py-3 rounded-lg text-sm font-bold transition-all hover:opacity-90 mb-7" style={{ background: p.popular ? 'white' : ink, color: p.popular ? dark : 'white' }}>
+                <button className="w-full py-3 rounded-lg text-sm font-bold transition-all hover:opacity-90 mb-7" style={{ background: p.popular ? 'white' : 'rgba(255,255,255,0.08)', color: p.popular ? dark : 'white', border: p.popular ? 'none' : `1px solid ${borderD2}` }}>
                   {p.cta}
                 </button>
 
                 <ul className="space-y-2.5">
                   {p.features.map((f, j) => (
-                    <li key={j} className="flex items-start gap-2 text-sm font-medium" style={{ color: p.popular ? 'rgba(255,255,255,0.92)' : ink }}>
-                      <Check className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: p.popular ? accentLight : success }} strokeWidth={3} />
+                    <li key={j} className="flex items-start gap-2 text-sm font-medium text-white">
+                      <Check className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: p.popular ? accentLight : successD }} strokeWidth={3} />
                       {f}
                     </li>
                   ))}
@@ -934,14 +926,14 @@ export default function DesignPreviewPage() {
             ))}
           </div>
 
-          <p className="text-xs text-center mt-10" style={{ color: subtle }}>
+          <p className="text-xs text-center mt-10" style={{ color: subtleD }}>
             Tutti i piani includono cancellazione gratuita in qualsiasi momento. Nessun vincolo.
           </p>
         </div>
       </section>
 
-      {/* ═══════════════════ FAQ LIGHT ═══════════════════ */}
-      <section className="relative" style={{ background: surface }}>
+      {/* ═══════════════════ FAQ (LIGHT) ═══════════════════ */}
+      <section className="relative" style={{ background: 'white' }}>
         <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="grid md:grid-cols-[1fr_2fr] gap-12">
             <div>
@@ -949,7 +941,7 @@ export default function DesignPreviewPage() {
                 <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>06 ◆</span>
                 <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: accent, fontFamily: 'var(--font-mono)' }}>FAQ</span>
               </div>
-              <h2 className="text-4xl tracking-[-0.03em] font-bold mb-4" style={{ color: ink }}>
+              <h2 className="text-4xl tracking-[-0.04em] font-bold mb-4" style={{ color: ink }}>
                 Tutto quello che vuoi sapere.
               </h2>
               <p className="text-base mb-6" style={{ color: subtle }}>
@@ -978,7 +970,7 @@ export default function DesignPreviewPage() {
 
               <div className="space-y-3">
                 {FAQS.map((f, i) => (
-                  <details key={i} className="faq group rounded-xl bg-white transition-all" style={{ border: `1px solid ${border}` }}>
+                  <details key={i} className="faq faq-light group rounded-xl bg-white transition-all" style={{ border: `1px solid ${border}` }}>
                     <summary className="flex items-center justify-between gap-4 p-5">
                       <div className="flex items-start gap-3 flex-1 min-w-0">
                         <span className="text-[10px] px-1.5 py-0.5 rounded mt-1 flex-shrink-0 font-bold" style={{ background: surface, color: subtle, fontFamily: 'var(--font-mono)' }}>
@@ -1001,9 +993,9 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ PRO CTA DARK BAND ═══════════════════ */}
+      {/* ═══════════════════ PRO CTA (DARK) ═══════════════════ */}
       <section className="relative overflow-hidden" style={{ background: dark }}>
-        <div className="aurora aurora-on-dark" />
+        <div className="aurora-d" style={{ opacity: 0.6 }} />
 
         <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="grid lg:grid-cols-[1fr_1.1fr] gap-16 items-center">
@@ -1012,7 +1004,7 @@ export default function DesignPreviewPage() {
                 <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: fadeD, fontFamily: 'var(--font-mono)' }}>07 ◆</span>
                 <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: '#7AA8FF', fontFamily: 'var(--font-mono)' }}>Per professionisti</span>
               </div>
-              <h2 className="font-bold tracking-[-0.04em]" style={{ fontSize: 'clamp(48px, 6vw, 72px)', lineHeight: 0.95 }}>
+              <h2 className="font-bold tracking-[-0.05em]" style={{ fontSize: 'clamp(48px, 6vw, 72px)', lineHeight: 0.95 }}>
                 <span className="gradient-text-dark">Più clienti.</span><br />
                 <span className="accent-text">Meno fatica.</span>
               </h2>
@@ -1021,7 +1013,7 @@ export default function DesignPreviewPage() {
               </p>
 
               <div className="mt-10 flex items-center gap-3 flex-wrap">
-                <button className="btn-accent px-5 py-3 rounded-xl text-sm font-semibold flex items-center gap-1.5">
+                <button className="px-5 py-3 rounded-xl text-sm font-semibold transition-all hover:opacity-90 flex items-center gap-1.5" style={{ background: 'white', color: dark }}>
                   Inizia gratis <ArrowRight className="w-4 h-4" />
                 </button>
                 <button className="px-5 py-3 rounded-xl text-sm font-semibold transition-all hover:bg-white/5 border" style={{ borderColor: borderD2, color: 'white' }}>
@@ -1060,14 +1052,14 @@ export default function DesignPreviewPage() {
               </div>
 
               <div className="rounded-2xl p-2 backdrop-blur-xl" style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${borderD2}` }}>
-                <div className="rounded-xl overflow-hidden" style={{ background: '#0F0F0F' }}>
+                <div className="rounded-xl overflow-hidden" style={{ background: dark3 }}>
                   <div className="flex items-center gap-2 px-4 py-2.5 border-b" style={{ borderColor: borderD }}>
                     <div className="flex gap-1.5">
                       <span className="w-2.5 h-2.5 rounded-full" style={{ background: '#FF5F57' }} />
                       <span className="w-2.5 h-2.5 rounded-full" style={{ background: '#FFBD2E' }} />
                       <span className="w-2.5 h-2.5 rounded-full" style={{ background: '#28CA42' }} />
                     </div>
-                    <div className="ml-3 px-2 py-0.5 rounded text-[10px] font-bold" style={{ background: 'rgba(255,255,255,0.05)', color: subtleD, fontFamily: 'var(--font-mono)' }}>
+                    <div className="ml-3 px-2 py-0.5 rounded text-[10px] font-bold" style={{ background: cardBgD, color: subtleD, fontFamily: 'var(--font-mono)' }}>
                       trovapro.it/dashboard
                     </div>
                   </div>
@@ -1092,7 +1084,7 @@ export default function DesignPreviewPage() {
                         { v: '24', l: 'Lead', c: accentLight },
                         { v: '4.9', l: 'Rating', c: '#FFB020' },
                       ].map((k, i) => (
-                        <div key={i} className="rounded-lg p-3" style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${borderD}` }}>
+                        <div key={i} className="rounded-lg p-3" style={{ background: cardBgD, border: `1px solid ${borderD}` }}>
                           <div className="text-base text-white font-bold number-xl">{k.v}</div>
                           <div className="text-[10px] mt-0.5 inline-flex items-center gap-1" style={{ color: subtleD }}>
                             <span className="w-1 h-1 rounded-full" style={{ background: k.c }} />
@@ -1102,7 +1094,7 @@ export default function DesignPreviewPage() {
                       ))}
                     </div>
 
-                    <div className="rounded-lg p-3 mb-5" style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${borderD}` }}>
+                    <div className="rounded-lg p-3 mb-5" style={{ background: cardBgD, border: `1px solid ${borderD}` }}>
                       <div className="flex items-center justify-between mb-3">
                         <span className="text-[10px] font-bold" style={{ color: subtleD, fontFamily: 'var(--font-mono)' }}>VISUALIZZAZIONI · 30G</span>
                         <span className="text-[10px] inline-flex items-center gap-1 font-bold" style={{ color: '#4ADE80', fontFamily: 'var(--font-mono)' }}>
@@ -1136,7 +1128,7 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ FOOTER DARK ═══════════════════ */}
+      {/* ═══════════════════ FOOTER (DARK) ═══════════════════ */}
       <footer style={{ background: '#000' }}>
         <div className="max-w-[1280px] mx-auto px-6 pt-20 pb-12">
           <div className="rounded-2xl p-8 lg:p-12 mb-16 grid md:grid-cols-[1.4fr_1fr] gap-8 items-center" style={{ background: dark2, border: `1px solid ${borderD}` }}>
@@ -1149,7 +1141,7 @@ export default function DesignPreviewPage() {
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <div className="flex-1 rounded-lg p-1 flex items-center" style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${borderD}` }}>
+              <div className="flex-1 rounded-lg p-1 flex items-center" style={{ background: cardBgD, border: `1px solid ${borderD}` }}>
                 <Mail className="w-4 h-4 ml-2 mr-2 flex-shrink-0" style={{ color: subtleD }} />
                 <input placeholder="tu@email.it" className="input-dark bg-transparent outline-none text-sm flex-1 py-2 text-white" />
               </div>
@@ -1169,10 +1161,10 @@ export default function DesignPreviewPage() {
           <div className="grid md:grid-cols-[2fr_1fr_1fr_1fr_1fr] gap-12 mb-16">
             <div className="max-w-xs">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: accent }}>
-                  <Zap className="w-4 h-4 text-white" strokeWidth={2.5} />
+                <div className="w-7 h-7 rounded-md flex items-center justify-center" style={{ background: 'white' }}>
+                  <Zap className="w-3.5 h-3.5" style={{ color: dark }} strokeWidth={2.5} />
                 </div>
-                <span className="text-[16px] font-bold tracking-tight text-white" style={{ letterSpacing: '-0.01em' }}>trovapro</span>
+                <span className="text-[15px] font-bold tracking-tight text-white" style={{ letterSpacing: '-0.01em' }}>trovapro</span>
               </div>
               <p className="text-sm leading-relaxed mb-6" style={{ color: subtleD }}>
                 Il modo più semplice di trovare professionisti qualificati nella tua zona. Verificati, valutati, pronti a partire.
@@ -1218,7 +1210,7 @@ export default function DesignPreviewPage() {
                 <Globe className="w-3 h-3" /> Italia (IT)
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: success }} />
+                <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: successD }} />
                 All systems operational
               </span>
             </div>
@@ -1227,7 +1219,7 @@ export default function DesignPreviewPage() {
 
         <div className="border-t" style={{ borderColor: borderD, background: '#000' }}>
           <div className="max-w-[1280px] mx-auto px-6 py-4 text-center text-xs" style={{ color: subtleD }}>
-            v0.9 · LIGHT con band dark di highlight (header / 1 card bento / pro CTA / footer) ·{' '}
+            v1.0 · Alternating: hero(D) → stats(L) → cat(D) → featured(L) → bento(D) → testim(L) → pricing(D) → faq(L) → cta(D) → footer(D) ·{' '}
             <Link href="/" className="text-white font-semibold">Torna al sito attuale →</Link>
           </div>
         </div>
