@@ -546,9 +546,9 @@ export default function DesignPreviewPage() {
             </a>
           </div>
 
-          <h1 className="text-center font-bold tracking-[-0.05em] mx-auto max-w-5xl" style={{ fontSize: 'clamp(56px, 9vw, 112px)', lineHeight: 0.92 }}>
-            <span className="gradient-text-dark">Trovare un professionista,</span><br />
-            <span className="accent-text">finalmente semplice.</span>
+          <h1 className="text-center font-bold tracking-[-0.05em] mx-auto max-w-7xl" style={{ fontSize: 'clamp(48px, 8vw, 104px)', lineHeight: 0.95 }}>
+            <span className="gradient-text-dark lg:whitespace-nowrap">Trovare un professionista,</span><br />
+            <span className="accent-text lg:whitespace-nowrap">finalmente semplice.</span>
           </h1>
 
           <p className="text-center mt-8 max-w-xl mx-auto text-[17px] leading-relaxed" style={{ color: subtleD }}>
@@ -713,50 +713,111 @@ export default function DesignPreviewPage() {
             </div>
           </div>
 
-          {/* Activity feed — orizzontale */}
+          {/* Activity feed — vertical timeline cards */}
           <article className="glass-emboss rounded-2xl overflow-hidden">
-            <div className="flex items-center justify-between gap-4 p-5 border-b flex-wrap" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
+            <div className="flex items-center justify-between gap-4 p-6 border-b flex-wrap" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #16A34A, #22C55E)' }}>
-                  <span className="pulse-dot w-2 h-2 rounded-full" style={{ background: 'white', boxShadow: '0 0 8px white' }} />
+                <div className="relative w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)' }}>
+                  <span className="absolute inset-0 rounded-xl pulse-dot" style={{ background: 'radial-gradient(circle, rgba(34,197,94,0.4), transparent 70%)' }} />
+                  <span className="relative w-2 h-2 rounded-full" style={{ background: '#4ADE80', boxShadow: '0 0 10px #4ADE80' }} />
                 </div>
                 <div>
                   <h3 className="text-base font-bold flex items-center gap-2 text-white">
                     Attività live
-                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'rgba(34,197,94,0.2)', color: '#4ADE80' }}>
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded inline-flex items-center gap-1" style={{ background: 'rgba(34,197,94,0.18)', color: '#4ADE80', border: '1px solid rgba(34,197,94,0.25)' }}>
+                      <span className="pulse-dot w-1 h-1 rounded-full" style={{ background: '#4ADE80' }} />
                       LIVE
                     </span>
                   </h3>
-                  <p className="text-xs" style={{ color: 'rgba(255,255,255,0.6)' }}>Ultime azioni dei nostri clienti e professionisti</p>
+                  <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>Stream delle ultime azioni in piattaforma</p>
                 </div>
               </div>
-              <a className="text-xs font-semibold flex items-center gap-1 hover:gap-2 transition-all" style={{ color: '#7AA8FF' }}>
+              <a className="text-xs font-semibold flex items-center gap-1 hover:gap-2 transition-all text-white">
                 Vedi tutto <ArrowRight className="w-3 h-3" />
               </a>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-5 divide-y sm:divide-y-0 sm:divide-x" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-5 divide-y sm:divide-y-0 sm:divide-x" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
               {LIVE_ACTIVITY.map((a, i) => {
+                // Categorize each action with type + visual identity
+                const types = [
+                  { label: 'Richiesta',  color: '#3B92FF', icon: Search },
+                  { label: 'Recensione', color: '#FBBF24', icon: Star },
+                  { label: 'Completato', color: '#4ADE80', icon: Check },
+                  { label: 'Preventivo', color: '#3B92FF', icon: Search },
+                  { label: 'Recensione', color: '#FBBF24', icon: Star },
+                ];
+                const type = types[i];
+                const TypeIcon = type.icon;
                 const palette = ['#3B92FF','#A78BFA','#4ADE80','#FBBF24','#F87171'];
+
                 return (
-                  <div key={i} className="feed-item p-5 flex flex-col gap-3 cursor-pointer">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-bold text-white flex-shrink-0" style={{ background: palette[i] }}>
+                  <div key={i} className="feed-item p-6 flex flex-col gap-4 cursor-pointer relative group">
+                    {/* Top: avatar with action badge overlay */}
+                    <div className="relative w-14 h-14">
+                      <div
+                        className="w-14 h-14 rounded-full flex items-center justify-center text-[15px] font-bold text-white"
+                        style={{
+                          background: `linear-gradient(135deg, ${palette[i]}, ${palette[i]}AA)`,
+                          boxShadow: `0 8px 20px -6px ${palette[i]}66, inset 0 1px 0 rgba(255,255,255,0.2)`,
+                        }}
+                      >
                         {a.who.split(' ').map((s) => s[0]).join('')}
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-bold truncate text-white">{a.who}</p>
-                        <p className="text-[11px] truncate" style={{ color: 'rgba(255,255,255,0.55)' }}>{a.city}</p>
+                      {/* Action badge */}
+                      <div
+                        className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full flex items-center justify-center"
+                        style={{
+                          background: type.color,
+                          border: `2px solid ${dark2}`,
+                          boxShadow: `0 4px 10px ${type.color}66`,
+                        }}
+                      >
+                        <TypeIcon
+                          className="w-3.5 h-3.5"
+                          style={{ color: type.label === 'Recensione' ? dark : 'white' }}
+                          strokeWidth={2.5}
+                          fill={type.label === 'Recensione' ? dark : 'none'}
+                        />
                       </div>
                     </div>
-                    <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.85)' }}>
+
+                    {/* Type pill */}
+                    <span
+                      className="self-start text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1"
+                      style={{
+                        background: `${type.color}18`,
+                        color: type.color,
+                        border: `1px solid ${type.color}33`,
+                      }}
+                    >
+                      <TypeIcon className="w-2.5 h-2.5" strokeWidth={3} />
+                      {type.label}
+                    </span>
+
+                    {/* Person + city */}
+                    <div>
+                      <p className="text-base font-bold truncate text-white">{a.who}</p>
+                      <p className="text-xs flex items-center gap-1 truncate" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                        <MapPin className="w-3 h-3" />
+                        {a.city}
+                      </p>
+                    </div>
+
+                    {/* Action description */}
+                    <p className="text-sm leading-relaxed flex-1" style={{ color: 'rgba(255,255,255,0.85)' }}>
                       {a.action}
                     </p>
-                    <div className="flex items-center gap-1.5 mt-auto">
-                      <span className="pulse-dot w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: i === 0 ? '#4ADE80' : 'rgba(255,255,255,0.3)', boxShadow: i === 0 ? '0 0 6px #4ADE80' : 'none' }} />
-                      <span className="text-[11px] font-medium" style={{ color: i === 0 ? '#4ADE80' : 'rgba(255,255,255,0.5)' }}>
-                        {i === 0 ? 'in questo momento' : a.t}
+
+                    {/* Timestamp footer */}
+                    <div className="flex items-center justify-between gap-2 pt-3 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
+                      <span className="flex items-center gap-1.5 text-[11px] font-medium">
+                        <span className="pulse-dot w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: i === 0 ? '#4ADE80' : 'rgba(255,255,255,0.3)', boxShadow: i === 0 ? '0 0 6px #4ADE80' : 'none' }} />
+                        <span style={{ color: i === 0 ? '#4ADE80' : 'rgba(255,255,255,0.55)' }}>
+                          {i === 0 ? 'ora' : a.t}
+                        </span>
                       </span>
+                      <ArrowUpRight className="w-3.5 h-3.5 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5" style={{ color: 'rgba(255,255,255,0.4)' }} />
                     </div>
                   </div>
                 );
