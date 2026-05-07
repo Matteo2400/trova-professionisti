@@ -617,8 +617,9 @@ export default function DesignPreviewPage() {
                 <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: 'white', boxShadow: '0 0 8px rgba(255,255,255,0.6)' }} />
                 Numeri reali, aggiornati in tempo reale
               </span>
-              <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold text-white">
-                Una piattaforma che funziona davvero.
+              <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold">
+                <span className="gradient-text-dark">Una piattaforma</span><br />
+                <span className="accent-text">che funziona davvero.</span>
               </h2>
             </div>
             <a className="text-sm flex items-center gap-1 hover:gap-2 transition-all font-semibold text-white">
@@ -827,8 +828,9 @@ export default function DesignPreviewPage() {
                 <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: ink }} />
                 In evidenza
               </span>
-              <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold mb-3" style={{ color: ink }}>
-                Professionisti consigliati.
+              <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold mb-3">
+                <span style={{ color: ink }}>Professionisti</span><br />
+                <span className="accent-text">consigliati.</span>
               </h2>
               <p className="text-base" style={{ color: subtle }}>
                 I migliori della tua zona, scelti per te in base a recensioni, esperienza e disponibilità.
@@ -987,8 +989,9 @@ export default function DesignPreviewPage() {
               <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtleD, fontFamily: 'var(--font-mono)' }}>03 ◆</span>
               <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: 'rgba(255,255,255,0.7)', fontFamily: 'var(--font-mono)' }}>Perché TrovaPro</span>
             </div>
-            <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold text-white">
-              Tutto quello che ti serve, niente che non ti serve.
+            <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold">
+              <span className="gradient-text-dark">Tutto quello che ti serve,</span><br />
+              <span className="accent-text">niente che non ti serve.</span>
             </h2>
           </div>
 
@@ -1073,8 +1076,9 @@ export default function DesignPreviewPage() {
               <span style={{ color: '#FBBF24' }}>4.7</span>
               <span style={{ color: 'rgba(255,255,255,0.6)' }}>su 2.143 recensioni verificate</span>
             </span>
-            <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold text-white">
-              Le storie di chi ha già scelto TrovaPro.
+            <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold">
+              <span className="gradient-text-dark">Le storie di chi</span><br />
+              <span className="accent-text">ha già scelto TrovaPro.</span>
             </h2>
           </div>
 
@@ -1135,8 +1139,9 @@ export default function DesignPreviewPage() {
               <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtleD, fontFamily: 'var(--font-mono)' }}>05 ◆</span>
               <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: 'rgba(255,255,255,0.7)', fontFamily: 'var(--font-mono)' }}>Piani</span>
             </div>
-            <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold mb-4 text-white">
-              Inizia gratis. Cresci quando vuoi.
+            <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold mb-4">
+              <span className="gradient-text-dark">Inizia gratis.</span><br />
+              <span className="accent-text">Cresci quando vuoi.</span>
             </h2>
             <p className="text-base" style={{ color: subtleD }}>
               I clienti non pagano nulla. I professionisti scelgono il piano che preferiscono.
@@ -1217,8 +1222,9 @@ export default function DesignPreviewPage() {
                 <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: ink }} />
                 Domande frequenti
               </span>
-              <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold mb-4" style={{ color: ink }}>
-                Tutto quello che vuoi sapere.
+              <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold mb-4">
+                <span style={{ color: ink }}>Tutto quello che</span><br />
+                <span className="accent-text">vuoi sapere.</span>
               </h2>
               <p className="text-base mb-6" style={{ color: subtle }}>
                 Non trovi una risposta? Scrivici a{' '}
@@ -1287,7 +1293,7 @@ export default function DesignPreviewPage() {
               </div>
               <h2 className="font-bold tracking-[-0.05em]" style={{ fontSize: 'clamp(48px, 6vw, 72px)', lineHeight: 0.95 }}>
                 <span className="gradient-text-dark">Più clienti.</span><br />
-                <span className="num-etched">Meno fatica.</span>
+                <span className="accent-text">Meno fatica.</span>
               </h2>
               <p className="mt-8 max-w-md text-base" style={{ color: textMidD }}>
                 Crea il tuo profilo in 5 minuti. Ricevi richieste qualificate, gestisci tutto da una sola dashboard.
