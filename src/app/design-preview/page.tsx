@@ -229,6 +229,48 @@ export default function DesignPreviewPage() {
           transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease, border-color 0.3s ease, box-shadow 0.4s ease;
           position: relative; isolation: isolate;
         }
+
+        /* ─── Glass card with embossed relief (no colored border) ─── */
+        .glass-emboss {
+          position: relative; isolation: isolate;
+          background:
+            linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%);
+          border: 1px solid rgba(255,255,255,0.1);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.18),
+            inset 0 -1px 0 rgba(0,0,0,0.2),
+            0 20px 40px -16px rgba(0,0,0,0.5),
+            0 8px 16px -8px rgba(0,0,0,0.3);
+          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease, box-shadow 0.4s ease;
+        }
+        .glass-emboss:hover {
+          transform: translateY(-3px);
+          background:
+            linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.05) 100%);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.22),
+            inset 0 -1px 0 rgba(0,0,0,0.2),
+            0 30px 60px -20px rgba(0,0,0,0.6),
+            0 12px 24px -8px rgba(0,0,0,0.4);
+        }
+
+        /* ─── Translucent etched number ─── */
+        .num-etched {
+          background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.45) 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          text-shadow: 0 1px 0 rgba(255,255,255,0.1);
+        }
+
+        /* ─── Mono icon container on glass ─── */
+        .icon-mono {
+          background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 100%);
+          border: 1px solid rgba(255,255,255,0.12);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+        }
         .glass-on-color::before {
           content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
           background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.5) 50%, transparent 70%);
@@ -621,30 +663,30 @@ export default function DesignPreviewPage() {
             {/* 3 secondary stats stacked */}
             <div className="grid grid-rows-3 gap-5">
               {[
-                { value: '4.8', suffix: '/ 5', label: 'Stelle medie', sub: 'su 2.143 recensioni verificate', trend: '+0.2', spark: [4.5,4.6,4.6,4.7,4.7,4.8,4.7,4.8,4.8,4.9,4.8,4.8], color: '#FBBF24', icon: Star },
-                { value: '< 2h', suffix: '', label: 'Tempo di risposta', sub: '−24m vs. mese scorso', trend: 'più veloce', spark: [180,165,155,140,130,125,118,112,108,102,98,95].reverse(), color: '#22D3EE', icon: Bolt },
-                { value: '98', suffix: '%', label: 'Tasso completamento', sub: 'lavori portati a termine', trend: '+3%', spark: [88,89,90,91,92,93,94,95,96,97,97,98], color: '#A78BFA', icon: BadgeCheck },
+                { value: '4.8', suffix: '/ 5', label: 'Stelle medie', sub: 'su 2.143 recensioni verificate', trend: '+0.2', spark: [4.5,4.6,4.6,4.7,4.7,4.8,4.7,4.8,4.8,4.9,4.8,4.8], icon: Star },
+                { value: '< 2h', suffix: '', label: 'Tempo di risposta', sub: '−24m vs. mese scorso', trend: 'più veloce', spark: [180,165,155,140,130,125,118,112,108,102,98,95].reverse(), icon: Bolt },
+                { value: '98', suffix: '%', label: 'Tasso completamento', sub: 'lavori portati a termine', trend: '+3%', spark: [88,89,90,91,92,93,94,95,96,97,97,98], icon: BadgeCheck },
               ].map((s, i) => {
                 const Icon = s.icon;
                 return (
-                  <article key={i} className="glass-on-color rounded-2xl p-6 flex items-center gap-5 group cursor-pointer" style={{ borderLeft: `3px solid ${s.color}` }}>
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: `${s.color}25` }}>
-                      <Icon className="w-5 h-5" style={{ color: s.color }} strokeWidth={2} fill={s.icon === Star ? s.color : 'none'} />
+                  <article key={i} className="glass-emboss rounded-2xl p-6 flex items-center gap-5 group cursor-pointer">
+                    <div className="icon-mono w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.85)' }} strokeWidth={1.75} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-baseline gap-1.5 mb-1">
-                        <span className="text-3xl number-xl font-bold text-white">{s.value}</span>
-                        {s.suffix && <span className="text-base font-semibold" style={{ color: 'rgba(255,255,255,0.6)' }}>{s.suffix}</span>}
-                        <span className="ml-auto text-[11px] font-bold inline-flex items-center gap-0.5" style={{ color: s.color }}>
+                        <span className="num-etched text-3xl number-xl font-bold">{s.value}</span>
+                        {s.suffix && <span className="text-base font-semibold" style={{ color: 'rgba(255,255,255,0.5)' }}>{s.suffix}</span>}
+                        <span className="ml-auto text-[11px] font-semibold inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full" style={{ color: 'rgba(255,255,255,0.75)', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
                           <TrendingUp className="w-3 h-3" />
                           {s.trend}
                         </span>
                       </div>
-                      <p className="text-sm font-bold mb-0.5 text-white">{s.label}</p>
-                      <p className="text-xs" style={{ color: 'rgba(255,255,255,0.6)' }}>{s.sub}</p>
+                      <p className="text-sm font-semibold mb-0.5" style={{ color: 'rgba(255,255,255,0.92)' }}>{s.label}</p>
+                      <p className="text-xs" style={{ color: 'rgba(255,255,255,0.45)' }}>{s.sub}</p>
                     </div>
-                    <div className="hidden sm:block opacity-80 group-hover:opacity-100 transition-opacity">
-                      <Sparkline data={s.spark} color={s.color} width={70} height={32} />
+                    <div className="hidden sm:block opacity-50 group-hover:opacity-80 transition-opacity">
+                      <Sparkline data={s.spark} color="rgba(255,255,255,0.7)" width={70} height={32} />
                     </div>
                   </article>
                 );
