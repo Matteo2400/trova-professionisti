@@ -11,21 +11,10 @@ interface PageProps {
   params: Promise<{ categoria: string; citta: string }>;
 }
 
+// Use ISR + dynamic rendering on first request (avoids exhausting Neon's
+// 3-connection pool during build with many parallel category/city queries).
+export const dynamic = 'force-dynamic';
 export const revalidate = 3600;
-
-// Build static params for the most common combinations.
-// Other combinations will be generated on demand via ISR.
-export async function generateStaticParams() {
-  const categories = await prisma.category.findMany({ where: { isActive: true } });
-  const topCities = ['roma', 'milano', 'napoli', 'torino', 'palermo', 'genova', 'bologna', 'firenze', 'bari', 'catania'];
-  const params: { categoria: string; citta: string }[] = [];
-  for (const cat of categories) {
-    for (const c of topCities) {
-      params.push({ categoria: cat.namePlural.toLowerCase(), citta: c });
-    }
-  }
-  return params;
-}
 
 function denormalize(slug: string): string {
   return slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
