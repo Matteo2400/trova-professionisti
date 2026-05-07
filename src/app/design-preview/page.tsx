@@ -11,6 +11,7 @@ const ink = '#0A0A0A';
 const subtle = '#6B7280';
 const fade = '#9CA3AF';
 const surface = '#FAFAFA';
+const surface2 = '#F5F5F5';
 const border = '#E5E5E5';
 const borderStrong = '#D4D4D4';
 
@@ -1025,51 +1026,55 @@ export default function DesignPreviewPage() {
             </article>
 
             {FEATURED.slice(1, 5).map((p, i) => (
-              <article key={i} className="glass-emboss-light group rounded-2xl p-5 cursor-pointer">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{ background: p.avatar }}>
-                      {p.initials}
-                    </div>
-                    {p.plan === 'premium' && (
-                      <span className="px-1.5 py-0.5 rounded text-[9px] uppercase tracking-wider font-bold" style={{ background: ink, color: 'white', fontFamily: 'var(--font-mono)' }}>
-                        Premium
-                      </span>
-                    )}
+              <article key={i} className="glass-emboss-light group cursor-pointer transition-all duration-500 hover:-translate-y-1" style={{ borderRadius: '24px', padding: '24px' }}>
+                <div className="flex items-start justify-between mb-6">
+                  <div
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center text-sm font-semibold text-white"
+                    style={{
+                      background: `linear-gradient(135deg, ${p.avatar}, ${p.avatar}CC)`,
+                      boxShadow: `0 6px 16px -4px ${p.avatar}55, inset 0 1px 0 rgba(255,255,255,0.2)`,
+                    }}
+                  >
+                    {p.initials}
                   </div>
-                  <ArrowUpRight className="w-4 h-4 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5" style={{ color: subtle }} />
+                  {p.plan === 'premium' && (
+                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: ink, color: 'white' }}>
+                      Premium
+                    </span>
+                  )}
                 </div>
 
-                <h3 className="text-lg tracking-[-0.02em] font-bold mb-0.5 flex items-center gap-1.5" style={{ color: ink }}>
+                <h3 className="text-xl tracking-[-0.02em] font-semibold mb-1 flex items-center gap-1.5" style={{ color: ink }}>
                   {p.name}
-                  <BadgeCheck className="w-3.5 h-3.5" style={{ color: ink }} fill={ink} fillOpacity={0.12} strokeWidth={2} />
+                  <BadgeCheck className="w-4 h-4" style={{ color: ink }} fill={ink} fillOpacity={0.1} strokeWidth={2} />
                 </h3>
-                <p className="text-xs mb-3 font-medium" style={{ color: subtle }}>
+                <p className="text-sm mb-5" style={{ color: subtle }}>
                   {p.category} · {p.city}
                 </p>
 
-                <div className="flex items-center gap-1.5 flex-wrap mb-4">
+                <div className="flex items-center justify-between gap-3 mb-5 text-sm">
                   {p.available ? (
-                    <span className="text-[10px] inline-flex items-center gap-1 px-1.5 py-0.5 rounded font-semibold" style={{ color: success, background: successSoft }}>
-                      <span className="pulse-dot w-1 h-1 rounded-full" style={{ background: success }} /> Online
+                    <span className="inline-flex items-center gap-1.5 font-medium" style={{ color: success }}>
+                      <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: success, boxShadow: `0 0 6px ${success}` }} />
+                      Online
                     </span>
                   ) : (
-                    <span className="text-[10px] inline-flex items-center gap-1 px-1.5 py-0.5 rounded font-semibold" style={{ color: subtle, background: surface }}>
-                      <span className="w-1 h-1 rounded-full" style={{ background: subtle }} /> Occupato
+                    <span className="inline-flex items-center gap-1.5 font-medium" style={{ color: subtle }}>
+                      <span className="w-1.5 h-1.5 rounded-full" style={{ background: subtle }} />
+                      Occupato
                     </span>
                   )}
-                  <span className="text-[10px] inline-flex items-center gap-1 font-semibold" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>
-                    <Bolt className="w-2.5 h-2.5" /> {p.responseTime}
+                  <span className="inline-flex items-center gap-1 font-medium" style={{ color: subtle }}>
+                    <Bolt className="w-3 h-3" /> {p.responseTime}
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between pt-3 border-t text-xs" style={{ borderColor: border, fontFamily: 'var(--font-mono)' }}>
-                  <span className="inline-flex items-center gap-1 font-bold" style={{ color: ink }}>
-                    <Star className="w-3 h-3" fill={ink} strokeWidth={0} /> {p.rating}
-                    <span style={{ color: subtle, fontWeight: 400 }}>({p.reviews})</span>
+                <div className="flex items-center justify-between pt-5" style={{ borderTop: `1px solid ${border}` }}>
+                  <span className="inline-flex items-center gap-1 font-semibold text-sm" style={{ color: ink }}>
+                    <Star className="w-4 h-4" fill={ink} strokeWidth={0} /> {p.rating}
+                    <span className="font-normal text-xs ml-0.5" style={{ color: subtle }}>({p.reviews})</span>
                   </span>
-                  <span style={{ color: subtle, fontWeight: 500 }}>{p.distance}</span>
-                  <span className="font-bold" style={{ color: ink }}>{p.price}</span>
+                  <span className="text-sm font-semibold" style={{ color: ink }}>{p.price}</span>
                 </div>
               </article>
             ))}
@@ -1149,12 +1154,12 @@ export default function DesignPreviewPage() {
             ].map((f, i) => {
               const Icon = f.icon;
               return (
-                <div key={i} className="glass-emboss rounded-2xl p-6">
-                  <div className="icon-mono w-11 h-11 rounded-xl mb-5 flex items-center justify-center">
-                    <Icon className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.85)' }} strokeWidth={1.75} />
+                <div key={i} className="glass-emboss group transition-all duration-500 hover:-translate-y-1" style={{ borderRadius: '24px', padding: '28px' }}>
+                  <div className="icon-mono w-12 h-12 rounded-2xl mb-10 flex items-center justify-center">
+                    <Icon className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.9)' }} strokeWidth={1.5} />
                   </div>
-                  <h3 className="text-lg tracking-[-0.02em] font-bold mb-2 text-white">{f.title}</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: subtleD }}>{f.desc}</p>
+                  <h3 className="text-xl tracking-[-0.02em] font-semibold mb-2 text-white">{f.title}</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>{f.desc}</p>
                 </div>
               );
             })}
@@ -1199,26 +1204,39 @@ export default function DesignPreviewPage() {
 
           <div className="grid md:grid-cols-3 gap-5">
             {TESTIMONIALS.map((t, i) => (
-              <div key={i} className="glass-emboss relative rounded-2xl p-7">
-                <Quote className="absolute top-6 right-6 w-9 h-9" style={{ color: 'rgba(251,191,36,0.25)' }} fill="rgba(251,191,36,0.25)" strokeWidth={0} />
-                <div className="flex items-center gap-1 mb-5">
+              <div key={i} className="glass-emboss group relative transition-all duration-500 hover:-translate-y-1" style={{ borderRadius: '28px', padding: '32px' }}>
+                <Quote className="absolute top-7 right-7 w-10 h-10" style={{ color: 'rgba(255,255,255,0.08)' }} fill="rgba(255,255,255,0.08)" strokeWidth={0} />
+
+                <div className="flex items-center gap-1 mb-7">
                   {Array.from({ length: 5 }).map((_, j) => (
                     <Star key={j} className="w-4 h-4" fill="#FBBF24" strokeWidth={0} />
                   ))}
-                  <span className="ml-2 text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'rgba(251,191,36,0.15)', color: '#FBBF24' }}>VERIFICATA</span>
                 </div>
-                <p className="text-[15px] leading-relaxed mb-6 font-medium text-white">
+
+                <p className="text-[16px] leading-[1.6] mb-8 text-white" style={{ letterSpacing: '-0.005em' }}>
                   &ldquo;{t.quote}&rdquo;
                 </p>
-                <div className="flex items-center gap-3 pt-5 border-t" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white" style={{ background: t.color, boxShadow: `0 0 16px -2px ${t.color}80` }}>
+
+                <div className="flex items-center gap-3 pt-6" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div
+                    className="w-11 h-11 rounded-full flex items-center justify-center text-sm font-semibold text-white flex-shrink-0"
+                    style={{
+                      background: `linear-gradient(135deg, ${t.color}, ${t.color}AA)`,
+                      boxShadow: `inset 0 1px 0 rgba(255,255,255,0.2)`,
+                    }}
+                  >
                     {t.avatar}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold truncate text-white">{t.name}</p>
-                    <p className="text-xs truncate" style={{ color: 'rgba(255,255,255,0.6)' }}>{t.role}</p>
+                    <p className="text-sm font-semibold truncate text-white flex items-center gap-1">
+                      {t.name}
+                      <BadgeCheck className="w-3.5 h-3.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.6)' }} fill="rgba(255,255,255,0.15)" strokeWidth={2} />
+                    </p>
+                    <p className="text-xs truncate" style={{ color: 'rgba(255,255,255,0.5)' }}>{t.role}</p>
                   </div>
-                  <BadgeCheck className="w-4 h-4 flex-shrink-0" style={{ color: '#7AA8FF' }} fill="#0070F3" fillOpacity={0.3} />
+                  <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full" style={{ background: 'rgba(34,197,94,0.12)', color: '#4ADE80', border: '1px solid rgba(34,197,94,0.2)' }}>
+                    Verificata
+                  </span>
                 </div>
               </div>
             ))}
@@ -1257,44 +1275,52 @@ export default function DesignPreviewPage() {
 
           <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto">
             {PLANS.map((p, i) => (
-              <div key={i} className={`relative rounded-2xl p-7 ${p.popular ? 'plan-popular' : 'glass-emboss'}`}>
+              <div key={i} className={`relative ${p.popular ? 'plan-popular' : 'glass-emboss'}`} style={{ borderRadius: '28px', padding: '36px 32px 32px' }}>
                 {p.popular && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider" style={{ background: 'white', color: dark, fontFamily: 'var(--font-mono)' }}>
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider" style={{ background: 'white', color: dark }}>
                     Più scelto
                   </span>
                 )}
 
                 <div className="flex items-center justify-between mb-1">
-                  <h3 className="text-base font-bold text-white" style={{ fontFamily: 'var(--font-mono)' }}>
-                    {p.name.toUpperCase()}
+                  <h3 className="text-sm font-semibold uppercase tracking-[0.1em] text-white" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                    {p.name}
                   </h3>
-                  {p.popular && <Sparkles className="w-4 h-4" style={{ color: 'white' }} fill="white" fillOpacity={0.4} />}
+                  {p.popular && <Sparkles className="w-4 h-4" style={{ color: 'white' }} fill="white" fillOpacity={0.5} />}
                 </div>
-                <p className="text-xs mb-6" style={{ color: subtleD }}>
+                <p className="text-sm mb-7" style={{ color: 'rgba(255,255,255,0.45)' }}>
                   {p.period}
                 </p>
 
                 <div className="flex items-baseline gap-1 mb-1">
-                  <span className="text-xs" style={{ color: subtleD }}>€</span>
-                  <span className="text-5xl number-xl font-bold text-white">
+                  <span className="text-base" style={{ color: 'rgba(255,255,255,0.5)' }}>€</span>
+                  <span className="num-etched text-6xl number-xl font-semibold" style={{ letterSpacing: '-0.05em' }}>
                     {p.priceMonthly === 0 ? '0' : p.priceMonthly.toString().replace('.', ',')}
                   </span>
-                  {p.priceMonthly !== 0 && <span className="text-xs" style={{ color: subtleD }}>/mese</span>}
+                  {p.priceMonthly !== 0 && <span className="text-sm ml-1" style={{ color: 'rgba(255,255,255,0.5)' }}>/mese</span>}
                 </div>
                 {p.priceMonthly !== 0 ? (
-                  <p className="text-[11px] mb-7 font-semibold" style={{ color: 'rgba(255,255,255,0.55)', fontFamily: 'var(--font-mono)' }}>
+                  <p className="text-xs mb-8" style={{ color: 'rgba(255,255,255,0.5)' }}>
                     o €{p.priceAnnual.toString().replace('.', ',')}/m con piano annuale
                   </p>
-                ) : <div className="mb-7" />}
+                ) : <div className="mb-8" />}
 
-                <button className="w-full py-3 rounded-lg text-sm font-bold transition-all hover:opacity-90 mb-7" style={{ background: p.popular ? 'white' : 'rgba(255,255,255,0.08)', color: p.popular ? dark : 'white', border: p.popular ? 'none' : `1px solid ${borderD2}` }}>
+                <button
+                  className="w-full py-3.5 rounded-2xl text-sm font-semibold transition-all hover:opacity-90 mb-8"
+                  style={{
+                    background: p.popular ? 'white' : 'rgba(255,255,255,0.06)',
+                    color: p.popular ? dark : 'white',
+                    border: p.popular ? 'none' : '1px solid rgba(255,255,255,0.1)',
+                    boxShadow: p.popular ? '0 8px 20px -6px rgba(255,255,255,0.2)' : 'inset 0 1px 0 rgba(255,255,255,0.08)',
+                  }}
+                >
                   {p.cta}
                 </button>
 
-                <ul className="space-y-2.5">
+                <ul className="space-y-3">
                   {p.features.map((f, j) => (
-                    <li key={j} className="flex items-start gap-2 text-sm font-medium text-white">
-                      <Check className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: p.popular ? 'white' : 'rgba(255,255,255,0.6)' }} strokeWidth={3} />
+                    <li key={j} className="flex items-start gap-3 text-sm" style={{ color: 'rgba(255,255,255,0.85)' }}>
+                      <Check className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: p.popular ? 'white' : 'rgba(255,255,255,0.5)' }} strokeWidth={2.5} />
                       {f}
                     </li>
                   ))}
@@ -1351,22 +1377,22 @@ export default function DesignPreviewPage() {
 
               <div className="space-y-3">
                 {FAQS.map((f, i) => (
-                  <details key={i} className="glass-emboss-light faq group rounded-xl transition-all">
-                    <summary className="flex items-center justify-between gap-4 p-5">
-                      <div className="flex items-start gap-3 flex-1 min-w-0">
-                        <span className="text-[10px] px-1.5 py-0.5 rounded mt-1 flex-shrink-0 font-bold" style={{ background: surface, color: subtle }}>
-                          {f.cat.toUpperCase()}
+                  <details key={i} className="glass-emboss-light faq group transition-all" style={{ borderRadius: '20px' }}>
+                    <summary className="flex items-center justify-between gap-4" style={{ padding: '20px 24px' }}>
+                      <div className="flex items-center gap-3 flex-1 min-w-0">
+                        <span className="text-[10px] px-2 py-0.5 rounded-full flex-shrink-0 font-semibold uppercase tracking-wider" style={{ background: surface2, color: subtle, border: `1px solid ${border}` }}>
+                          {f.cat}
                         </span>
-                        <h3 className="text-[15px] font-bold tracking-[-0.01em] flex-1" style={{ color: ink }}>
+                        <h3 className="text-[15px] font-semibold tracking-[-0.01em] flex-1" style={{ color: ink }}>
                           {f.q}
                         </h3>
                       </div>
-                      <div className="icon-mono-light w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <Plus className="faq-icon w-4 h-4" style={{ color: ink }} strokeWidth={2.5} />
+                      <div className="icon-mono-light w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0">
+                        <Plus className="faq-icon w-4 h-4" style={{ color: ink }} strokeWidth={2} />
                       </div>
                     </summary>
-                    <div className="px-5 pb-5 -mt-1">
-                      <p className="text-sm leading-relaxed pl-[68px]" style={{ color: subtle }}>{f.a}</p>
+                    <div className="-mt-1" style={{ padding: '0 24px 24px' }}>
+                      <p className="text-sm leading-[1.6]" style={{ color: subtle, paddingLeft: '92px' }}>{f.a}</p>
                     </div>
                   </details>
                 ))}
