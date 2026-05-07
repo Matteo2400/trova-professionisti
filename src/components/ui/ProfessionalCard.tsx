@@ -1,131 +1,87 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
-import { MapPin, Shield, Crown, Award, Zap, Droplets, Paintbrush, Hammer, ArrowUpRight } from 'lucide-react';
-import StarRating from '@/components/ui/StarRating';
-import { Professional } from '@/types';
+import { Star, BadgeCheck, ArrowUpRight, Bolt } from 'lucide-react';
+import type { Professional } from '@/types';
 
-interface ProfessionalCardProps {
+interface Props {
   professional: Professional;
   compact?: boolean;
 }
 
-const categoryIcons: Record<string, React.ReactNode> = {
-  elettricista: <Zap className="w-3.5 h-3.5" />,
-  idraulico: <Droplets className="w-3.5 h-3.5" />,
-  imbianchino: <Paintbrush className="w-3.5 h-3.5" />,
-  muratore: <Hammer className="w-3.5 h-3.5" />,
-};
+const COLORS = ['#0070F3', '#7B61FF', '#00C896', '#FFB020', '#EF4444', '#22C55E'];
 
-const categoryGradients: Record<string, string> = {
-  elettricista: 'from-amber-500 to-orange-600',
-  idraulico: 'from-blue-500 to-cyan-600',
-  imbianchino: 'from-emerald-500 to-teal-600',
-  muratore: 'from-violet-500 to-purple-600',
-};
-
-const categoryImages: Record<string, string> = {
-  elettricista: '/images/categories/elettricista.svg',
-  idraulico: '/images/categories/idraulico.svg',
-  imbianchino: '/images/categories/imbianchino.svg',
-  muratore: '/images/categories/muratore.svg',
-};
-
-export default function ProfessionalCard({ professional, compact = false }: ProfessionalCardProps) {
-  const isPremium = professional.plan === 'premium';
-  const isPro = professional.plan === 'pro';
+export default function ProfessionalCard({ professional }: Props) {
   const initials = `${professional.firstName[0]}${professional.lastName[0]}`;
-  const categoryImage = categoryImages[professional.category];
+  // deterministic color from slug
+  const color = COLORS[Math.abs(professional.slug.split('').reduce((a, c) => a + c.charCodeAt(0), 0)) % COLORS.length];
 
   return (
-    <Link href={`/professionista/${professional.slug}`}>
-      <div className={`group relative overflow-hidden ${isPremium ? 'card-premium' : 'card'}`}>
-        {/* Photo section */}
-        <div className="relative h-48 overflow-hidden">
-          {/* Category themed image */}
-          <div className={`absolute inset-0 bg-gradient-to-br ${categoryGradients[professional.category] || 'from-zinc-700 to-zinc-900'} flex items-center justify-center`}>
-            <span className="text-5xl font-bold text-white/80 select-none">{initials}</span>
-          </div>
-          {categoryImage && (
-            <Image
-              src={categoryImage}
-              alt={professional.category}
-              fill
-              className="object-cover transition-transform duration-700 group-hover:scale-110 relative z-[1]"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
+    <Link
+      href={`/professionista/${professional.slug}`}
+      className="glass-emboss-light group block cursor-pointer transition-all duration-500 hover:-translate-y-1"
+      style={{ borderRadius: '24px', padding: '24px' }}
+    >
+      <div className="flex items-start justify-between mb-6">
+        <div
+          className="w-12 h-12 rounded-2xl flex items-center justify-center text-sm font-semibold text-white"
+          style={{
+            background: `linear-gradient(135deg, ${color}, ${color}CC)`,
+            boxShadow: `0 6px 16px -4px ${color}55, inset 0 1px 0 rgba(255,255,255,0.2)`,
+          }}
+        >
+          {initials}
+        </div>
+        <div className="flex items-center gap-1.5">
+          {professional.plan === 'premium' && (
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: '#0A0A0A', color: 'white' }}>
+              Premium
+            </span>
           )}
-          {/* Dark gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent z-[2]" />
-
-          {/* Top badges */}
-          <div className="absolute top-3 left-3 flex gap-2 z-[3]">
-            {isPremium && (
-              <span className="badge-premium">
-                <Crown className="w-3 h-3" /> Premium
-              </span>
-            )}
-            {isPro && (
-              <span className="badge-pro">
-                <Award className="w-3 h-3" /> Pro
-              </span>
-            )}
-            {professional.isVerified && (
-              <span className="badge-verified">
-                <Shield className="w-3 h-3" /> Verificato
-              </span>
-            )}
-          </div>
-
-          {/* Arrow icon on hover */}
-          <div className="absolute top-3 right-3 w-8 h-8 bg-white/0 flex items-center justify-center transition-all duration-300 group-hover:bg-white z-[3]">
-            <ArrowUpRight className="w-4 h-4 text-white transition-all duration-300 group-hover:text-dark" />
-          </div>
-
-          {/* Price range at bottom of image */}
-          {professional.priceRange && (
-            <div className="absolute bottom-3 right-3 px-3 py-1 bg-white/90 backdrop-blur-sm text-xs font-semibold text-dark z-[3]">
-              {professional.priceRange}
-            </div>
+          {professional.plan === 'pro' && (
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: '#F5F5F5', color: '#0A0A0A', border: '1px solid #E5E5E5' }}>
+              Pro
+            </span>
           )}
         </div>
+      </div>
 
-        {/* Content */}
-        <div className="p-5">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="flex items-center gap-1 text-xs text-text-secondary uppercase tracking-wider font-medium">
-              {categoryIcons[professional.category]}
-              {professional.category}
+      <h3 className="text-xl tracking-[-0.02em] font-semibold mb-1 flex items-center gap-1.5" style={{ color: '#0A0A0A' }}>
+        {professional.firstName} {professional.lastName}
+        {professional.isVerified && (
+          <BadgeCheck className="w-4 h-4" style={{ color: '#0A0A0A' }} fill="#0A0A0A" fillOpacity={0.1} strokeWidth={2} />
+        )}
+      </h3>
+      <p className="text-sm mb-5 capitalize" style={{ color: '#6B7280' }}>
+        {professional.category} · {professional.city}
+      </p>
+
+      {professional.priceRange && (
+        <div className="flex items-center justify-between gap-3 mb-5 text-sm">
+          {professional.available ? (
+            <span className="inline-flex items-center gap-1.5 font-medium" style={{ color: '#16A34A' }}>
+              <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: '#16A34A', boxShadow: '0 0 6px #16A34A' }} />
+              Online
             </span>
-            <span className="text-zinc-300">|</span>
-            <span className="text-xs text-text-secondary">
-              {professional.yearsExperience} anni esp.
+          ) : (
+            <span className="inline-flex items-center gap-1.5 font-medium" style={{ color: '#6B7280' }}>
+              <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#6B7280' }} />
+              Occupato
             </span>
-          </div>
-
-          <h3 className="text-lg font-bold text-text mb-1 group-hover:text-primary transition-colors duration-300">
-            {professional.firstName} {professional.lastName}
-          </h3>
-
-          <div className="flex items-center gap-1 mb-3">
-            <StarRating rating={professional.rating} count={professional.reviewCount} size={14} />
-          </div>
-
-          {!compact && (
-            <p className="text-sm text-text-secondary line-clamp-2 mb-4 leading-relaxed">
-              {professional.description}
-            </p>
           )}
-
-          <div className="flex items-center gap-1 text-xs text-text-secondary pt-3 border-t border-zinc-100">
-            <MapPin className="w-3.5 h-3.5" />
-            {professional.city} ({professional.province})
-          </div>
+          <span className="inline-flex items-center gap-1 font-medium" style={{ color: '#6B7280' }}>
+            <Bolt className="w-3 h-3" /> {professional.priceRange}
+          </span>
         </div>
+      )}
 
-        {/* Bottom accent line */}
-        <div className={`h-0.5 w-0 transition-all duration-500 group-hover:w-full ${isPremium ? 'bg-amber-500' : 'bg-primary'}`} />
+      <div className="flex items-center justify-between pt-5" style={{ borderTop: '1px solid #E5E5E5' }}>
+        <span className="inline-flex items-center gap-1 font-semibold text-sm" style={{ color: '#0A0A0A' }}>
+          <Star className="w-4 h-4" fill="#0A0A0A" strokeWidth={0} /> {professional.rating.toFixed(1)}
+          <span className="font-normal text-xs ml-0.5" style={{ color: '#6B7280' }}>({professional.reviewCount})</span>
+        </span>
+        <span className="text-sm font-medium" style={{ color: '#6B7280' }}>{professional.yearsExperience} anni</span>
+        <ArrowUpRight className="w-4 h-4 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5" style={{ color: '#6B7280' }} />
       </div>
     </Link>
   );

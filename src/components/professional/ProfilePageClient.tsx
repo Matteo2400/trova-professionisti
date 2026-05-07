@@ -1,262 +1,240 @@
 'use client';
 
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
-import { motion } from 'framer-motion';
 import {
-  MapPin, Phone, Mail, Shield, Crown, Award, Clock, Calendar,
-  Zap, Droplets, Paintbrush, ArrowLeft, ExternalLink, Star
+  MapPin, Phone, Mail, ArrowLeft, Star, BadgeCheck, Bolt, Calendar, ArrowRight,
 } from 'lucide-react';
-import StarRating from '@/components/ui/StarRating';
-import AnimatedSection from '@/components/ui/AnimatedSection';
 import { Professional, Review } from '@/types';
-
-const MapView = dynamic(() => import('@/components/map/MapView'), { ssr: false });
-
-const categoryEmoji: Record<string, string> = {
-  elettricista: '⚡',
-  idraulico: '💧',
-  imbianchino: '🎨',
-  muratore: '🧱',
-};
 
 interface Props {
   professional: Professional;
   reviews: Review[];
 }
 
+const COLORS = ['#0070F3', '#7B61FF', '#00C896', '#FFB020', '#EF4444', '#22C55E'];
+
 export default function ProfilePageClient({ professional, reviews }: Props) {
   const isPremium = professional.plan === 'premium';
-  const isPro = professional.plan === 'pro';
+  const initials = `${professional.firstName[0]}${professional.lastName[0]}`;
+  const color = COLORS[Math.abs(professional.slug.split('').reduce((a, c) => a + c.charCodeAt(0), 0)) % COLORS.length];
 
   return (
-    <div className="pt-20 min-h-screen bg-surface">
-      {/* Back button */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <Link href="/cerca" className="inline-flex items-center gap-2 text-text-secondary hover:text-primary transition-colors text-sm">
-          <ArrowLeft className="w-4 h-4" />
-          Torna ai risultati
-        </Link>
-      </div>
+    <div style={{ background: '#FAFAFA', minHeight: '100vh' }}>
+      {/* Hero band dark */}
+      <section className="relative overflow-hidden pt-24 pb-12" style={{ background: '#050505' }}>
+        <div className="aurora-d-soft" />
+        <div className="absolute inset-0 grid-bg-dark opacity-50" />
 
-      {/* Profile Header */}
-      <div className={`${isPremium ? 'bg-gradient-to-r from-amber-50 to-amber-100/50 border-b-2 border-amber-200' : 'bg-white border-b border-gray-100'}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col sm:flex-row gap-6 items-start"
-          >
-            {/* Avatar */}
-            <div className={`w-24 h-24 sm:w-32 sm:h-32 rounded-2xl flex items-center justify-center text-5xl ${
-              isPremium ? 'bg-amber-100 border-4 border-amber-300 shadow-lg shadow-amber-500/20' : 'bg-surface border-2 border-gray-200'
-            }`}>
-              {categoryEmoji[professional.category]}
+        <div className="relative max-w-[1280px] mx-auto px-6">
+          <Link href="/cerca" className="inline-flex items-center gap-2 text-sm transition-colors hover:text-white mb-8" style={{ color: '#888' }}>
+            <ArrowLeft className="w-4 h-4" />
+            Torna ai risultati
+          </Link>
+
+          <div className="flex items-start gap-8 flex-wrap">
+            <div
+              className="w-28 h-28 rounded-3xl flex items-center justify-center text-3xl font-semibold text-white flex-shrink-0"
+              style={{
+                background: `linear-gradient(135deg, ${color}, ${color}CC)`,
+                boxShadow: `0 12px 32px -8px ${color}66, inset 0 1px 0 rgba(255,255,255,0.2)`,
+              }}
+            >
+              {initials}
             </div>
-
-            {/* Info */}
-            <div className="flex-1">
-              <div className="flex flex-wrap items-center gap-3 mb-2">
-                <h1 className="text-2xl sm:text-3xl font-bold text-text">
-                  {professional.firstName} {professional.lastName}
-                </h1>
-                {professional.isVerified && (
-                  <span className="badge-verified"><Shield className="w-3 h-3" /> Verificato</span>
-                )}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 flex-wrap mb-2">
                 {isPremium && (
-                  <span className="badge-premium"><Crown className="w-3 h-3" /> Premium</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full" style={{ background: 'white', color: '#050505' }}>
+                    Premium
+                  </span>
                 )}
-                {isPro && (
-                  <span className="badge-pro"><Award className="w-3 h-3" /> Pro</span>
+                {professional.plan === 'pro' && (
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full" style={{ background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.15)' }}>
+                    Pro
+                  </span>
+                )}
+                {professional.isVerified && (
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full inline-flex items-center gap-1" style={{ background: 'rgba(34,197,94,0.15)', color: '#4ADE80', border: '1px solid rgba(34,197,94,0.25)' }}>
+                    <BadgeCheck className="w-3 h-3" />
+                    Verificato
+                  </span>
+                )}
+                {professional.available && (
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full inline-flex items-center gap-1" style={{ background: 'rgba(34,197,94,0.15)', color: '#4ADE80' }}>
+                    <span className="pulse-dot w-1 h-1 rounded-full" style={{ background: '#4ADE80' }} />
+                    Online
+                  </span>
                 )}
               </div>
 
-              <p className="text-text-secondary mb-3 capitalize">{professional.category}</p>
+              <h1 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold mb-3">
+                <span className="gradient-text-dark">{professional.firstName}</span>{' '}
+                <span className="accent-text">{professional.lastName}</span>
+              </h1>
 
-              <div className="flex flex-wrap items-center gap-4 mb-4">
-                <StarRating rating={professional.rating} count={professional.reviewCount} />
-                <span className="flex items-center gap-1 text-sm text-text-secondary">
-                  <MapPin className="w-4 h-4" />
-                  {professional.city} ({professional.province})
+              <p className="text-lg capitalize mb-4" style={{ color: '#B5B5B5' }}>
+                {professional.category} · {professional.city} ({professional.province})
+              </p>
+
+              <div className="flex items-center gap-6 flex-wrap">
+                <span className="inline-flex items-center gap-1.5 text-base">
+                  <Star className="w-4 h-4" fill="#FBBF24" strokeWidth={0} />
+                  <span className="font-semibold text-white">{professional.rating.toFixed(1)}</span>
+                  <span style={{ color: '#888' }}>({professional.reviewCount} recensioni)</span>
                 </span>
-                <span className="flex items-center gap-1 text-sm text-text-secondary">
-                  <Clock className="w-4 h-4" />
+                <span className="inline-flex items-center gap-1.5 text-base" style={{ color: '#B5B5B5' }}>
+                  <Calendar className="w-4 h-4" />
                   {professional.yearsExperience} anni di esperienza
                 </span>
-              </div>
-
-              {professional.priceRange && (
-                <p className="text-sm font-medium text-primary mb-4">
-                  Tariffa indicativa: {professional.priceRange}
-                </p>
-              )}
-
-              {/* CTAs */}
-              <div className="flex flex-wrap gap-3">
-                <a
-                  href={`tel:${professional.phone.replace(/\s/g, '')}`}
-                  className="btn-primary flex items-center gap-2"
-                >
-                  <Phone className="w-4 h-4" />
-                  Chiama direttamente
-                </a>
-                <Link
-                  href={`/richiedi-preventivo/${professional.slug}`}
-                  className="btn-secondary flex items-center gap-2"
-                >
-                  <Mail className="w-4 h-4" />
-                  Richiedi preventivo
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main content */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Description */}
-            <AnimatedSection>
-              <div className="bg-white rounded-2xl border border-gray-100 p-6">
-                <h2 className="text-lg font-bold text-text mb-4">Chi sono</h2>
-                <p className="text-text-secondary leading-relaxed">
-                  {professional.description}
-                </p>
-              </div>
-            </AnimatedSection>
-
-            {/* Services and areas */}
-            <AnimatedSection delay={0.1}>
-              <div className="bg-white rounded-2xl border border-gray-100 p-6">
-                <h2 className="text-lg font-bold text-text mb-4">Zone coperte</h2>
-                <div className="flex flex-wrap gap-2">
-                  {professional.coverageAreas.map((area) => (
-                    <span key={area} className="px-3 py-1.5 bg-surface rounded-lg text-sm text-text-secondary">
-                      {area}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </AnimatedSection>
-
-            {/* Reviews */}
-            <AnimatedSection delay={0.2}>
-              <div className="bg-white rounded-2xl border border-gray-100 p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-lg font-bold text-text">
-                    Recensioni ({reviews.length})
-                  </h2>
-                  <StarRating rating={professional.rating} />
-                </div>
-
-                {reviews.length === 0 ? (
-                  <p className="text-text-secondary text-sm">Ancora nessuna recensione.</p>
-                ) : (
-                  <div className="space-y-6">
-                    {reviews.map((review) => (
-                      <div key={review.id} className="border-b border-gray-50 pb-6 last:border-0 last:pb-0">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-surface flex items-center justify-center font-semibold text-primary text-sm">
-                              {review.authorName.charAt(0)}
-                            </div>
-                            <div>
-                              <p className="font-medium text-text text-sm">{review.authorName}</p>
-                              <p className="text-xs text-text-secondary">
-                                {new Date(review.date).toLocaleDateString('it-IT', {
-                                  day: 'numeric', month: 'long', year: 'numeric'
-                                })}
-                                {review.verified && (
-                                  <span className="ml-2 text-success">✓ Verificata</span>
-                                )}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="flex gap-0.5">
-                            {Array.from({ length: 5 }).map((_, i) => (
-                              <Star
-                                key={i}
-                                className={`w-4 h-4 ${i < review.rating ? 'text-amber-400 fill-amber-400' : 'text-gray-200'}`}
-                              />
-                            ))}
-                          </div>
-                        </div>
-                        <p className="text-text-secondary text-sm leading-relaxed ml-13 pl-13">
-                          {review.comment}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
+                {professional.priceRange && (
+                  <span className="inline-flex items-center gap-1.5 text-base" style={{ color: '#B5B5B5' }}>
+                    <Bolt className="w-4 h-4" />
+                    {professional.priceRange}
+                  </span>
                 )}
               </div>
-            </AnimatedSection>
-          </div>
-
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Contact card */}
-            <div className={`rounded-2xl p-6 ${isPremium ? 'bg-gradient-to-br from-amber-50 to-amber-100/50 border-2 border-amber-200' : 'bg-white border border-gray-100'}`}>
-              <h3 className="font-bold text-text mb-4">Contatta {professional.firstName}</h3>
-              <div className="space-y-3">
-                <a
-                  href={`tel:${professional.phone.replace(/\s/g, '')}`}
-                  className="flex items-center gap-3 p-3 rounded-xl bg-white border border-gray-100 hover:border-primary hover:shadow-sm transition-all text-sm"
-                >
-                  <Phone className="w-5 h-5 text-primary" />
-                  <span className="text-text">{professional.phone}</span>
-                </a>
-                <Link
-                  href={`/richiedi-preventivo/${professional.slug}`}
-                  className="block w-full btn-primary text-center"
-                >
-                  Richiedi preventivo gratuito
-                </Link>
-              </div>
-            </div>
-
-            {/* Info card */}
-            <div className="bg-white rounded-2xl border border-gray-100 p-6">
-              <h3 className="font-bold text-text mb-4">Informazioni</h3>
-              <dl className="space-y-3 text-sm">
-                <div className="flex justify-between">
-                  <dt className="text-text-secondary">Categoria</dt>
-                  <dd className="font-medium text-text capitalize">{professional.category}</dd>
-                </div>
-                <div className="flex justify-between">
-                  <dt className="text-text-secondary">Esperienza</dt>
-                  <dd className="font-medium text-text">{professional.yearsExperience} anni</dd>
-                </div>
-                <div className="flex justify-between">
-                  <dt className="text-text-secondary">Raggio copertura</dt>
-                  <dd className="font-medium text-text">{professional.coverageRadius} km</dd>
-                </div>
-                <div className="flex justify-between">
-                  <dt className="text-text-secondary">Disponibile</dt>
-                  <dd className="font-medium text-success">
-                    {professional.available ? 'Sì' : 'No'}
-                  </dd>
-                </div>
-              </dl>
-            </div>
-
-            {/* Map */}
-            <div className="bg-white rounded-2xl border border-gray-100 p-4">
-              <h3 className="font-bold text-text mb-3 px-2">Zona di copertura</h3>
-              <MapView
-                professionals={[professional]}
-                center={[professional.latitude, professional.longitude]}
-                zoom={11}
-                className="h-[250px]"
-                showCoverage
-                selectedProfessional={professional}
-              />
             </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Body content */}
+      <section className="max-w-[1280px] mx-auto px-6 py-16">
+        <div className="grid lg:grid-cols-[1fr_380px] gap-8">
+          {/* Left: bio + reviews */}
+          <div className="space-y-6">
+            {/* About */}
+            <article className="glass-emboss-light" style={{ borderRadius: '24px', padding: '32px' }}>
+              <h2 className="text-2xl tracking-[-0.02em] font-bold mb-4" style={{ color: '#0A0A0A' }}>
+                Chi sono
+              </h2>
+              <p className="text-[15px] leading-[1.7]" style={{ color: '#374151' }}>
+                {professional.description}
+              </p>
+
+              {professional.coverageAreas && professional.coverageAreas.length > 0 && (
+                <div className="mt-6 pt-6 border-t" style={{ borderColor: '#E5E5E5' }}>
+                  <h3 className="text-xs uppercase tracking-[0.15em] font-bold mb-3" style={{ color: '#6B7280', fontFamily: 'var(--font-mono)' }}>
+                    Zone di copertura
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {professional.coverageAreas.map((area) => (
+                      <span key={area} className="text-xs px-3 py-1 rounded-full font-medium" style={{ background: '#F5F5F5', color: '#0A0A0A', border: '1px solid #E5E5E5' }}>
+                        {area}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </article>
+
+            {/* Reviews */}
+            {reviews.length > 0 && (
+              <article className="glass-emboss-light" style={{ borderRadius: '24px', padding: '32px' }}>
+                <div className="flex items-center justify-between mb-6 flex-wrap gap-2">
+                  <h2 className="text-2xl tracking-[-0.02em] font-bold" style={{ color: '#0A0A0A' }}>
+                    Recensioni
+                  </h2>
+                  <span className="inline-flex items-center gap-1.5 text-base">
+                    <Star className="w-4 h-4" fill="#FBBF24" strokeWidth={0} />
+                    <span className="font-semibold" style={{ color: '#0A0A0A' }}>{professional.rating.toFixed(1)}</span>
+                    <span style={{ color: '#6B7280' }}>· {professional.reviewCount} recensioni</span>
+                  </span>
+                </div>
+
+                <div className="space-y-5">
+                  {reviews.map((r) => (
+                    <div key={r.id} className="pb-5 last:pb-0 last:border-0" style={{ borderBottom: '1px solid #E5E5E5' }}>
+                      <div className="flex items-center gap-2 mb-2">
+                        {Array.from({ length: r.rating }).map((_, i) => (
+                          <Star key={i} className="w-3.5 h-3.5" fill="#FBBF24" strokeWidth={0} />
+                        ))}
+                        {r.verified && (
+                          <span className="text-[10px] font-bold uppercase tracking-wider ml-1 px-1.5 py-0.5 rounded" style={{ background: '#ECFDF5', color: '#16A34A' }}>Verificata</span>
+                        )}
+                      </div>
+                      <p className="text-[15px] leading-[1.6] mb-3" style={{ color: '#0A0A0A' }}>
+                        &ldquo;{r.comment}&rdquo;
+                      </p>
+                      <p className="text-xs" style={{ color: '#6B7280' }}>
+                        <span className="font-semibold" style={{ color: '#0A0A0A' }}>{r.authorName}</span> · {r.date}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </article>
+            )}
+          </div>
+
+          {/* Right: sticky CTA */}
+          <aside className="space-y-4 lg:sticky lg:top-24 self-start">
+            <div className="glass-emboss-light" style={{ borderRadius: '24px', padding: '24px' }}>
+              <h3 className="text-lg font-semibold mb-1" style={{ color: '#0A0A0A' }}>
+                Richiedi un preventivo
+              </h3>
+              <p className="text-sm mb-5" style={{ color: '#6B7280' }}>
+                Risposta entro {professional.available ? '2 ore' : '24 ore'}, gratuito e senza impegno.
+              </p>
+
+              <Link
+                href={`/richiedi-preventivo/${professional.slug}`}
+                className="block w-full py-3 rounded-xl text-sm font-semibold text-center transition-all hover:opacity-90 mb-3"
+                style={{ background: '#0070F3', color: 'white' }}
+              >
+                Richiedi preventivo gratuito <ArrowRight className="w-4 h-4 inline ml-1" />
+              </Link>
+
+              {professional.phone && (
+                <a
+                  href={`tel:${professional.phone}`}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors hover:bg-neutral-50 mb-2"
+                  style={{ border: '1px solid #E5E5E5', color: '#0A0A0A' }}
+                >
+                  <Phone className="w-4 h-4" />
+                  {professional.phone}
+                </a>
+              )}
+              {professional.email && (
+                <a
+                  href={`mailto:${professional.email}`}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors hover:bg-neutral-50"
+                  style={{ border: '1px solid #E5E5E5', color: '#0A0A0A' }}
+                >
+                  <Mail className="w-4 h-4" />
+                  {professional.email}
+                </a>
+              )}
+            </div>
+
+            {/* Trust signals */}
+            <div className="glass-emboss-light" style={{ borderRadius: '24px', padding: '24px' }}>
+              <h3 className="text-xs uppercase tracking-[0.15em] font-bold mb-4" style={{ color: '#6B7280', fontFamily: 'var(--font-mono)' }}>
+                Garanzie
+              </h3>
+              <ul className="space-y-3 text-sm">
+                {professional.isVerified && (
+                  <li className="flex items-center gap-2.5" style={{ color: '#0A0A0A' }}>
+                    <BadgeCheck className="w-4 h-4 flex-shrink-0" style={{ color: '#16A34A' }} />
+                    P.IVA verificata
+                  </li>
+                )}
+                <li className="flex items-center gap-2.5" style={{ color: '#0A0A0A' }}>
+                  <Star className="w-4 h-4 flex-shrink-0" fill="#FBBF24" strokeWidth={0} />
+                  {professional.reviewCount} recensioni reali
+                </li>
+                <li className="flex items-center gap-2.5" style={{ color: '#0A0A0A' }}>
+                  <Calendar className="w-4 h-4 flex-shrink-0" style={{ color: '#0A0A0A' }} />
+                  {professional.yearsExperience}+ anni di esperienza
+                </li>
+                <li className="flex items-center gap-2.5" style={{ color: '#0A0A0A' }}>
+                  <MapPin className="w-4 h-4 flex-shrink-0" style={{ color: '#0A0A0A' }} />
+                  Copertura {professional.coverageRadius} km
+                </li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </section>
     </div>
   );
 }

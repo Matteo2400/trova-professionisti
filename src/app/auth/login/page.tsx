@@ -4,8 +4,7 @@ import Link from 'next/link';
 import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
-import { motion } from 'framer-motion';
-import { Mail, Lock, Eye, EyeOff, Zap, Loader2 } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, Zap, Loader2, ArrowRight } from 'lucide-react';
 
 export default function LoginPage() {
   return (
@@ -31,34 +30,21 @@ function LoginInner() {
     setLoading(true);
 
     try {
-      const result = await signIn('credentials', {
-        email,
-        password,
-        redirect: false,
-      });
-
+      const result = await signIn('credentials', { email, password, redirect: false });
       if (result?.error) {
         setError('Email o password non corretti.');
         setLoading(false);
         return;
       }
-
-      // Honor callbackUrl if provided, otherwise role-based default.
       if (callbackUrl) {
         router.push(callbackUrl);
         return;
       }
-
       const sessionRes = await fetch('/api/auth/session');
       const session = await sessionRes.json();
-
-      if (session?.user?.role === 'admin') {
-        router.push('/admin');
-      } else if (session?.user?.role === 'professional') {
-        router.push('/dashboard');
-      } else {
-        router.push('/');
-      }
+      if (session?.user?.role === 'admin') router.push('/admin');
+      else if (session?.user?.role === 'professional') router.push('/dashboard');
+      else router.push('/');
     } catch {
       setError('Errore di connessione. Riprova.');
       setLoading(false);
@@ -67,75 +53,77 @@ function LoginInner() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left - Form */}
-      <div className="flex-1 flex items-center justify-center p-8">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="w-full max-w-md"
-        >
-          <Link href="/" className="flex items-center gap-2 mb-8">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center">
-              <Zap className="w-5 h-5 text-white" />
+      {/* Left form */}
+      <div className="flex-1 flex items-center justify-center p-8" style={{ background: '#FAFAFA' }}>
+        <div className="w-full max-w-md">
+          <Link href="/" className="flex items-center gap-2 mb-10">
+            <div className="w-9 h-9 rounded-md flex items-center justify-center" style={{ background: '#050505' }}>
+              <Zap className="w-4 h-4 text-white" strokeWidth={2.5} />
             </div>
-            <span className="text-xl font-bold text-text">
-              Trova<span className="text-primary">Pro</span>
+            <span className="text-lg font-semibold tracking-tight" style={{ color: '#050505', letterSpacing: '-0.01em' }}>
+              trovapro
             </span>
           </Link>
 
-          <h1 className="text-2xl font-bold text-text mb-2">Bentornato!</h1>
-          <p className="text-text-secondary mb-8">Accedi al tuo account professionista.</p>
+          <h1 className="text-3xl font-bold tracking-[-0.03em] mb-2" style={{ color: '#0A0A0A' }}>
+            Bentornato
+          </h1>
+          <p className="text-sm mb-8" style={{ color: '#6B7280' }}>
+            Accedi al tuo account.
+          </p>
 
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 mb-6 text-sm">
+            <div className="rounded-xl p-3.5 mb-6 text-sm" style={{ background: '#FEF2F2', color: '#991B1B', border: '1px solid #FECACA' }}>
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-text mb-1.5">Email</label>
+              <label className="block text-sm font-semibold mb-2" style={{ color: '#0A0A0A' }}>Email</label>
               <div className="relative">
-                <Mail className="absolute left-3 top-3.5 w-4 h-4 text-text-secondary" />
+                <Mail className="absolute left-3 top-3.5 w-4 h-4" style={{ color: '#9CA3AF' }} />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  required
                   placeholder="la-tua@email.it"
                   className="input-field pl-10"
-                  required
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-text mb-1.5">Password</label>
+              <label className="block text-sm font-semibold mb-2" style={{ color: '#0A0A0A' }}>Password</label>
               <div className="relative">
-                <Lock className="absolute left-3 top-3.5 w-4 h-4 text-text-secondary" />
+                <Lock className="absolute left-3 top-3.5 w-4 h-4" style={{ color: '#9CA3AF' }} />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  required
                   placeholder="La tua password"
                   className="input-field pl-10 pr-10"
-                  required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3.5 text-text-secondary hover:text-text"
+                  className="absolute right-3 top-3.5"
+                  style={{ color: '#9CA3AF' }}
+                  aria-label="Mostra/nascondi password"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
-              <label className="flex items-center gap-2 text-sm text-text-secondary">
-                <input type="checkbox" className="rounded border-gray-300" />
+            <div className="flex items-center justify-between text-sm">
+              <label className="inline-flex items-center gap-2" style={{ color: '#6B7280' }}>
+                <input type="checkbox" className="rounded" />
                 Ricordami
               </label>
-              <Link href="/auth/password-dimenticata" className="text-sm text-primary hover:underline">
+              <Link href="/auth/password-dimenticata" className="hover:underline" style={{ color: '#0070F3' }}>
                 Password dimenticata?
               </Link>
             </div>
@@ -143,46 +131,42 @@ function LoginInner() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full btn-primary !py-3.5 flex items-center justify-center gap-2 disabled:opacity-60"
+              className="w-full py-3.5 rounded-xl text-sm font-semibold transition-all hover:opacity-90 flex items-center justify-center gap-1.5 disabled:opacity-60"
+              style={{ background: '#0070F3', color: 'white' }}
             >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Accesso in corso...
-                </>
-              ) : (
-                'Accedi'
-              )}
+              {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Accesso...</> : <>Accedi <ArrowRight className="w-4 h-4" /></>}
             </button>
           </form>
 
-          <p className="text-center text-sm text-text-secondary mt-6">
+          <p className="text-center text-sm mt-6" style={{ color: '#6B7280' }}>
             Non hai un account?{' '}
-            <Link href="/auth/registrazione" className="text-primary font-medium hover:underline">
+            <Link href="/auth/registrazione" className="font-semibold hover:underline" style={{ color: '#0A0A0A' }}>
               Registrati gratis
             </Link>
           </p>
 
-          {/* Dev login hints */}
           {process.env.NODE_ENV !== 'production' && (
-            <div className="mt-8 p-4 bg-surface border border-zinc-200 text-xs text-text-secondary">
-              <p className="font-semibold mb-2 text-text">Account di test:</p>
+            <div className="mt-8 p-4 rounded-xl text-xs" style={{ background: 'white', border: '1px solid #E5E5E5', color: '#6B7280' }}>
+              <p className="font-semibold mb-2" style={{ color: '#0A0A0A' }}>Account di test:</p>
               <p>Admin: admin@trovapro.it / admin123!</p>
               <p>Pro: mario.rossi@email.it / professionista123!</p>
-              <p>Client: cliente@email.it / cliente123!</p>
+              <p>Cliente: cliente@email.it / cliente123!</p>
             </div>
           )}
-        </motion.div>
+        </div>
       </div>
 
-      {/* Right - Visual */}
-      <div className="hidden lg:flex flex-1 bg-gradient-to-br from-primary to-dark items-center justify-center p-12">
-        <div className="max-w-md text-center text-white">
-          <div className="text-6xl mb-6">🔧</div>
-          <h2 className="text-3xl font-bold mb-4">La tua dashboard ti aspetta</h2>
-          <p className="text-blue-100/70 leading-relaxed">
-            Gestisci le richieste dei clienti, monitora le statistiche del tuo profilo
-            e fai crescere la tua attivita con TrovaPro.
+      {/* Right visual */}
+      <div className="hidden lg:flex flex-1 items-center justify-center p-12 relative overflow-hidden" style={{ background: '#050505' }}>
+        <div className="aurora-d" />
+        <div className="absolute inset-0 grid-bg-dark opacity-50" />
+        <div className="relative max-w-md text-center">
+          <h2 className="font-bold tracking-[-0.04em]" style={{ fontSize: 'clamp(40px, 5vw, 56px)', lineHeight: 1 }}>
+            <span className="gradient-text-dark">Trova il</span><br />
+            <span className="accent-text">professionista</span>
+          </h2>
+          <p className="mt-6 text-base" style={{ color: '#888' }}>
+            Più di 8.000 professionisti verificati, pronti a darti una mano.
           </p>
         </div>
       </div>

@@ -2,8 +2,7 @@
 
 import { useState, useMemo, useEffect, useTransition, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Search, SlidersHorizontal, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, MapPin, ChevronLeft, ChevronRight, SlidersHorizontal } from 'lucide-react';
 import ProfessionalCard from '@/components/ui/ProfessionalCard';
 import { italianRegions } from '@/data';
 import type { Professional } from '@/types';
@@ -13,7 +12,6 @@ const provinceToName: Record<string, string> = {
   MI: 'Milano', BG: 'Bergamo', BS: 'Brescia', CO: 'Como', CR: 'Cremona', LC: 'Lecco',
   LO: 'Lodi', MN: 'Mantova', MB: 'Monza e Brianza', PV: 'Pavia', SO: 'Sondrio', VA: 'Varese',
   TO: 'Torino', AL: 'Alessandria', AT: 'Asti', BI: 'Biella', CN: 'Cuneo', NO: 'Novara',
-  VB: 'Verbano-Cusio-Ossola', VC: 'Vercelli',
   RM: 'Roma', FR: 'Frosinone', LT: 'Latina', RI: 'Rieti', VT: 'Viterbo',
   NA: 'Napoli', AV: 'Avellino', BN: 'Benevento', CE: 'Caserta', SA: 'Salerno',
   VE: 'Venezia', VR: 'Verona', PD: 'Padova', VI: 'Vicenza', TV: 'Treviso', BL: 'Belluno', RO: 'Rovigo',
@@ -21,16 +19,16 @@ const provinceToName: Record<string, string> = {
   PC: 'Piacenza', RA: 'Ravenna', RE: 'Reggio Emilia', RN: 'Rimini',
   FI: 'Firenze', AR: 'Arezzo', GR: 'Grosseto', LI: 'Livorno', LU: 'Lucca',
   MS: 'Massa-Carrara', PI: 'Pisa', PO: 'Prato', PT: 'Pistoia', SI: 'Siena',
-  BA: 'Bari', BT: 'Barletta-Andria-Trani', BR: 'Brindisi', FG: 'Foggia', LE: 'Lecce', TA: 'Taranto',
+  BA: 'Bari', BR: 'Brindisi', FG: 'Foggia', LE: 'Lecce', TA: 'Taranto',
   PA: 'Palermo', CT: 'Catania', ME: 'Messina', AG: 'Agrigento', CL: 'Caltanissetta',
   EN: 'Enna', RG: 'Ragusa', SR: 'Siracusa', TP: 'Trapani',
-  CA: 'Cagliari', SS: 'Sassari', NU: 'Nuoro', OR: 'Oristano', SU: 'Sud Sardegna',
+  CA: 'Cagliari', SS: 'Sassari', NU: 'Nuoro', OR: 'Oristano',
   GE: 'Genova', IM: 'Imperia', SP: 'La Spezia', SV: 'Savona',
   TS: 'Trieste', UD: 'Udine', GO: 'Gorizia', PN: 'Pordenone',
-  AN: 'Ancona', AP: 'Ascoli Piceno', FM: 'Fermo', MC: 'Macerata', PU: 'Pesaro e Urbino',
+  AN: 'Ancona', AP: 'Ascoli Piceno', FM: 'Fermo', MC: 'Macerata',
   AQ: "L'Aquila", CH: 'Chieti', PE: 'Pescara', TE: 'Teramo',
   PG: 'Perugia', TR: 'Terni',
-  CZ: 'Catanzaro', CS: 'Cosenza', KR: 'Crotone', RC: 'Reggio Calabria', VV: 'Vibo Valentia',
+  CZ: 'Catanzaro', CS: 'Cosenza', KR: 'Crotone', RC: 'Reggio Calabria',
   TN: 'Trento', BZ: 'Bolzano',
   PZ: 'Potenza', MT: 'Matera',
   CB: 'Campobasso', IS: 'Isernia',
@@ -51,7 +49,7 @@ const allProvinces = Object.entries(provinceToName)
   .sort((a, b) => a[1].localeCompare(b[1]))
   .map(([code, name]) => ({ code, name }));
 
-interface SearchPageClientProps {
+interface Props {
   initialProfessionals: Professional[];
   total: number;
   page: number;
@@ -73,7 +71,7 @@ export default function SearchPageClient({
   totalPages,
   categories,
   initialFilters,
-}: SearchPageClientProps) {
+}: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -121,210 +119,181 @@ export default function SearchPageClient({
   }, [selectedProvince, citiesForProvince, selectedCity]);
 
   return (
-    <div className="pt-20 min-h-screen bg-white">
-      <div className="bg-dark border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div style={{ background: '#FFFFFF', color: '#0A0A0A' }}>
+      {/* Search header on dark band */}
+      <section className="relative overflow-hidden pt-24 pb-12" style={{ background: '#050505' }}>
+        <div className="aurora-d-soft" />
+        <div className="absolute inset-0 grid-bg-dark opacity-60" />
+        <div className="relative max-w-[1280px] mx-auto px-6">
+          <h1 className="text-3xl lg:text-4xl tracking-[-0.04em] font-bold mb-2">
+            <span className="gradient-text-dark">Trova il professionista</span>{' '}
+            <span className="accent-text">giusto per te.</span>
+          </h1>
+          <p className="text-sm mb-8" style={{ color: '#888' }}>
+            <span className="font-bold text-white">{total}</span> professionisti verificati
+            {selectedCategory && <> · categoria <span className="font-semibold text-white capitalize">{selectedCategory}</span></>}
+            {selectedProvince && <> · provincia <span className="font-semibold text-white">{provinceToName[selectedProvince]}</span></>}
+            {selectedCity && <> · città <span className="font-semibold text-white">{selectedCity}</span></>}
+          </p>
+
+          {/* Filter pills */}
           <div className="flex flex-col sm:flex-row gap-2">
-            <div className="relative flex-1">
+            <div className="flex items-center gap-2.5 px-3.5 flex-1 min-w-0 rounded-xl" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <Search className="w-4 h-4 flex-shrink-0" style={{ color: '#888' }} />
               <select
                 value={selectedCategory}
-                onChange={(e) => {
-                  const v = e.target.value;
-                  setSelectedCategory(v);
-                  updateUrl({ category: v });
-                }}
-                className="w-full h-12 pl-10 pr-4 bg-white/10 text-white border-0 appearance-none cursor-pointer focus:outline-none focus:bg-white/15 transition-all text-sm"
+                onChange={(e) => { setSelectedCategory(e.target.value); updateUrl({ category: e.target.value }); }}
+                className="bg-transparent outline-none text-sm w-full text-white py-3 appearance-none cursor-pointer"
               >
-                <option value="" className="text-dark">Tutte le categorie</option>
+                <option value="" style={{ color: '#0A0A0A' }}>Tutte le categorie</option>
                 {categories.map((c) => (
-                  <option key={c.slug} value={c.slug} className="text-dark">{c.name}</option>
+                  <option key={c.slug} value={c.slug} style={{ color: '#0A0A0A' }}>{c.name}</option>
                 ))}
               </select>
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
             </div>
-
-            <div className="relative flex-1">
+            <div className="flex items-center gap-2.5 px-3.5 flex-1 min-w-0 rounded-xl" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <MapPin className="w-4 h-4 flex-shrink-0" style={{ color: '#888' }} />
               <select
                 value={selectedProvince}
-                onChange={(e) => {
-                  const v = e.target.value;
-                  setSelectedProvince(v);
-                  updateUrl({ province: v, city: '' });
-                }}
-                className="w-full h-12 pl-10 pr-4 bg-white/10 text-white border-0 appearance-none cursor-pointer focus:outline-none focus:bg-white/15 transition-all text-sm"
+                onChange={(e) => { setSelectedProvince(e.target.value); setSelectedCity(''); updateUrl({ province: e.target.value, city: '' }); }}
+                className="bg-transparent outline-none text-sm w-full text-white py-3 appearance-none cursor-pointer"
               >
-                <option value="" className="text-dark">Tutte le province</option>
+                <option value="" style={{ color: '#0A0A0A' }}>Tutte le province</option>
                 {allProvinces.map((p) => (
-                  <option key={p.code} value={p.code} className="text-dark">{p.name} ({p.code})</option>
+                  <option key={p.code} value={p.code} style={{ color: '#0A0A0A' }}>{p.name} ({p.code})</option>
                 ))}
               </select>
-              <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
             </div>
-
-            <div className="relative flex-1">
+            <div className="flex items-center gap-2.5 px-3.5 flex-1 min-w-0 rounded-xl" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', opacity: selectedProvince ? 1 : 0.5 }}>
+              <MapPin className="w-4 h-4 flex-shrink-0" style={{ color: '#888' }} />
               <select
                 value={selectedCity}
-                onChange={(e) => {
-                  const v = e.target.value;
-                  setSelectedCity(v);
-                  updateUrl({ city: v });
-                }}
+                onChange={(e) => { setSelectedCity(e.target.value); updateUrl({ city: e.target.value }); }}
                 disabled={!selectedProvince}
-                className="w-full h-12 pl-10 pr-4 bg-white/10 text-white border-0 appearance-none cursor-pointer focus:outline-none focus:bg-white/15 transition-all text-sm disabled:opacity-40 disabled:cursor-not-allowed"
+                className="bg-transparent outline-none text-sm w-full text-white py-3 appearance-none cursor-pointer disabled:cursor-not-allowed"
               >
-                <option value="" className="text-dark">{selectedProvince ? 'Tutte le città' : 'Seleziona prima la provincia'}</option>
+                <option value="" style={{ color: '#0A0A0A' }}>{selectedProvince ? 'Tutte le città' : 'Prima la provincia'}</option>
                 {citiesForProvince.map((c) => (
-                  <option key={c} value={c} className="text-dark">{c}</option>
+                  <option key={c} value={c} style={{ color: '#0A0A0A' }}>{c}</option>
                 ))}
               </select>
-              <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
             </div>
-
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className={`h-12 px-5 flex items-center gap-2 text-sm font-medium transition-all ${
-                showFilters ? 'bg-primary text-white' : 'bg-white/10 text-zinc-300 hover:bg-white/15 hover:text-white'
+              className={`px-5 py-3 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all ${
+                showFilters ? '' : 'hover:bg-white/10'
               }`}
+              style={{
+                background: showFilters ? 'white' : 'rgba(255,255,255,0.06)',
+                color: showFilters ? '#050505' : 'white',
+                border: '1px solid rgba(255,255,255,0.1)',
+              }}
             >
               <SlidersHorizontal className="w-4 h-4" />
               Filtri
             </button>
           </div>
 
-          <AnimatePresence>
-            {showFilters && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="overflow-hidden"
+          {showFilters && (
+            <div className="mt-5 pt-5 flex flex-wrap items-end gap-6" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+              <div>
+                <label className="text-[10px] uppercase tracking-widest font-bold mb-2 block" style={{ color: '#555', fontFamily: 'var(--font-mono)' }}>Valutazione min</label>
+                <select
+                  value={minRating}
+                  onChange={(e) => { setMinRating(Number(e.target.value)); updateUrl({ minRating: Number(e.target.value) }); }}
+                  className="rounded-lg px-3 py-2 bg-transparent text-white text-sm outline-none cursor-pointer"
+                  style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
+                >
+                  <option value={0} style={{ color: '#0A0A0A' }}>Tutte</option>
+                  <option value={3} style={{ color: '#0A0A0A' }}>3+ ★</option>
+                  <option value={4} style={{ color: '#0A0A0A' }}>4+ ★</option>
+                  <option value={4.5} style={{ color: '#0A0A0A' }}>4.5+ ★</option>
+                </select>
+              </div>
+              <div>
+                <label className="text-[10px] uppercase tracking-widest font-bold mb-2 block" style={{ color: '#555', fontFamily: 'var(--font-mono)' }}>Ordina per</label>
+                <select
+                  value={sortBy}
+                  onChange={(e) => { setSortBy(e.target.value as 'relevance' | 'rating'); updateUrl({ sortBy: e.target.value as 'relevance' | 'rating' }); }}
+                  className="rounded-lg px-3 py-2 bg-transparent text-white text-sm outline-none cursor-pointer"
+                  style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
+                >
+                  <option value="relevance" style={{ color: '#0A0A0A' }}>Rilevanza</option>
+                  <option value="rating" style={{ color: '#0A0A0A' }}>Valutazione</option>
+                </select>
+              </div>
+              <button
+                onClick={() => {
+                  setSelectedCategory('');
+                  setSelectedProvince('');
+                  setSelectedCity('');
+                  setMinRating(0);
+                  setSortBy('relevance');
+                  startTransition(() => router.push('/cerca'));
+                }}
+                className="text-sm transition-all"
+                style={{ color: '#3B92FF' }}
               >
-                <div className="pt-5 pb-2 flex flex-wrap gap-6 items-end border-t border-white/5 mt-5">
-                  <div>
-                    <label className="text-xs text-zinc-400 uppercase tracking-wider block mb-2">Valutazione min</label>
-                    <select
-                      value={minRating}
-                      onChange={(e) => {
-                        const v = Number(e.target.value);
-                        setMinRating(v);
-                        updateUrl({ minRating: v });
-                      }}
-                      className="h-10 px-3 bg-white/10 text-white border-0 text-sm focus:outline-none focus:bg-white/15"
-                    >
-                      <option value={0} className="text-dark">Tutte</option>
-                      <option value={3} className="text-dark">3+ ★</option>
-                      <option value={4} className="text-dark">4+ ★</option>
-                      <option value={4.5} className="text-dark">4.5+ ★</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="text-xs text-zinc-400 uppercase tracking-wider block mb-2">Ordina per</label>
-                    <select
-                      value={sortBy}
-                      onChange={(e) => {
-                        const v = e.target.value as 'relevance' | 'rating';
-                        setSortBy(v);
-                        updateUrl({ sortBy: v });
-                      }}
-                      className="h-10 px-3 bg-white/10 text-white border-0 text-sm focus:outline-none focus:bg-white/15"
-                    >
-                      <option value="relevance" className="text-dark">Rilevanza</option>
-                      <option value="rating" className="text-dark">Valutazione</option>
-                    </select>
-                  </div>
-
-                  <button
-                    onClick={() => {
-                      setSelectedCategory('');
-                      setSelectedProvince('');
-                      setSelectedCity('');
-                      setMinRating(0);
-                      setSortBy('relevance');
-                      startTransition(() => router.push('/cerca'));
-                    }}
-                    className="text-sm text-primary hover:text-primary-light transition-colors h-10"
-                  >
-                    Resetta
-                  </button>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex items-center justify-between mb-6">
-          <p className="text-sm text-text-secondary">
-            <span className="font-bold text-text">{total}</span>{' '}
-            professionisti trovati
-            {selectedCategory && (
-              <span> nella categoria <span className="font-semibold text-primary">{selectedCategory}</span></span>
-            )}
-            {selectedProvince && (
-              <span> in provincia di <span className="font-semibold text-primary">{provinceToName[selectedProvince] || selectedProvince}</span></span>
-            )}
-            {selectedCity && (
-              <span> a <span className="font-semibold text-primary">{selectedCity}</span></span>
-            )}
-          </p>
-          {isPending && (
-            <span className="text-xs text-text-secondary flex items-center gap-2">
-              <span className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-              Aggiornamento...
-            </span>
+                Resetta filtri
+              </button>
+            </div>
           )}
         </div>
+      </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      {/* Results */}
+      <section style={{ background: '#FAFAFA', minHeight: '60vh' }}>
+        <div className="max-w-[1280px] mx-auto px-6 py-12">
+          {isPending && (
+            <div className="text-center py-4 text-sm" style={{ color: '#6B7280' }}>
+              <span className="inline-block w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin align-middle mr-2" />
+              Aggiornamento...
+            </div>
+          )}
+
           {initialProfessionals.length === 0 ? (
-            <div className="text-center py-20 border border-zinc-200 col-span-full">
-              <Search className="w-12 h-12 text-zinc-300 mx-auto mb-4" />
-              <h3 className="text-lg font-bold text-text mb-2">Nessun risultato</h3>
-              <p className="text-text-secondary text-sm">
-                Prova a modificare i filtri di ricerca o la zona.
+            <div className="glass-emboss-light text-center py-20" style={{ borderRadius: '24px' }}>
+              <Search className="w-12 h-12 mx-auto mb-4" style={{ color: '#9CA3AF' }} />
+              <h3 className="text-lg font-bold mb-2" style={{ color: '#0A0A0A' }}>Nessun risultato</h3>
+              <p className="text-sm" style={{ color: '#6B7280' }}>
+                Prova a modificare i filtri o la zona.
               </p>
             </div>
           ) : (
-            initialProfessionals.map((pro, i) => (
-              <motion.div
-                key={pro.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.04 }}
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {initialProfessionals.map((p) => (
+                <ProfessionalCard key={p.id} professional={p} />
+              ))}
+            </div>
+          )}
+
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-2 mt-12">
+              <button
+                disabled={page <= 1 || isPending}
+                onClick={() => updateUrl({ page: page - 1 })}
+                className="h-10 px-4 flex items-center gap-1 text-sm rounded-xl disabled:opacity-40 transition-all"
+                style={{ background: 'white', border: '1px solid #E5E5E5', color: '#0A0A0A' }}
               >
-                <ProfessionalCard professional={pro} />
-              </motion.div>
-            ))
+                <ChevronLeft className="w-4 h-4" />
+                Precedente
+              </button>
+              <span className="text-sm px-4" style={{ color: '#6B7280' }}>
+                Pagina {page} di {totalPages}
+              </span>
+              <button
+                disabled={page >= totalPages || isPending}
+                onClick={() => updateUrl({ page: page + 1 })}
+                className="h-10 px-4 flex items-center gap-1 text-sm rounded-xl disabled:opacity-40 transition-all"
+                style={{ background: 'white', border: '1px solid #E5E5E5', color: '#0A0A0A' }}
+              >
+                Successiva
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
           )}
         </div>
-
-        {totalPages > 1 && (
-          <div className="flex items-center justify-center gap-2 mt-12">
-            <button
-              disabled={page <= 1 || isPending}
-              onClick={() => updateUrl({ page: page - 1 })}
-              className="h-10 px-4 flex items-center gap-1 text-sm border border-zinc-200 disabled:opacity-40 hover:bg-zinc-50 transition-colors"
-            >
-              <ChevronLeft className="w-4 h-4" />
-              Precedente
-            </button>
-            <span className="text-sm text-text-secondary px-4">
-              Pagina {page} di {totalPages}
-            </span>
-            <button
-              disabled={page >= totalPages || isPending}
-              onClick={() => updateUrl({ page: page + 1 })}
-              className="h-10 px-4 flex items-center gap-1 text-sm border border-zinc-200 disabled:opacity-40 hover:bg-zinc-50 transition-colors"
-            >
-              Successiva
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-        )}
-      </div>
+      </section>
     </div>
   );
 }
