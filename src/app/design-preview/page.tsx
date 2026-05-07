@@ -426,66 +426,166 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ STATS (LIGHT) ═══════════════════ */}
-      <section className="relative" style={{ background: 'white' }}>
+      {/* ═══════════════════ STATS (LIGHT) — refresh ═══════════════════ */}
+      <section className="relative overflow-hidden" style={{ background: 'white' }}>
         <div className="aurora-l" />
         <div className="relative max-w-[1280px] mx-auto px-6 py-28">
-          <div className="grid lg:grid-cols-[1fr_320px] gap-px rounded-2xl overflow-hidden" style={{ background: border, border: `1px solid ${border}` }}>
-            <div className="grid grid-cols-2 md:grid-cols-2 gap-px" style={{ background: border }}>
-              {[
-                { value: '12.847', label: 'Lavori completati', sub: 'questo mese', trend: '+18%', spark: [40,45,50,52,58,60,68,72,75,82,88,95], color: accent },
-                { value: '4.8', label: 'Stelle medie', sub: 'su 5 — recensioni verificate', trend: '+0.2', spark: [4.5,4.6,4.6,4.7,4.7,4.8,4.7,4.8,4.8,4.9,4.8,4.8], color: warning },
-                { value: '< 2h', label: 'Tempo di risposta', sub: 'media nazionale', trend: '−24m', spark: [180,165,155,140,130,125,118,112,108,102,98,95].reverse(), color: success },
-                { value: '98%', label: 'Tasso completamento', sub: 'lavori andati a fine', trend: '+3%', spark: [88,89,90,91,92,93,94,95,96,97,97,98], color: violet },
-              ].map((s, i) => (
-                <div key={i} className="stat-card p-8 lg:p-10">
-                  <div className="flex items-start justify-between mb-4">
-                    <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-md" style={{ background: `${s.color}15`, color: s.color, fontFamily: 'var(--font-mono)' }}>
-                      {s.trend.startsWith('−') ? <TrendingDown className="w-3 h-3" /> : <TrendingUp className="w-3 h-3" />}
-                      {s.trend}
-                    </span>
-                    <ArrowUpRight className="stat-arrow w-4 h-4" style={{ color: subtle }} />
-                  </div>
-                  <div className="text-5xl lg:text-6xl number-xl font-bold mb-2" style={{ color: ink }}>{s.value}</div>
-                  <div className="text-sm font-bold mb-1" style={{ color: ink }}>{s.label}</div>
-                  <div className="text-xs mb-4" style={{ color: subtle }}>{s.sub}</div>
-                  <div className="opacity-90"><Sparkline data={s.spark} color={s.color} width={120} height={28} /></div>
-                </div>
-              ))}
+          {/* Section header */}
+          <div className="flex items-end justify-between gap-6 mb-12 flex-wrap">
+            <div className="max-w-xl">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-5" style={{ background: accentSoft, color: accent }}>
+                <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: accent }} />
+                Numeri reali, aggiornati in tempo reale
+              </span>
+              <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold" style={{ color: ink }}>
+                Una piattaforma che funziona davvero.
+              </h2>
             </div>
+            <a className="text-sm flex items-center gap-1 hover:gap-2 transition-all font-semibold" style={{ color: ink }}>
+              Vedi report completo <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
 
-            <div className="bg-white p-8" style={{ borderLeft: `1px solid ${border}` }}>
-              <div className="flex items-center justify-between mb-5">
-                <div>
-                  <div className="text-xs uppercase tracking-[0.15em] font-bold" style={{ color: ink, fontFamily: 'var(--font-mono)' }}>
-                    Attività live
-                  </div>
-                  <div className="text-[10px] mt-1" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>
-                    AGGIORNATO IN TEMPO REALE
+          {/* Hero stat XL + 3 secondary */}
+          <div className="grid lg:grid-cols-[1.4fr_1fr] gap-5 mb-5">
+            {/* HERO STAT — Lavori completati */}
+            <article className="relative rounded-3xl overflow-hidden p-10 lg:p-12" style={{ background: `linear-gradient(135deg, ${accent} 0%, #0057CC 50%, ${violet} 100%)`, color: 'white' }}>
+              {/* Pattern overlay */}
+              <div className="absolute inset-0 opacity-10" style={{
+                backgroundImage:
+                  'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
+                backgroundSize: '24px 24px',
+              }} />
+              {/* Glow blob */}
+              <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.25), transparent 60%)', filter: 'blur(40px)' }} />
+
+              <div className="relative">
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold" style={{ background: 'rgba(255,255,255,0.18)', color: 'white', backdropFilter: 'blur(8px)' }}>
+                    <TrendingUp className="w-3.5 h-3.5" />
+                    +18% questo mese
+                  </span>
+                  <span className="text-xs" style={{ color: 'rgba(255,255,255,0.7)' }}>vs. mese scorso</span>
+                </div>
+
+                <div className="flex items-end gap-3 mb-3">
+                  <div className="number-xl font-bold leading-none" style={{ fontSize: 'clamp(80px, 11vw, 144px)', letterSpacing: '-0.06em' }}>
+                    12.847
                   </div>
                 </div>
-                <span className="pulse-dot w-2 h-2 rounded-full" style={{ background: success, boxShadow: `0 0 8px ${success}` }} />
-              </div>
+                <h3 className="text-xl font-bold mb-1">Lavori completati</h3>
+                <p className="text-sm mb-8" style={{ color: 'rgba(255,255,255,0.75)' }}>
+                  Negli ultimi 30 giorni in tutta Italia.
+                </p>
 
-              <div className="space-y-1">
-                {LIVE_ACTIVITY.slice(0, 5).map((a, i) => (
-                  <div key={i} className="feed-item rounded-lg p-2.5 flex items-start gap-3">
-                    <div className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white flex-shrink-0" style={{ background: ['#0070F3','#7B61FF','#00C896','#FFB020','#EF4444'][i] }}>
-                      {a.who.split(' ').map((s) => s[0]).join('')}
+                {/* Big sparkline area */}
+                <div className="relative">
+                  <svg viewBox="0 0 600 80" className="w-full h-20">
+                    <defs>
+                      <linearGradient id="hero-spark" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" stopColor="white" stopOpacity="0.5" />
+                        <stop offset="100%" stopColor="white" stopOpacity="0" />
+                      </linearGradient>
+                    </defs>
+                    <polyline
+                      fill="url(#hero-spark)"
+                      stroke="white"
+                      strokeWidth="2"
+                      points="0,60 50,55 100,50 150,48 200,42 250,40 300,32 350,28 400,25 450,18 500,12 550,8 600,4 600,80 0,80"
+                    />
+                  </svg>
+                  {/* Date labels */}
+                  <div className="flex justify-between text-[10px] mt-2" style={{ color: 'rgba(255,255,255,0.55)' }}>
+                    {['1 apr', '8 apr', '15 apr', '22 apr', '29 apr', '6 mag'].map((d) => <span key={d}>{d}</span>)}
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            {/* 3 secondary stats stacked */}
+            <div className="grid grid-rows-3 gap-5">
+              {[
+                { value: '4.8', suffix: '/ 5', label: 'Stelle medie', sub: 'su 2.143 recensioni verificate', trend: '+0.2', spark: [4.5,4.6,4.6,4.7,4.7,4.8,4.7,4.8,4.8,4.9,4.8,4.8], color: warning, icon: Star },
+                { value: '< 2h', suffix: '', label: 'Tempo di risposta', sub: '−24m vs. mese scorso', trend: 'più veloce', spark: [180,165,155,140,130,125,118,112,108,102,98,95].reverse(), color: success, icon: Bolt },
+                { value: '98', suffix: '%', label: 'Tasso completamento', sub: 'lavori portati a termine', trend: '+3%', spark: [88,89,90,91,92,93,94,95,96,97,97,98], color: violet, icon: BadgeCheck },
+              ].map((s, i) => {
+                const Icon = s.icon;
+                return (
+                  <article key={i} className="light-card rounded-2xl p-6 flex items-center gap-5 group cursor-pointer" style={{ borderLeft: `3px solid ${s.color}` }}>
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: `${s.color}15` }}>
+                      <Icon className="w-5 h-5" style={{ color: s.color }} strokeWidth={2} fill={s.icon === Star ? s.color : 'none'} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs leading-snug" style={{ color: ink }}>
-                        <span className="font-bold">{a.who}</span> <span style={{ color: subtle }}>{a.action}</span>
-                      </p>
-                      <p className="text-[10px] mt-0.5" style={{ color: fade, fontFamily: 'var(--font-mono)' }}>
-                        {a.city.toUpperCase()} · {a.t.toUpperCase()}
-                      </p>
+                      <div className="flex items-baseline gap-1.5 mb-1">
+                        <span className="text-3xl number-xl font-bold" style={{ color: ink }}>{s.value}</span>
+                        {s.suffix && <span className="text-base font-semibold" style={{ color: subtle }}>{s.suffix}</span>}
+                        <span className="ml-auto text-[11px] font-bold inline-flex items-center gap-0.5" style={{ color: s.color }}>
+                          <TrendingUp className="w-3 h-3" />
+                          {s.trend}
+                        </span>
+                      </div>
+                      <p className="text-sm font-bold mb-0.5" style={{ color: ink }}>{s.label}</p>
+                      <p className="text-xs" style={{ color: subtle }}>{s.sub}</p>
                     </div>
-                  </div>
-                ))}
-              </div>
+                    <div className="hidden sm:block opacity-70 group-hover:opacity-100 transition-opacity">
+                      <Sparkline data={s.spark} color={s.color} width={70} height={32} />
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </div>
+
+          {/* Activity feed — orizzontale */}
+          <article className="light-card rounded-2xl overflow-hidden">
+            <div className="flex items-center justify-between gap-4 p-5 border-b flex-wrap" style={{ borderColor: border }}>
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #16A34A, #22C55E)' }}>
+                  <span className="pulse-dot w-2 h-2 rounded-full" style={{ background: 'white', boxShadow: '0 0 8px white' }} />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold flex items-center gap-2" style={{ color: ink }}>
+                    Attività live
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: successSoft, color: success }}>
+                      LIVE
+                    </span>
+                  </h3>
+                  <p className="text-xs" style={{ color: subtle }}>Ultime azioni dei nostri clienti e professionisti</p>
+                </div>
+              </div>
+              <a className="text-xs font-semibold flex items-center gap-1 hover:gap-2 transition-all" style={{ color: accent }}>
+                Vedi tutto <ArrowRight className="w-3 h-3" />
+              </a>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-5 divide-y sm:divide-y-0 sm:divide-x" style={{ borderColor: border }}>
+              {LIVE_ACTIVITY.map((a, i) => {
+                const palette = ['#0070F3','#7B61FF','#16A34A','#FFB020','#EF4444'];
+                return (
+                  <div key={i} className="feed-item p-5 flex flex-col gap-3 cursor-pointer">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-bold text-white flex-shrink-0" style={{ background: palette[i] }}>
+                        {a.who.split(' ').map((s) => s[0]).join('')}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-bold truncate" style={{ color: ink }}>{a.who}</p>
+                        <p className="text-[11px] truncate" style={{ color: subtle }}>{a.city}</p>
+                      </div>
+                    </div>
+                    <p className="text-xs leading-relaxed" style={{ color: ink }}>
+                      {a.action}
+                    </p>
+                    <div className="flex items-center gap-1.5 mt-auto">
+                      <span className="pulse-dot w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: i === 0 ? success : fade, boxShadow: i === 0 ? `0 0 6px ${success}` : 'none' }} />
+                      <span className="text-[11px] font-medium" style={{ color: i === 0 ? success : subtle }}>
+                        {i === 0 ? 'in questo momento' : a.t}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </article>
         </div>
       </section>
 
