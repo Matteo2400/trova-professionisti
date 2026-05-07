@@ -827,18 +827,19 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ CATEGORIE (DARK) ═══════════════════ */}
+      {/* ═══════════════════ CATEGORIE — iOS minimal ═══════════════════ */}
       <section className="relative" style={{ background: dark }}>
         <div className="aurora-d-soft" />
         <div className="relative max-w-[1280px] mx-auto px-6 py-28">
-          <div className="flex items-end justify-between gap-6 mb-12 flex-wrap">
+          <div className="flex items-end justify-between gap-6 mb-14 flex-wrap">
             <div className="max-w-xl">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtleD, fontFamily: 'var(--font-mono)' }}>01 ◆</span>
                 <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: 'rgba(255,255,255,0.7)', fontFamily: 'var(--font-mono)' }}>Categorie</span>
               </div>
-              <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold mb-3 text-white">
-                Cosa stai cercando?
+              <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold mb-3">
+                <span className="gradient-text-dark">Cosa</span><br />
+                <span className="accent-text">stai cercando?</span>
               </h2>
               <p className="text-base" style={{ color: subtleD }}>
                 Più di 8.000 professionisti verificati in 6 categorie principali.
@@ -849,29 +850,63 @@ export default function DesignPreviewPage() {
             </a>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          {/* iOS-style grid: 3x2 large cards with generous space */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {CATEGORIES.map((c, i) => {
               const Icon = c.icon;
               return (
-                <a key={i} href={`#${c.slug}`} className="glass-emboss rounded-2xl p-5 block">
-                  <div className="relative">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: c.gradient, boxShadow: '0 4px 16px -2px rgba(0,0,0,0.4)' }}>
-                        <Icon className="w-4 h-4 text-white" strokeWidth={2.5} />
-                      </div>
-                      <ArrowUpRight className="w-3.5 h-3.5" style={{ color: subtleD }} />
+                <a
+                  key={i}
+                  href={`#${c.slug}`}
+                  className="glass-emboss group block transition-all duration-500 hover:-translate-y-1"
+                  style={{ borderRadius: '28px', padding: '28px 28px 24px' }}
+                >
+                  {/* Top: large icon + minimal trend */}
+                  <div className="flex items-start justify-between mb-12">
+                    <div
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center"
+                      style={{
+                        background: 'linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)',
+                        border: '1px solid rgba(255,255,255,0.08)',
+                        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)',
+                      }}
+                    >
+                      <Icon className="w-7 h-7" style={{ color: 'rgba(255,255,255,0.92)' }} strokeWidth={1.5} />
                     </div>
-                    <h3 className="text-base font-bold tracking-[-0.01em] text-white">{c.name}</h3>
-                    <p className="text-xs mt-0.5 mb-3" style={{ color: subtleD, fontFamily: 'var(--font-mono)' }}>
-                      {c.count} professionisti
-                    </p>
-                    <div className="flex items-center justify-between text-[11px] pt-3 border-t" style={{ borderColor: borderD }}>
-                      <span style={{ color: subtleD, fontFamily: 'var(--font-mono)' }}>{c.avg}</span>
-                      <span className="inline-flex items-center gap-0.5 font-bold" style={{ color: c.down ? '#EF4444' : successD, fontFamily: 'var(--font-mono)' }}>
-                        {c.down ? <TrendingDown className="w-3 h-3" /> : <TrendingUp className="w-3 h-3" />}
-                        {c.trend}
-                      </span>
-                    </div>
+                    <span
+                      className="text-[13px] font-semibold inline-flex items-center gap-1 transition-opacity opacity-70 group-hover:opacity-100"
+                      style={{ color: c.down ? '#F87171' : '#4ADE80' }}
+                    >
+                      {c.down ? <TrendingDown className="w-3.5 h-3.5" /> : <TrendingUp className="w-3.5 h-3.5" />}
+                      {c.trend}
+                    </span>
+                  </div>
+
+                  {/* Title + count */}
+                  <h3 className="text-2xl font-semibold tracking-[-0.02em] text-white mb-1">
+                    {c.name}
+                  </h3>
+                  <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                    {c.count} professionisti
+                  </p>
+
+                  {/* Footer: rate + arrow */}
+                  <div
+                    className="flex items-center justify-between mt-8 pt-5"
+                    style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+                  >
+                    <span className="text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.85)' }}>
+                      Tariffa media · {c.avg}
+                    </span>
+                    <span
+                      className="w-8 h-8 rounded-full flex items-center justify-center transition-all group-hover:translate-x-0.5"
+                      style={{
+                        background: 'rgba(255,255,255,0.06)',
+                        border: '1px solid rgba(255,255,255,0.08)',
+                      }}
+                    >
+                      <ArrowUpRight className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                    </span>
                   </div>
                 </a>
               );
