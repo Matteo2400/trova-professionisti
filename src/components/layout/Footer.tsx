@@ -1,149 +1,136 @@
 import Link from 'next/link';
-import { Zap, Mail, Phone, MapPin } from 'lucide-react';
-import { categories } from '@/data';
+import { Twitter, Instagram, Linkedin, Mail, Globe, Zap, ArrowRight } from 'lucide-react';
+
+const COLUMNS = [
+  { title: 'Prodotto', links: [
+    { label: 'Cerca professionisti', href: '/cerca' },
+    { label: 'Categorie', href: '/cerca' },
+    { label: 'Come funziona', href: '/come-funziona' },
+    { label: 'FAQ', href: '/faq' },
+  ]},
+  { title: 'Per professionisti', links: [
+    { label: 'Iscriviti', href: '/auth/registrazione' },
+    { label: 'Piani e prezzi', href: '/piani-premium' },
+    { label: 'Come funziona', href: '/come-funziona-professionisti' },
+    { label: 'Login', href: '/auth/login' },
+  ]},
+  { title: 'Azienda', links: [
+    { label: 'Chi siamo', href: '/chi-siamo' },
+    { label: 'Contatti', href: '/contatti' },
+    { label: 'FAQ', href: '/faq' },
+  ]},
+  { title: 'Legale', links: [
+    { label: 'Termini', href: '/termini' },
+    { label: 'Privacy', href: '/privacy' },
+  ]},
+];
 
 export default function Footer() {
   return (
-    <footer className="bg-dark text-white border-t border-white/5">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          {/* Brand */}
+    <footer style={{ background: '#000' }}>
+      <div className="max-w-[1280px] mx-auto px-6 pt-20 pb-12">
+        {/* Newsletter */}
+        <div
+          className="rounded-2xl p-8 lg:p-12 mb-16 grid md:grid-cols-[1.4fr_1fr] gap-8 items-center"
+          style={{ background: '#0A0A0A', border: '1px solid rgba(255,255,255,0.08)' }}
+        >
           <div>
-            <Link href="/" className="flex items-center gap-2 mb-6">
-              <div className="w-9 h-9 bg-primary flex items-center justify-center">
-                <Zap className="w-4 h-4 text-white" />
+            <h3 className="text-2xl tracking-[-0.02em] font-bold mb-2 text-white">
+              La newsletter dei professionisti.
+            </h3>
+            <p className="text-sm" style={{ color: '#888' }}>
+              Ogni 2 settimane: novità, consigli, casi studio. Niente spam, cancellazione in 1 click.
+            </p>
+          </div>
+          <form className="flex items-center gap-2">
+            <div
+              className="flex-1 rounded-lg p-1 flex items-center"
+              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+            >
+              <Mail className="w-4 h-4 ml-2 mr-2 flex-shrink-0" style={{ color: '#888' }} />
+              <input
+                type="email"
+                placeholder="tu@email.it"
+                className="bg-transparent outline-none text-sm flex-1 py-2 text-white placeholder:text-[#555]"
+              />
+            </div>
+            <button
+              type="submit"
+              className="px-4 py-2.5 rounded-lg text-sm font-semibold flex items-center gap-1.5 transition-all hover:opacity-90"
+              style={{ background: '#0070F3', color: 'white' }}
+            >
+              Iscriviti <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </form>
+        </div>
+
+        {/* Columns */}
+        <div className="grid md:grid-cols-[2fr_1fr_1fr_1fr_1fr] gap-12 mb-16">
+          <div className="max-w-xs">
+            <Link href="/" className="flex items-center gap-2 mb-4">
+              <div className="w-7 h-7 rounded-md flex items-center justify-center" style={{ background: 'white' }}>
+                <Zap className="w-3.5 h-3.5" style={{ color: '#050505' }} strokeWidth={2.5} />
               </div>
-              <span className="text-xl font-bold tracking-tight">
-                Trova<span className="text-primary">Pro</span>
+              <span className="text-[15px] font-bold tracking-tight text-white" style={{ letterSpacing: '-0.01em' }}>
+                trovapro
               </span>
             </Link>
-            <p className="text-zinc-500 text-sm leading-relaxed mb-8">
-              La piattaforma che mette in contatto utenti privati con professionisti
-              locali qualificati. Trova l&apos;esperto giusto per ogni lavoro.
+            <p className="text-sm leading-relaxed mb-6" style={{ color: '#888' }}>
+              Il modo più semplice di trovare professionisti qualificati nella tua zona. Verificati, valutati, pronti a partire.
             </p>
-            <div className="flex gap-3">
-              <SocialLink href="#" label="Facebook">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-              </SocialLink>
-              <SocialLink href="#" label="Instagram">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-              </SocialLink>
-              <SocialLink href="#" label="LinkedIn">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-              </SocialLink>
+            <div className="flex items-center gap-2">
+              {[Twitter, Instagram, Linkedin, Mail].map((Icon, i) => (
+                <a
+                  key={i}
+                  href="#"
+                  className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-white/5"
+                  style={{ border: '1px solid rgba(255,255,255,0.08)', color: '#B5B5B5' }}
+                  aria-label="Social"
+                >
+                  <Icon className="w-3.5 h-3.5" strokeWidth={1.75} />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Servizi */}
-          <div>
-            <h3 className="font-semibold text-xs uppercase tracking-wider text-zinc-400 mb-6">Servizi</h3>
-            <ul className="space-y-3">
-              {categories.map((cat) => (
-                <li key={cat.slug}>
-                  <Link
-                    href={`/cerca?categoria=${cat.slug}`}
-                    className="text-zinc-500 hover:text-white transition-colors text-sm"
-                  >
-                    {cat.namePlural}
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <Link href="/cerca" className="text-zinc-500 hover:text-white transition-colors text-sm">
-                  Tutti i servizi
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Link utili */}
-          <div>
-            <h3 className="font-semibold text-xs uppercase tracking-wider text-zinc-400 mb-6">Link Utili</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link href="/chi-siamo" className="text-zinc-500 hover:text-white transition-colors text-sm">
-                  Chi Siamo
-                </Link>
-              </li>
-              <li>
-                <Link href="/come-funziona" className="text-zinc-500 hover:text-white transition-colors text-sm">
-                  Come Funziona
-                </Link>
-              </li>
-              <li>
-                <Link href="/come-funziona-professionisti" className="text-zinc-500 hover:text-white transition-colors text-sm">
-                  Per Professionisti
-                </Link>
-              </li>
-              <li>
-                <Link href="/faq" className="text-zinc-500 hover:text-white transition-colors text-sm">
-                  FAQ
-                </Link>
-              </li>
-              <li>
-                <Link href="/privacy" className="text-zinc-500 hover:text-white transition-colors text-sm">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="/termini" className="text-zinc-500 hover:text-white transition-colors text-sm">
-                  Termini di Servizio
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contatti */}
-          <div>
-            <h3 className="font-semibold text-xs uppercase tracking-wider text-zinc-400 mb-6">Contatti</h3>
-            <ul className="space-y-4">
-              <li className="flex items-center gap-3 text-zinc-500 text-sm">
-                <Mail className="w-4 h-4 text-primary flex-shrink-0" />
-                info@trovapro.it
-              </li>
-              <li className="flex items-center gap-3 text-zinc-500 text-sm">
-                <Phone className="w-4 h-4 text-primary flex-shrink-0" />
-                +39 02 1234567
-              </li>
-              <li className="flex items-start gap-3 text-zinc-500 text-sm">
-                <MapPin className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
-                Via Roma 1, 20121 Milano (MI)
-              </li>
-            </ul>
-          </div>
+          {COLUMNS.map((col) => (
+            <div key={col.title}>
+              <h4
+                className="text-xs uppercase tracking-[0.15em] mb-4 text-white font-bold"
+                style={{ fontFamily: 'var(--font-mono)' }}
+              >
+                {col.title}
+              </h4>
+              <ul className="space-y-2.5">
+                {col.links.map((l) => (
+                  <li key={l.label}>
+                    <Link href={l.href} className="text-sm hover:text-white transition-colors" style={{ color: '#888' }}>
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        <div className="border-t border-white/5 mt-16 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-zinc-600 text-xs uppercase tracking-wider">
-            © {new Date().getFullYear()} TrovaPro. Tutti i diritti riservati.
-          </p>
-          <div className="flex gap-6">
-            <Link href="/privacy" className="text-zinc-600 hover:text-zinc-300 text-xs uppercase tracking-wider transition-colors">
-              Privacy
-            </Link>
-            <Link href="/termini" className="text-zinc-600 hover:text-zinc-300 text-xs uppercase tracking-wider transition-colors">
-              Termini
-            </Link>
-            <Link href="/contatti" className="text-zinc-600 hover:text-zinc-300 text-xs uppercase tracking-wider transition-colors">
-              Contatti
-            </Link>
+        {/* Bottom row */}
+        <div
+          className="flex items-center justify-between flex-wrap gap-4 pt-8 border-t text-xs"
+          style={{ borderColor: 'rgba(255,255,255,0.08)', color: '#888' }}
+        >
+          <span style={{ fontFamily: 'var(--font-mono)' }}>© 2026 TrovaPro · P.IVA 12345678901</span>
+          <div className="flex items-center gap-5">
+            <span className="flex items-center gap-1.5">
+              <Globe className="w-3 h-3" /> Italia (IT)
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: '#22C55E' }} />
+              All systems operational
+            </span>
           </div>
         </div>
       </div>
     </footer>
-  );
-}
-
-function SocialLink({ href, label, children }: { href: string; label: string; children: React.ReactNode }) {
-  return (
-    <a
-      href={href}
-      aria-label={label}
-      className="w-9 h-9 border border-white/10 flex items-center justify-center text-zinc-500 hover:bg-primary hover:text-white hover:border-primary transition-all duration-300"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {children}
-    </a>
   );
 }

@@ -1,12 +1,19 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Montserrat, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Providers from '@/components/providers/Providers';
 
-const inter = Inter({
+const montserrat = Montserrat({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-inter',
+  variable: '--font-sans',
+  weight: ['400', '500', '600', '700', '800'],
+});
+
+const geistMono = Geist_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-mono',
 });
 
 export const metadata: Metadata = {
@@ -16,35 +23,18 @@ export const metadata: Metadata = {
   },
   description:
     'Trova elettricisti, idraulici e imbianchini qualificati vicino a te. Confronta profili, leggi recensioni e richiedi preventivi gratuiti.',
-  keywords: [
-    'professionisti',
-    'elettricista',
-    'idraulico',
-    'imbianchino',
-    'preventivo',
-    'riparazioni',
-    'casa',
-    'servizi',
-  ],
+  keywords: ['professionisti', 'elettricista', 'idraulico', 'imbianchino', 'preventivo', 'riparazioni', 'casa', 'servizi'],
   openGraph: {
     type: 'website',
     locale: 'it_IT',
     siteName: 'TrovaPro',
     title: 'TrovaPro - Trova Professionisti Qualificati nella Tua Zona',
-    description:
-      'Trova elettricisti, idraulici e imbianchini qualificati vicino a te. Confronta profili, leggi recensioni e richiedi preventivi gratuiti.',
+    description: 'Trova elettricisti, idraulici e imbianchini qualificati vicino a te. Confronta profili, leggi recensioni e richiedi preventivi gratuiti.',
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   const orgJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -52,17 +42,13 @@ export default function RootLayout({
     url: 'https://www.trovapro.it',
     logo: 'https://www.trovapro.it/logo.png',
     sameAs: [],
-    description:
-      'Piattaforma italiana per trovare professionisti qualificati: elettricisti, idraulici, imbianchini, muratori, fabbri e giardinieri.',
+    description: 'Piattaforma italiana per trovare professionisti qualificati: elettricisti, idraulici, imbianchini, muratori, fabbri e giardinieri.',
   };
 
   return (
-    <html lang="it" className={inter.variable}>
-      <body className="antialiased">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
-        />
+    <html lang="it" className={`${montserrat.variable} ${geistMono.variable}`}>
+      <body className="antialiased" style={{ fontFamily: 'var(--font-sans)' }}>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
         <Providers>{children}</Providers>
       </body>
     </html>

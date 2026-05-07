@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Zap, ChevronDown } from 'lucide-react';
+import { Menu, X, Zap, ChevronDown, ArrowRight } from 'lucide-react';
 import { categories } from '@/data';
 
 export default function Navbar() {
@@ -18,67 +18,75 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? 'bg-white/95 backdrop-blur-xl border-b border-zinc-200 shadow-sm'
-          : 'bg-transparent'
-      }`}
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+      style={{
+        background: scrolled ? 'rgba(5,5,5,0.85)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(20px)' : 'none',
+        WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
+        borderBottom: scrolled ? '1px solid rgba(255,255,255,0.08)' : '1px solid transparent',
+      }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 lg:h-20">
+      <div className="max-w-[1280px] mx-auto px-6">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 bg-primary flex items-center justify-center transition-all duration-300 group-hover:bg-dark">
-              <Zap className="w-4 h-4 text-white" />
+            <div className="w-7 h-7 rounded-md flex items-center justify-center" style={{ background: 'white' }}>
+              <Zap className="w-3.5 h-3.5" style={{ color: '#050505' }} strokeWidth={2.5} />
             </div>
-            <span className={`text-xl font-bold tracking-tight ${scrolled ? 'text-dark' : 'text-white'}`}>
-              Trova<span className="text-primary">Pro</span>
+            <span className="text-[15px] font-semibold tracking-tight text-white" style={{ letterSpacing: '-0.01em' }}>
+              trovapro
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-8">
-            <NavLink href="/cerca" scrolled={scrolled}>Cerca Professionisti</NavLink>
+          {/* Desktop nav */}
+          <div className="hidden lg:flex items-center gap-7 text-sm" style={{ color: '#888' }}>
+            <Link href="/cerca" className="hover:text-white transition-colors">Cerca</Link>
             <div className="relative group">
-              <button className={`flex items-center gap-1 hover:text-primary transition-colors duration-200 text-sm font-medium ${scrolled ? 'text-zinc-600' : 'text-zinc-300'}`}>
-                Categorie <ChevronDown className="w-4 h-4" />
+              <button className="flex items-center gap-1 hover:text-white transition-colors">
+                Categorie <ChevronDown className="w-3.5 h-3.5" />
               </button>
-              <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-zinc-200 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top">
-                <div className="py-1">
+              <div className="absolute top-full left-0 mt-2 w-56 rounded-2xl glass-emboss opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 overflow-hidden">
+                <div className="py-2">
                   {categories.map((cat) => (
                     <Link
                       key={cat.slug}
                       href={`/cerca?categoria=${cat.slug}`}
-                      className="flex items-center gap-3 px-4 py-3 text-sm text-zinc-600 hover:bg-zinc-50 hover:text-primary transition-colors"
+                      className="flex items-center gap-3 px-4 py-2.5 text-sm transition-colors hover:bg-white/5"
+                      style={{ color: 'rgba(255,255,255,0.85)' }}
                     >
-                      <span className="text-lg">{cat.slug === 'elettricista' ? '⚡' : cat.slug === 'idraulico' ? '💧' : '🎨'}</span>
                       {cat.namePlural}
                     </Link>
                   ))}
                 </div>
               </div>
             </div>
-            <NavLink href="/come-funziona" scrolled={scrolled}>Come Funziona</NavLink>
-            <NavLink href="/piani-premium" scrolled={scrolled}>Piani</NavLink>
+            <Link href="/come-funziona" className="hover:text-white transition-colors">Come funziona</Link>
+            <Link href="/come-funziona-professionisti" className="hover:text-white transition-colors">Per professionisti</Link>
+            <Link href="/piani-premium" className="hover:text-white transition-colors">Prezzi</Link>
           </div>
 
           {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-2">
             <Link
               href="/auth/login"
-              className={`text-sm font-medium hover:text-primary transition-colors duration-200 ${scrolled ? 'text-zinc-600' : 'text-zinc-300'}`}
+              className="text-sm px-3 py-1.5 rounded-md hover:bg-white/5 transition-colors"
+              style={{ color: '#ccc' }}
             >
               Accedi
             </Link>
-            <Link href="/auth/registrazione" className="btn-primary text-sm !py-2.5 !px-6">
-              Registrati Gratis
+            <Link
+              href="/auth/registrazione"
+              className="text-sm font-semibold px-3.5 py-1.5 rounded-md transition-all hover:opacity-90 flex items-center gap-1"
+              style={{ background: 'white', color: '#050505' }}
+            >
+              Inizia <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
-          {/* Mobile Hamburger */}
+          {/* Mobile hamburger */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className={`lg:hidden p-2 transition-colors ${scrolled ? 'text-dark' : 'text-white'}`}
+            className="lg:hidden p-2 text-white"
             aria-label="Menu"
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -86,113 +94,70 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 h-full w-80 bg-white border-l border-zinc-200 z-50 lg:hidden"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="lg:hidden border-t"
+            style={{
+              background: 'rgba(5,5,5,0.95)',
+              backdropFilter: 'blur(20px)',
+              borderColor: 'rgba(255,255,255,0.08)',
+            }}
           >
-            <div className="p-6">
-              <button
-                onClick={() => setIsOpen(false)}
-                className="absolute top-4 right-4 p-2 hover:bg-zinc-100 transition-colors"
-                aria-label="Chiudi menu"
-              >
-                <X className="w-6 h-6" />
-              </button>
+            <div className="max-w-[1280px] mx-auto px-6 py-6 space-y-1">
+              <MobileLink href="/cerca" onClick={() => setIsOpen(false)}>Cerca</MobileLink>
+              {categories.map((cat) => (
+                <MobileLink
+                  key={cat.slug}
+                  href={`/cerca?categoria=${cat.slug}`}
+                  onClick={() => setIsOpen(false)}
+                  indent
+                >
+                  {cat.namePlural}
+                </MobileLink>
+              ))}
+              <MobileLink href="/come-funziona" onClick={() => setIsOpen(false)}>Come funziona</MobileLink>
+              <MobileLink href="/come-funziona-professionisti" onClick={() => setIsOpen(false)}>Per professionisti</MobileLink>
+              <MobileLink href="/piani-premium" onClick={() => setIsOpen(false)}>Prezzi</MobileLink>
 
-              <div className="mt-12 space-y-1">
-                <MobileNavLink href="/cerca" onClick={() => setIsOpen(false)}>
-                  Cerca Professionisti
-                </MobileNavLink>
-                {categories.map((cat) => (
-                  <MobileNavLink
-                    key={cat.slug}
-                    href={`/cerca?categoria=${cat.slug}`}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {cat.slug === 'elettricista' ? '⚡' : cat.slug === 'idraulico' ? '💧' : '🎨'}{' '}
-                    {cat.namePlural}
-                  </MobileNavLink>
-                ))}
-                <MobileNavLink href="/come-funziona" onClick={() => setIsOpen(false)}>
-                  Come Funziona
-                </MobileNavLink>
-                <MobileNavLink href="/piani-premium" onClick={() => setIsOpen(false)}>
-                  Piani Premium
-                </MobileNavLink>
-                <MobileNavLink href="/faq" onClick={() => setIsOpen(false)}>
-                  FAQ
-                </MobileNavLink>
-
-                <div className="pt-6 space-y-3">
-                  <Link
-                    href="/auth/login"
-                    className="block w-full text-center py-3 border border-zinc-200 text-text font-medium hover:bg-zinc-50 transition-colors"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Accedi
-                  </Link>
-                  <Link
-                    href="/auth/registrazione"
-                    className="block w-full text-center btn-primary"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Registrati Gratis
-                  </Link>
-                </div>
+              <div className="pt-4 mt-4 border-t space-y-2" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
+                <Link
+                  href="/auth/login"
+                  onClick={() => setIsOpen(false)}
+                  className="block w-full text-center py-3 rounded-xl text-sm font-medium border transition-colors"
+                  style={{ borderColor: 'rgba(255,255,255,0.1)', color: 'white' }}
+                >
+                  Accedi
+                </Link>
+                <Link
+                  href="/auth/registrazione"
+                  onClick={() => setIsOpen(false)}
+                  className="block w-full text-center py-3 rounded-xl text-sm font-semibold"
+                  style={{ background: 'white', color: '#050505' }}
+                >
+                  Registrati Gratis
+                </Link>
               </div>
             </div>
           </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Mobile overlay */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/40 z-40 lg:hidden"
-            onClick={() => setIsOpen(false)}
-          />
         )}
       </AnimatePresence>
     </nav>
   );
 }
 
-function NavLink({ href, children, scrolled }: { href: string; children: React.ReactNode; scrolled: boolean }) {
-  return (
-    <Link
-      href={href}
-      className={`relative text-sm font-medium hover:text-primary transition-colors duration-200 group ${scrolled ? 'text-zinc-600' : 'text-zinc-300'}`}
-    >
-      {children}
-      <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary transition-all duration-300 group-hover:w-full" />
-    </Link>
-  );
-}
-
-function MobileNavLink({
-  href,
-  onClick,
-  children,
-}: {
-  href: string;
-  onClick: () => void;
-  children: React.ReactNode;
-}) {
+function MobileLink({ href, onClick, children, indent = false }: { href: string; onClick: () => void; children: React.ReactNode; indent?: boolean }) {
   return (
     <Link
       href={href}
       onClick={onClick}
-      className="block px-4 py-3 text-zinc-600 hover:bg-zinc-50 hover:text-primary transition-colors text-base"
+      className={`block py-2.5 text-base transition-colors hover:text-white ${indent ? 'pl-4 text-sm' : ''}`}
+      style={{ color: indent ? '#888' : '#ccc' }}
     >
       {children}
     </Link>
