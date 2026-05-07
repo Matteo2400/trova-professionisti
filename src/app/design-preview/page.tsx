@@ -197,28 +197,11 @@ export default function DesignPreviewPage() {
         .aurora-l-soft::before { background: radial-gradient(circle, ${accent} 0%, transparent 60%); top: 50%; left: -200px; opacity: 0.10; }
         .aurora-l-soft::after  { background: radial-gradient(circle, ${violet} 0%, transparent 60%); top: 20%; right: -200px; opacity: 0.08; }
 
-        /* ─── Themed section backgrounds ─── */
-        .bg-stats {
-          background:
-            radial-gradient(circle at 20% 0%, rgba(123,97,255,0.7), transparent 50%),
-            radial-gradient(circle at 80% 0%, rgba(0,180,255,0.4), transparent 50%),
-            radial-gradient(circle at 50% 100%, rgba(0,112,243,0.5), transparent 50%),
-            linear-gradient(180deg, #0A0F2E 0%, #0F1450 100%);
-        }
-        .bg-featured {
-          background: linear-gradient(180deg, #F8F4ED 0%, #F2EDE3 100%);
-        }
-        .bg-testimonials {
-          background:
-            radial-gradient(ellipse 80% 50% at 50% 0%, rgba(123,97,255,0.35), transparent 60%),
-            linear-gradient(180deg, #1A0F3A 0%, #261052 100%);
-        }
-        .bg-faq {
-          background:
-            radial-gradient(ellipse 60% 40% at 30% 0%, rgba(0,112,243,0.12), transparent 50%),
-            radial-gradient(ellipse 50% 40% at 70% 100%, rgba(123,97,255,0.10), transparent 50%),
-            #EEF2FF;
-        }
+        /* ─── Section backgrounds (uniform monochrome) ─── */
+        .bg-stats { background: ${dark2}; }
+        .bg-featured { background: ${surface}; }
+        .bg-testimonials { background: ${dark2}; }
+        .bg-faq { background: ${surface}; }
 
         /* ─── Glass cards on color bg ─── */
         .glass-on-color {
@@ -270,6 +253,43 @@ export default function DesignPreviewPage() {
           background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 100%);
           border: 1px solid rgba(255,255,255,0.12);
           box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+        }
+
+        /* ─── Light glass embossed (for light sections) ─── */
+        .glass-emboss-light {
+          position: relative; isolation: isolate;
+          background:
+            linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 100%);
+          border: 1px solid rgba(0,0,0,0.05);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,1),
+            inset 0 -1px 0 rgba(0,0,0,0.04),
+            0 12px 32px -12px rgba(0,0,0,0.12),
+            0 4px 8px -4px rgba(0,0,0,0.06);
+          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+        }
+        .glass-emboss-light:hover {
+          transform: translateY(-3px);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,1),
+            inset 0 -1px 0 rgba(0,0,0,0.04),
+            0 24px 48px -16px rgba(0,0,0,0.15),
+            0 8px 16px -4px rgba(0,0,0,0.08);
+        }
+
+        .icon-mono-light {
+          background: linear-gradient(180deg, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.02) 100%);
+          border: 1px solid rgba(0,0,0,0.06);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+        }
+
+        .num-etched-dark {
+          background: linear-gradient(180deg, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.55) 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
         }
         .glass-on-color::before {
           content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
@@ -398,15 +418,17 @@ export default function DesignPreviewPage() {
 
         .plan-popular {
           position: relative;
-          background: linear-gradient(180deg, rgba(0,112,243,0.08) 0%, ${dark2} 60%);
+          background:
+            linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 100%);
           color: white;
-          box-shadow: 0 30px 60px -20px rgba(0,112,243,0.5), 0 0 80px -10px rgba(123,97,255,0.4);
-        }
-        .plan-popular::before {
-          content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
-          background: linear-gradient(135deg, ${accent}, ${violet});
-          -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-          -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
+          border: 1px solid rgba(255,255,255,0.18);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.3),
+            inset 0 -1px 0 rgba(0,0,0,0.2),
+            0 30px 60px -20px rgba(0,0,0,0.6),
+            0 0 0 1px rgba(255,255,255,0.04);
         }
 
         .typing-dot { animation: typing-dot 1.4s ease-in-out infinite; }
@@ -585,14 +607,14 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ STATS — gradient mesh blu/viola ═══════════════════ */}
+      {/* ═══════════════════ STATS — dark monocromatico ═══════════════════ */}
       <section className="relative overflow-hidden bg-stats">
-        <div className="absolute inset-0 grid-bg-dark opacity-60" />
+        <div className="absolute inset-0 grid-bg-dark opacity-50" />
         <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="flex items-end justify-between gap-6 mb-12 flex-wrap">
             <div className="max-w-xl">
               <span className="pill-on-color inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-5 text-white">
-                <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: '#22D3EE', boxShadow: '0 0 8px #22D3EE' }} />
+                <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: 'white', boxShadow: '0 0 8px rgba(255,255,255,0.6)' }} />
                 Numeri reali, aggiornati in tempo reale
               </span>
               <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold text-white">
@@ -606,54 +628,50 @@ export default function DesignPreviewPage() {
 
           {/* Hero stat XL + 3 secondary */}
           <div className="grid lg:grid-cols-[1.4fr_1fr] gap-5 mb-5">
-            {/* HERO STAT — Lavori completati */}
-            <article className="relative rounded-3xl overflow-hidden p-10 lg:p-12" style={{ background: `linear-gradient(135deg, ${accent} 0%, #0057CC 50%, ${violet} 100%)`, color: 'white' }}>
-              {/* Pattern overlay */}
-              <div className="absolute inset-0 opacity-10" style={{
-                backgroundImage:
-                  'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
+            {/* HERO STAT — Lavori completati (glass embossed dark) */}
+            <article className="glass-emboss relative rounded-3xl overflow-hidden p-10 lg:p-12">
+              <div className="absolute inset-0 opacity-50 pointer-events-none" style={{
+                backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.08) 1px, transparent 0)',
                 backgroundSize: '24px 24px',
+                maskImage: 'radial-gradient(ellipse 80% 60% at 70% 30%, black 0%, transparent 80%)',
+                WebkitMaskImage: 'radial-gradient(ellipse 80% 60% at 70% 30%, black 0%, transparent 80%)',
               }} />
-              {/* Glow blob */}
-              <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.25), transparent 60%)', filter: 'blur(40px)' }} />
 
               <div className="relative">
                 <div className="flex items-center gap-3 mb-6">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold" style={{ background: 'rgba(255,255,255,0.18)', color: 'white', backdropFilter: 'blur(8px)' }}>
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold" style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.85)', border: '1px solid rgba(255,255,255,0.1)' }}>
                     <TrendingUp className="w-3.5 h-3.5" />
                     +18% questo mese
                   </span>
-                  <span className="text-xs" style={{ color: 'rgba(255,255,255,0.7)' }}>vs. mese scorso</span>
+                  <span className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>vs. mese scorso</span>
                 </div>
 
                 <div className="flex items-end gap-3 mb-3">
-                  <div className="number-xl font-bold leading-none" style={{ fontSize: 'clamp(80px, 11vw, 144px)', letterSpacing: '-0.06em' }}>
+                  <div className="num-etched number-xl font-bold leading-none" style={{ fontSize: 'clamp(80px, 11vw, 144px)', letterSpacing: '-0.06em' }}>
                     12.847
                   </div>
                 </div>
-                <h3 className="text-xl font-bold mb-1">Lavori completati</h3>
-                <p className="text-sm mb-8" style={{ color: 'rgba(255,255,255,0.75)' }}>
+                <h3 className="text-xl font-bold mb-1 text-white">Lavori completati</h3>
+                <p className="text-sm mb-8" style={{ color: 'rgba(255,255,255,0.55)' }}>
                   Negli ultimi 30 giorni in tutta Italia.
                 </p>
 
-                {/* Big sparkline area */}
                 <div className="relative">
                   <svg viewBox="0 0 600 80" className="w-full h-20">
                     <defs>
                       <linearGradient id="hero-spark" x1="0" x2="0" y1="0" y2="1">
-                        <stop offset="0%" stopColor="white" stopOpacity="0.5" />
+                        <stop offset="0%" stopColor="white" stopOpacity="0.35" />
                         <stop offset="100%" stopColor="white" stopOpacity="0" />
                       </linearGradient>
                     </defs>
                     <polyline
                       fill="url(#hero-spark)"
-                      stroke="white"
-                      strokeWidth="2"
+                      stroke="rgba(255,255,255,0.7)"
+                      strokeWidth="1.5"
                       points="0,60 50,55 100,50 150,48 200,42 250,40 300,32 350,28 400,25 450,18 500,12 550,8 600,4 600,80 0,80"
                     />
                   </svg>
-                  {/* Date labels */}
-                  <div className="flex justify-between text-[10px] mt-2" style={{ color: 'rgba(255,255,255,0.55)' }}>
+                  <div className="flex justify-between text-[10px] mt-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
                     {['1 apr', '8 apr', '15 apr', '22 apr', '29 apr', '6 mag'].map((d) => <span key={d}>{d}</span>)}
                   </div>
                 </div>
@@ -695,7 +713,7 @@ export default function DesignPreviewPage() {
           </div>
 
           {/* Activity feed — orizzontale */}
-          <article className="glass-on-color rounded-2xl overflow-hidden">
+          <article className="glass-emboss rounded-2xl overflow-hidden">
             <div className="flex items-center justify-between gap-4 p-5 border-b flex-wrap" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #16A34A, #22C55E)' }}>
@@ -755,7 +773,7 @@ export default function DesignPreviewPage() {
             <div className="max-w-xl">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtleD, fontFamily: 'var(--font-mono)' }}>01 ◆</span>
-                <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: accentLight, fontFamily: 'var(--font-mono)' }}>Categorie</span>
+                <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: 'rgba(255,255,255,0.7)', fontFamily: 'var(--font-mono)' }}>Categorie</span>
               </div>
               <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold mb-3 text-white">
                 Cosa stai cercando?
@@ -773,7 +791,7 @@ export default function DesignPreviewPage() {
             {CATEGORIES.map((c, i) => {
               const Icon = c.icon;
               return (
-                <a key={i} href={`#${c.slug}`} className="dark-card rounded-2xl p-5 block">
+                <a key={i} href={`#${c.slug}`} className="glass-emboss rounded-2xl p-5 block">
                   <div className="relative">
                     <div className="flex items-start justify-between mb-4">
                       <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: c.gradient, boxShadow: '0 4px 16px -2px rgba(0,0,0,0.4)' }}>
@@ -800,54 +818,41 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ FEATURED — cream editorial ═══════════════════ */}
+      {/* ═══════════════════ FEATURED — light monocromatico ═══════════════════ */}
       <section className="relative overflow-hidden bg-featured">
-        {/* Decorative dot pattern */}
-        <div className="absolute inset-0 pointer-events-none opacity-40" style={{
-          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(140,90,40,0.15) 1px, transparent 0)',
-          backgroundSize: '24px 24px',
-          maskImage: 'radial-gradient(ellipse 70% 50% at 50% 50%, black 30%, transparent 90%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 70% 50% at 50% 50%, black 30%, transparent 90%)',
-        }} />
-        {/* Warm gradient blob */}
-        <div className="absolute -top-32 right-0 w-[600px] h-[400px] rounded-full pointer-events-none" style={{
-          background: 'radial-gradient(circle, rgba(245,158,11,0.15), transparent 60%)',
-          filter: 'blur(60px)',
-        }} />
         <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="flex items-end justify-between gap-6 mb-10 flex-wrap">
             <div className="max-w-xl">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-5" style={{ background: 'rgba(184,134,70,0.15)', color: '#8B5A2B', border: '1px solid rgba(184,134,70,0.25)' }}>
-                <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: '#B8865C' }} />
-                Selezione editoriale
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-5" style={{ background: 'white', color: ink, border: `1px solid ${border}` }}>
+                <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: ink }} />
+                In evidenza
               </span>
-              <h2 className="text-4xl lg:text-6xl tracking-[-0.04em] font-bold mb-3" style={{ color: '#2A1A0A' }}>
-                I professionisti<br />
-                <span style={{ background: 'linear-gradient(90deg, #B8865C 0%, #8B5A2B 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>più richiesti</span> del mese.
+              <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold mb-3" style={{ color: ink }}>
+                Professionisti consigliati.
               </h2>
-              <p className="text-base" style={{ color: 'rgba(42,26,10,0.65)' }}>
-                Scelti dalla nostra community in base a recensioni reali, esperienza e disponibilità.
+              <p className="text-base" style={{ color: subtle }}>
+                I migliori della tua zona, scelti per te in base a recensioni, esperienza e disponibilità.
               </p>
             </div>
-            <a className="text-sm flex items-center gap-1 hover:gap-2 transition-all font-semibold" style={{ color: '#2A1A0A' }}>
+            <a className="text-sm flex items-center gap-1 hover:gap-2 transition-all font-semibold" style={{ color: ink }}>
               Esplora tutti <ArrowRight className="w-4 h-4" />
             </a>
           </div>
 
           <div className="flex flex-wrap items-center gap-2 mb-8">
-            <span className="text-xs px-3 py-1.5 rounded-full font-semibold" style={{ background: '#2A1A0A', color: '#F8F4ED' }}>Tutti</span>
+            <span className="text-xs px-3 py-1.5 rounded-full font-semibold" style={{ background: ink, color: 'white' }}>Tutti</span>
             {['Disponibili oggi', 'Premium', 'Top rated', 'Vicino a me', 'Risposta rapida'].map((c) => (
-              <span key={c} className="text-xs px-3 py-1.5 rounded-full font-semibold cursor-pointer transition-colors" style={{ background: 'white', color: '#2A1A0A', border: '1px solid rgba(0,0,0,0.08)' }}>
+              <span key={c} className="text-xs px-3 py-1.5 rounded-full font-semibold cursor-pointer transition-colors" style={{ background: 'white', color: ink, border: `1px solid ${border}` }}>
                 {c}
               </span>
             ))}
-            <span className="ml-auto text-xs font-medium" style={{ color: 'rgba(42,26,10,0.6)' }}>
+            <span className="ml-auto text-xs font-medium" style={{ color: subtle }}>
               {FEATURED.length} risultati · ordinati per rilevanza
             </span>
           </div>
 
           <div className="grid lg:grid-cols-[1.4fr_1fr_1fr] gap-4">
-            <article className="cream-card lg:row-span-2 group rounded-2xl overflow-hidden cursor-pointer relative">
+            <article className="glass-emboss-light lg:row-span-2 group rounded-2xl overflow-hidden cursor-pointer relative">
               <div className="relative h-48 overflow-hidden" style={{ background: `linear-gradient(135deg, ${FEATURED[0].avatar}, ${FEATURED[0].avatar}AA)` }}>
                 <div className="absolute inset-0 grid-bg-dark opacity-30" />
                 <div className="absolute top-4 left-4 flex items-center gap-2">
@@ -868,7 +873,7 @@ export default function DesignPreviewPage() {
               <div className="p-7">
                 <h3 className="text-3xl tracking-[-0.02em] font-bold mb-1 flex items-center gap-2" style={{ color: ink }}>
                   {FEATURED[0].name}
-                  <BadgeCheck className="w-5 h-5" style={{ color: accent }} fill={accent} fillOpacity={0.15} strokeWidth={2} />
+                  <BadgeCheck className="w-5 h-5" style={{ color: ink }} fill={ink} fillOpacity={0.12} strokeWidth={2} />
                 </h3>
                 <p className="text-sm mb-3 font-medium" style={{ color: subtle }}>
                   {FEATURED[0].category} · {FEATURED[0].city}
@@ -922,7 +927,7 @@ export default function DesignPreviewPage() {
             </article>
 
             {FEATURED.slice(1, 5).map((p, i) => (
-              <article key={i} className="cream-card group rounded-2xl p-5 cursor-pointer">
+              <article key={i} className="glass-emboss-light group rounded-2xl p-5 cursor-pointer">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <div className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{ background: p.avatar }}>
@@ -939,7 +944,7 @@ export default function DesignPreviewPage() {
 
                 <h3 className="text-lg tracking-[-0.02em] font-bold mb-0.5 flex items-center gap-1.5" style={{ color: ink }}>
                   {p.name}
-                  <BadgeCheck className="w-3.5 h-3.5" style={{ color: accent }} fill={accent} fillOpacity={0.15} strokeWidth={2} />
+                  <BadgeCheck className="w-3.5 h-3.5" style={{ color: ink }} fill={ink} fillOpacity={0.12} strokeWidth={2} />
                 </h3>
                 <p className="text-xs mb-3 font-medium" style={{ color: subtle }}>
                   {p.category} · {p.city}
@@ -980,7 +985,7 @@ export default function DesignPreviewPage() {
           <div className="text-center max-w-2xl mx-auto mb-14">
             <div className="flex items-center justify-center gap-3 mb-4">
               <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtleD, fontFamily: 'var(--font-mono)' }}>03 ◆</span>
-              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: accentLight, fontFamily: 'var(--font-mono)' }}>Perché TrovaPro</span>
+              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: 'rgba(255,255,255,0.7)', fontFamily: 'var(--font-mono)' }}>Perché TrovaPro</span>
             </div>
             <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold text-white">
               Tutto quello che ti serve, niente che non ti serve.
@@ -988,13 +993,12 @@ export default function DesignPreviewPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="md:col-span-2 md:row-span-2 dark-card rounded-2xl p-10 relative overflow-hidden">
-              <div className="absolute inset-0 grid-bg-dark opacity-50" />
-              <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full" style={{ background: `radial-gradient(circle, ${accent}50, transparent 60%)`, filter: 'blur(60px)' }} />
+            <div className="md:col-span-2 md:row-span-2 glass-emboss rounded-2xl p-10 relative overflow-hidden">
+              <div className="absolute inset-0 grid-bg-dark opacity-40" />
 
               <div className="relative">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs mb-8" style={{ background: cardBgD, border: `1px solid ${borderD}` }}>
-                  <Bolt className="w-3 h-3" style={{ color: accentLight }} />
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs mb-8" style={{ background: 'rgba(255,255,255,0.08)', border: `1px solid ${borderD}` }}>
+                  <Bolt className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.85)' }} />
                   <span style={{ color: textMidD, fontFamily: 'var(--font-mono)', fontWeight: 600 }}>RISPOSTA RAPIDA</span>
                 </div>
                 <h3 className="text-3xl lg:text-4xl tracking-[-0.03em] font-bold mb-4 max-w-md text-white">
@@ -1006,7 +1010,7 @@ export default function DesignPreviewPage() {
 
                 <div className="rounded-xl p-4 backdrop-blur-sm max-w-sm" style={{ background: 'rgba(255,255,255,0.04)', border: `1px solid ${borderD}` }}>
                   <div className="flex items-center gap-2 mb-3 pb-3 border-b" style={{ borderColor: borderD }}>
-                    <div className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold" style={{ background: accent, color: 'white' }}>MR</div>
+                    <div className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold" style={{ background: 'rgba(255,255,255,0.18)', color: 'white' }}>MR</div>
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-semibold truncate text-white">Mario Rossi</p>
                       <p className="text-[10px] flex items-center gap-1" style={{ color: subtleD }}>
@@ -1046,9 +1050,9 @@ export default function DesignPreviewPage() {
             ].map((f, i) => {
               const Icon = f.icon;
               return (
-                <div key={i} className="dark-card rounded-2xl p-6">
-                  <div className="w-11 h-11 rounded-xl mb-5 flex items-center justify-center" style={{ background: `${accent}20` }}>
-                    <Icon className="w-4 h-4" style={{ color: accentLight }} strokeWidth={2} />
+                <div key={i} className="glass-emboss rounded-2xl p-6">
+                  <div className="icon-mono w-11 h-11 rounded-xl mb-5 flex items-center justify-center">
+                    <Icon className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.85)' }} strokeWidth={1.75} />
                   </div>
                   <h3 className="text-lg tracking-[-0.02em] font-bold mb-2 text-white">{f.title}</h3>
                   <p className="text-sm leading-relaxed" style={{ color: subtleD }}>{f.desc}</p>
@@ -1059,28 +1063,22 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ TESTIMONIALS — viola scuro elegante ═══════════════════ */}
+      {/* ═══════════════════ TESTIMONIALS — dark monocromatico ═══════════════════ */}
       <section className="relative overflow-hidden bg-testimonials">
-        <div className="absolute inset-0 grid-bg-dark opacity-50" />
-        {/* Glow blob */}
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full pointer-events-none" style={{
-          background: 'radial-gradient(circle, rgba(245,158,11,0.15), transparent 60%)',
-          filter: 'blur(80px)',
-        }} />
+        <div className="absolute inset-0 grid-bg-dark opacity-40" />
         <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="pill-on-color inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-5 text-white">
-              <Quote className="w-3 h-3" fill="#FBBF24" strokeWidth={0} />
-              <span style={{ color: '#FBBF24' }}>4.7 ★</span>
-              <span style={{ color: 'rgba(255,255,255,0.6)' }}>su 2.143 recensioni</span>
+              <Star className="w-3 h-3" fill="#FBBF24" strokeWidth={0} />
+              <span style={{ color: '#FBBF24' }}>4.7</span>
+              <span style={{ color: 'rgba(255,255,255,0.6)' }}>su 2.143 recensioni verificate</span>
             </span>
             <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold text-white">
-              Le storie di chi<br />
-              <span style={{ background: 'linear-gradient(90deg, #FBBF24 0%, #F59E0B 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>ha già scelto TrovaPro.</span>
+              Le storie di chi ha già scelto TrovaPro.
             </h2>
           </div>
 
-          <div className="mb-12 max-w-2xl mx-auto rounded-2xl p-5 flex items-center justify-center gap-6 flex-wrap glass-on-color">
+          <div className="mb-12 max-w-2xl mx-auto rounded-2xl p-5 flex items-center justify-center gap-6 flex-wrap glass-emboss">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded flex items-center justify-center font-bold text-white text-xs" style={{ background: '#00B67A' }}>★</div>
               <span className="text-sm font-bold text-white">Trustpilot</span>
@@ -1101,7 +1099,7 @@ export default function DesignPreviewPage() {
 
           <div className="grid md:grid-cols-3 gap-5">
             {TESTIMONIALS.map((t, i) => (
-              <div key={i} className="glass-on-color relative rounded-2xl p-7">
+              <div key={i} className="glass-emboss relative rounded-2xl p-7">
                 <Quote className="absolute top-6 right-6 w-9 h-9" style={{ color: 'rgba(251,191,36,0.25)' }} fill="rgba(251,191,36,0.25)" strokeWidth={0} />
                 <div className="flex items-center gap-1 mb-5">
                   {Array.from({ length: 5 }).map((_, j) => (
@@ -1135,7 +1133,7 @@ export default function DesignPreviewPage() {
           <div className="text-center max-w-2xl mx-auto mb-10">
             <div className="flex items-center justify-center gap-3 mb-4">
               <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtleD, fontFamily: 'var(--font-mono)' }}>05 ◆</span>
-              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: accentLight, fontFamily: 'var(--font-mono)' }}>Piani</span>
+              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: 'rgba(255,255,255,0.7)', fontFamily: 'var(--font-mono)' }}>Piani</span>
             </div>
             <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold mb-4 text-white">
               Inizia gratis. Cresci quando vuoi.
@@ -1158,9 +1156,9 @@ export default function DesignPreviewPage() {
 
           <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto">
             {PLANS.map((p, i) => (
-              <div key={i} className={`relative rounded-2xl p-7 ${p.popular ? 'plan-popular' : 'dark-card'}`}>
+              <div key={i} className={`relative rounded-2xl p-7 ${p.popular ? 'plan-popular' : 'glass-emboss'}`}>
                 {p.popular && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider" style={{ background: accent, color: 'white', fontFamily: 'var(--font-mono)' }}>
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider" style={{ background: 'white', color: dark, fontFamily: 'var(--font-mono)' }}>
                     Più scelto
                   </span>
                 )}
@@ -1169,7 +1167,7 @@ export default function DesignPreviewPage() {
                   <h3 className="text-base font-bold text-white" style={{ fontFamily: 'var(--font-mono)' }}>
                     {p.name.toUpperCase()}
                   </h3>
-                  {p.popular && <Sparkles className="w-4 h-4" style={{ color: accentLight }} fill={accent} fillOpacity={0.4} />}
+                  {p.popular && <Sparkles className="w-4 h-4" style={{ color: 'white' }} fill="white" fillOpacity={0.4} />}
                 </div>
                 <p className="text-xs mb-6" style={{ color: subtleD }}>
                   {p.period}
@@ -1183,7 +1181,7 @@ export default function DesignPreviewPage() {
                   {p.priceMonthly !== 0 && <span className="text-xs" style={{ color: subtleD }}>/mese</span>}
                 </div>
                 {p.priceMonthly !== 0 ? (
-                  <p className="text-[11px] mb-7 font-semibold" style={{ color: accentLight, fontFamily: 'var(--font-mono)' }}>
+                  <p className="text-[11px] mb-7 font-semibold" style={{ color: 'rgba(255,255,255,0.55)', fontFamily: 'var(--font-mono)' }}>
                     o €{p.priceAnnual.toString().replace('.', ',')}/m con piano annuale
                   </p>
                 ) : <div className="mb-7" />}
@@ -1195,7 +1193,7 @@ export default function DesignPreviewPage() {
                 <ul className="space-y-2.5">
                   {p.features.map((f, j) => (
                     <li key={j} className="flex items-start gap-2 text-sm font-medium text-white">
-                      <Check className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: p.popular ? accentLight : successD }} strokeWidth={3} />
+                      <Check className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: p.popular ? 'white' : 'rgba(255,255,255,0.6)' }} strokeWidth={3} />
                       {f}
                     </li>
                   ))}
@@ -1210,49 +1208,39 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ FAQ — lavender soft ═══════════════════ */}
+      {/* ═══════════════════ FAQ — light monocromatico ═══════════════════ */}
       <section className="relative overflow-hidden bg-faq">
-        {/* Floating decorative gradient blob */}
-        <div className="absolute -top-24 -right-24 w-[500px] h-[500px] rounded-full pointer-events-none float" style={{
-          background: 'radial-gradient(circle, rgba(123,97,255,0.18), transparent 60%)',
-          filter: 'blur(40px)',
-        }} />
-        <div className="absolute bottom-0 -left-24 w-[400px] h-[400px] rounded-full pointer-events-none" style={{
-          background: 'radial-gradient(circle, rgba(0,112,243,0.15), transparent 60%)',
-          filter: 'blur(40px)',
-        }} />
         <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="grid md:grid-cols-[1fr_2fr] gap-12">
             <div>
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-5" style={{ background: 'white', color: accent, border: `1px solid ${accent}30` }}>
-                <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: accent }} />
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-5" style={{ background: 'white', color: ink, border: `1px solid ${border}` }}>
+                <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: ink }} />
                 Domande frequenti
               </span>
-              <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold mb-4" style={{ color: '#1A1B3A' }}>
-                Tutto quello che<br />
-                <span style={{ background: 'linear-gradient(90deg, #0070F3 0%, #7B61FF 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>vuoi sapere.</span>
+              <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold mb-4" style={{ color: ink }}>
+                Tutto quello che vuoi sapere.
               </h2>
-              <p className="text-base mb-6" style={{ color: 'rgba(26,27,58,0.65)' }}>
+              <p className="text-base mb-6" style={{ color: subtle }}>
                 Non trovi una risposta? Scrivici a{' '}
-                <a href="mailto:hello@trovapro.it" className="underline font-semibold" style={{ color: '#1A1B3A' }}>hello@trovapro.it</a>
+                <a href="mailto:hello@trovapro.it" className="underline font-semibold" style={{ color: ink }}>hello@trovapro.it</a>
               </p>
-              <a className="text-sm flex items-center gap-1 hover:gap-2 transition-all font-bold" style={{ color: accent }}>
+              <a className="text-sm flex items-center gap-1 hover:gap-2 transition-all font-bold" style={{ color: ink }}>
                 Centro assistenza <ArrowRight className="w-4 h-4" />
               </a>
             </div>
 
             <div>
-              <div className="mb-6 rounded-xl p-1.5 flex items-center gap-2 bg-white" style={{ border: '1px solid rgba(0,112,243,0.15)', boxShadow: '0 4px 16px -4px rgba(0,112,243,0.1)' }}>
-                <Search className="w-4 h-4 ml-2" style={{ color: accent }} />
-                <input placeholder="Cerca tra le FAQ…" className="input-light bg-transparent outline-none text-sm flex-1 py-1.5" style={{ color: '#1A1B3A' }} />
-                <span className="text-[10px] mr-2 px-1.5 py-0.5 rounded font-bold" style={{ background: '#EEF2FF', color: accent }}>⌘K</span>
+              <div className="mb-6 rounded-xl p-1.5 flex items-center gap-2 bg-white" style={{ border: `1px solid ${border}`, boxShadow: '0 4px 16px -4px rgba(0,0,0,0.06)' }}>
+                <Search className="w-4 h-4 ml-2" style={{ color: subtle }} />
+                <input placeholder="Cerca tra le FAQ…" className="input-light bg-transparent outline-none text-sm flex-1 py-1.5" style={{ color: ink }} />
+                <span className="text-[10px] mr-2 px-1.5 py-0.5 rounded font-bold" style={{ background: surface, color: subtle }}>⌘K</span>
               </div>
 
               <div className="flex flex-wrap items-center gap-2 mb-6">
                 {['Tutte', 'Generale', 'Pagamenti', 'Sicurezza', 'Tempi'].map((c, i) => (
                   <span key={c} className="text-xs px-3 py-1.5 rounded-full font-semibold cursor-pointer transition-colors" style={i === 0
-                    ? { background: '#1A1B3A', color: 'white', border: '1px solid #1A1B3A' }
-                    : { background: 'white', color: '#1A1B3A', border: '1px solid rgba(0,112,243,0.15)' }
+                    ? { background: ink, color: 'white', border: `1px solid ${ink}` }
+                    : { background: 'white', color: ink, border: `1px solid ${border}` }
                   }>
                     {c}
                   </span>
@@ -1261,22 +1249,22 @@ export default function DesignPreviewPage() {
 
               <div className="space-y-3">
                 {FAQS.map((f, i) => (
-                  <details key={i} className="lavender-card faq group rounded-xl transition-all">
+                  <details key={i} className="glass-emboss-light faq group rounded-xl transition-all">
                     <summary className="flex items-center justify-between gap-4 p-5">
                       <div className="flex items-start gap-3 flex-1 min-w-0">
-                        <span className="text-[10px] px-1.5 py-0.5 rounded mt-1 flex-shrink-0 font-bold" style={{ background: '#EEF2FF', color: accent }}>
+                        <span className="text-[10px] px-1.5 py-0.5 rounded mt-1 flex-shrink-0 font-bold" style={{ background: surface, color: subtle }}>
                           {f.cat.toUpperCase()}
                         </span>
-                        <h3 className="text-[15px] font-bold tracking-[-0.01em] flex-1" style={{ color: '#1A1B3A' }}>
+                        <h3 className="text-[15px] font-bold tracking-[-0.01em] flex-1" style={{ color: ink }}>
                           {f.q}
                         </h3>
                       </div>
-                      <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#EEF2FF' }}>
-                        <Plus className="faq-icon w-4 h-4" style={{ color: accent }} strokeWidth={2.5} />
+                      <div className="icon-mono-light w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Plus className="faq-icon w-4 h-4" style={{ color: ink }} strokeWidth={2.5} />
                       </div>
                     </summary>
                     <div className="px-5 pb-5 -mt-1">
-                      <p className="text-sm leading-relaxed pl-[68px]" style={{ color: 'rgba(26,27,58,0.65)' }}>{f.a}</p>
+                      <p className="text-sm leading-relaxed pl-[68px]" style={{ color: subtle }}>{f.a}</p>
                     </div>
                   </details>
                 ))}
@@ -1295,11 +1283,11 @@ export default function DesignPreviewPage() {
             <div>
               <div className="flex items-center gap-3 mb-5">
                 <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: fadeD, fontFamily: 'var(--font-mono)' }}>07 ◆</span>
-                <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: '#7AA8FF', fontFamily: 'var(--font-mono)' }}>Per professionisti</span>
+                <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: 'rgba(255,255,255,0.7)', fontFamily: 'var(--font-mono)' }}>Per professionisti</span>
               </div>
               <h2 className="font-bold tracking-[-0.05em]" style={{ fontSize: 'clamp(48px, 6vw, 72px)', lineHeight: 0.95 }}>
                 <span className="gradient-text-dark">Più clienti.</span><br />
-                <span className="accent-text">Meno fatica.</span>
+                <span className="num-etched">Meno fatica.</span>
               </h2>
               <p className="mt-8 max-w-md text-base" style={{ color: textMidD }}>
                 Crea il tuo profilo in 5 minuti. Ricevi richieste qualificate, gestisci tutto da una sola dashboard.
@@ -1334,14 +1322,14 @@ export default function DesignPreviewPage() {
               <div className="absolute inset-0 -z-10 rounded-3xl" style={{ background: `radial-gradient(50% 50% at 50% 50%, ${accent}50, transparent 70%)`, filter: 'blur(60px)' }} />
 
               <div className="notif-pop absolute -top-6 -right-4 z-10 rounded-xl p-3.5 backdrop-blur-xl flex items-center gap-3 max-w-[260px]" style={{ background: 'white', boxShadow: '0 20px 50px -10px rgba(0,0,0,0.6)' }}>
-                <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: accentSoft }}>
-                  <Bell className="w-4 h-4" style={{ color: accent }} fill={accent} fillOpacity={0.2} strokeWidth={2.5} />
+                <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(0,0,0,0.05)' }}>
+                  <Bell className="w-4 h-4" style={{ color: ink }} fill={ink} fillOpacity={0.15} strokeWidth={2.5} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-bold mb-0.5" style={{ color: ink }}>Nuova richiesta!</p>
                   <p className="text-[10px] truncate" style={{ color: subtle }}>Anna M. · Impianto cucina · Roma</p>
                 </div>
-                <span className="pulse-dot w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: accent, boxShadow: `0 0 8px ${accent}` }} />
+                <span className="pulse-dot w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: success, boxShadow: `0 0 8px ${success}` }} />
               </div>
 
               <div className="rounded-2xl p-2 backdrop-blur-xl" style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${borderD2}` }}>
@@ -1374,7 +1362,7 @@ export default function DesignPreviewPage() {
                     <div className="grid grid-cols-3 gap-2 mb-5">
                       {[
                         { v: '€3.420', l: 'Fatturato', c: '#4ADE80' },
-                        { v: '24', l: 'Lead', c: accentLight },
+                        { v: '24', l: 'Lead', c: 'rgba(255,255,255,0.6)' },
                         { v: '4.9', l: 'Rating', c: '#FFB020' },
                       ].map((k, i) => (
                         <div key={i} className="rounded-lg p-3" style={{ background: cardBgD, border: `1px solid ${borderD}` }}>
@@ -1394,7 +1382,7 @@ export default function DesignPreviewPage() {
                           <TrendingUp className="w-2.5 h-2.5" /> +24%
                         </span>
                       </div>
-                      <Sparkline data={[12,18,22,15,28,32,38,35,42,48,45,52]} color={accentLight} height={48} width={280} />
+                      <Sparkline data={[12,18,22,15,28,32,38,35,42,48,45,52]} color="rgba(255,255,255,0.7)" height={48} width={280} />
                     </div>
 
                     <div className="space-y-2">
