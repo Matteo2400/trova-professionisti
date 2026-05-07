@@ -114,18 +114,28 @@ export default function DesignPreviewPage() {
         @keyframes notif-in { 0% { transform: translateY(-12px) scale(0.9); opacity: 0; } 100% { transform: translateY(0) scale(1); opacity: 1; } }
         @keyframes ticker-up { 0% { transform: translateY(100%); opacity: 0; } 20%, 80% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-100%); opacity: 0; } }
 
-        /* ─── Light cards ─── */
+        /* ─── Light cards (wow style, mirrors dark-card energy) ─── */
         .light-card {
           background: white;
           border: 1px solid ${border};
-          transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, box-shadow 0.4s ease;
+          position: relative;
+          isolation: isolate;
+        }
+        .light-card::before {
+          content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
+          background: linear-gradient(135deg, transparent 30%, rgba(0,112,243,0.5) 50%, transparent 70%);
+          -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          -webkit-mask-composite: xor; mask-composite: exclude;
+          opacity: 0; transition: opacity 0.4s ease; pointer-events: none;
         }
         .light-card:hover {
-          transform: translateY(-2px);
-          border-color: ${accent};
-          box-shadow: 0 12px 32px -12px rgba(0,112,243,0.18);
+          transform: translateY(-4px);
+          border-color: rgba(0,112,243,0.25);
+          box-shadow: 0 30px 60px -20px rgba(0,112,243,0.28), 0 0 60px -10px rgba(0,112,243,0.15);
         }
-        .light-premium { box-shadow: 0 0 0 1px rgba(0,112,243,0.15), 0 8px 24px -8px rgba(0,112,243,0.15); }
+        .light-card:hover::before { opacity: 1; }
+        .light-premium { box-shadow: 0 0 0 1px rgba(0,112,243,0.18), 0 12px 40px -10px rgba(0,112,243,0.22); }
 
         /* ─── Dark cards ─── */
         .dark-card {
@@ -170,13 +180,32 @@ export default function DesignPreviewPage() {
         .aurora-d-soft::before { background: radial-gradient(circle, ${accent} 0%, transparent 60%); top: 50%; left: -200px; }
         .aurora-d-soft::after  { background: radial-gradient(circle, ${violet} 0%, transparent 60%); top: 20%; right: -200px; }
 
+        /* ─── Aurora light (visible, like dark sections but inverted intensity) ─── */
         .aurora-l { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
         .aurora-l::before, .aurora-l::after {
-          content: ""; position: absolute; width: 600px; height: 600px;
+          content: ""; position: absolute; width: 800px; height: 800px;
           border-radius: 50%; filter: blur(80px);
         }
-        .aurora-l::before { background: radial-gradient(circle, ${accent} 0%, transparent 50%); top: -300px; left: -200px; opacity: 0.07; }
-        .aurora-l::after  { background: radial-gradient(circle, ${violet} 0%, transparent 50%); top: -200px; right: -300px; opacity: 0.06; }
+        .aurora-l::before { background: radial-gradient(circle, ${accent} 0%, transparent 50%); top: -300px; left: -200px; opacity: 0.13; }
+        .aurora-l::after  { background: radial-gradient(circle, ${violet} 0%, transparent 50%); top: -200px; right: -300px; opacity: 0.10; }
+
+        .aurora-l-soft { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+        .aurora-l-soft::before, .aurora-l-soft::after {
+          content: ""; position: absolute; width: 600px; height: 600px;
+          border-radius: 50%; filter: blur(100px);
+        }
+        .aurora-l-soft::before { background: radial-gradient(circle, ${accent} 0%, transparent 60%); top: 50%; left: -200px; opacity: 0.10; }
+        .aurora-l-soft::after  { background: radial-gradient(circle, ${violet} 0%, transparent 60%); top: 20%; right: -200px; opacity: 0.08; }
+
+        /* ─── Conic border on light pill ─── */
+        .conic-border-light { position: relative; background: white; border-radius: 999px; }
+        .conic-border-light::before {
+          content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
+          background: conic-gradient(from 0deg, transparent 0%, rgba(0,112,243,0.5) 25%, transparent 50%, rgba(123,97,255,0.5) 75%, transparent 100%);
+          animation: spin-slow 8s linear infinite;
+          -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
+        }
 
         .grid-bg-dark {
           background-image:
@@ -429,12 +458,13 @@ export default function DesignPreviewPage() {
       {/* ═══════════════════ STATS (LIGHT) — refresh ═══════════════════ */}
       <section className="relative overflow-hidden" style={{ background: 'white' }}>
         <div className="aurora-l" />
+        <div className="absolute inset-0 grid-bg-light opacity-50" />
         <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           {/* Section header */}
           <div className="flex items-end justify-between gap-6 mb-12 flex-wrap">
             <div className="max-w-xl">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-5" style={{ background: accentSoft, color: accent }}>
-                <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: accent }} />
+              <span className="conic-border-light inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-5" style={{ color: ink }}>
+                <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: accent, boxShadow: `0 0 8px ${accent}` }} />
                 Numeri reali, aggiornati in tempo reale
               </span>
               <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold" style={{ color: ink }}>
@@ -643,7 +673,9 @@ export default function DesignPreviewPage() {
       </section>
 
       {/* ═══════════════════ FEATURED (LIGHT) ═══════════════════ */}
-      <section className="relative" style={{ background: 'white' }}>
+      <section className="relative overflow-hidden" style={{ background: 'white' }}>
+        <div className="aurora-l-soft" />
+        <div className="absolute inset-0 grid-bg-light opacity-50" />
         <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="flex items-end justify-between gap-6 mb-10 flex-wrap">
             <div className="max-w-xl">
@@ -889,8 +921,9 @@ export default function DesignPreviewPage() {
       </section>
 
       {/* ═══════════════════ TESTIMONIALS (LIGHT) ═══════════════════ */}
-      <section className="relative" style={{ background: 'white' }}>
-        <div className="aurora-l" />
+      <section className="relative overflow-hidden" style={{ background: 'white' }}>
+        <div className="aurora-l-soft" />
+        <div className="absolute inset-0 grid-bg-light opacity-40" />
         <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <div className="flex items-center justify-center gap-3 mb-4">
@@ -1033,7 +1066,8 @@ export default function DesignPreviewPage() {
       </section>
 
       {/* ═══════════════════ FAQ (LIGHT) ═══════════════════ */}
-      <section className="relative" style={{ background: 'white' }}>
+      <section className="relative overflow-hidden" style={{ background: 'white' }}>
+        <div className="aurora-l-soft" style={{ opacity: 0.5 }} />
         <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="grid md:grid-cols-[1fr_2fr] gap-12">
             <div>
