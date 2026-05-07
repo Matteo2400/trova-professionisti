@@ -197,6 +197,94 @@ export default function DesignPreviewPage() {
         .aurora-l-soft::before { background: radial-gradient(circle, ${accent} 0%, transparent 60%); top: 50%; left: -200px; opacity: 0.10; }
         .aurora-l-soft::after  { background: radial-gradient(circle, ${violet} 0%, transparent 60%); top: 20%; right: -200px; opacity: 0.08; }
 
+        /* ─── Themed section backgrounds ─── */
+        .bg-stats {
+          background:
+            radial-gradient(circle at 20% 0%, rgba(123,97,255,0.7), transparent 50%),
+            radial-gradient(circle at 80% 0%, rgba(0,180,255,0.4), transparent 50%),
+            radial-gradient(circle at 50% 100%, rgba(0,112,243,0.5), transparent 50%),
+            linear-gradient(180deg, #0A0F2E 0%, #0F1450 100%);
+        }
+        .bg-featured {
+          background: linear-gradient(180deg, #F8F4ED 0%, #F2EDE3 100%);
+        }
+        .bg-testimonials {
+          background:
+            radial-gradient(ellipse 80% 50% at 50% 0%, rgba(123,97,255,0.35), transparent 60%),
+            linear-gradient(180deg, #1A0F3A 0%, #261052 100%);
+        }
+        .bg-faq {
+          background:
+            radial-gradient(ellipse 60% 40% at 30% 0%, rgba(0,112,243,0.12), transparent 50%),
+            radial-gradient(ellipse 50% 40% at 70% 100%, rgba(123,97,255,0.10), transparent 50%),
+            #EEF2FF;
+        }
+
+        /* ─── Glass cards on color bg ─── */
+        .glass-on-color {
+          background: rgba(255,255,255,0.06);
+          border: 1px solid rgba(255,255,255,0.12);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease, border-color 0.3s ease, box-shadow 0.4s ease;
+          position: relative; isolation: isolate;
+        }
+        .glass-on-color::before {
+          content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
+          background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.5) 50%, transparent 70%);
+          -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          -webkit-mask-composite: xor; mask-composite: exclude;
+          opacity: 0; transition: opacity 0.4s ease; pointer-events: none;
+        }
+        .glass-on-color:hover {
+          background: rgba(255,255,255,0.10);
+          border-color: rgba(255,255,255,0.22);
+          transform: translateY(-4px);
+          box-shadow: 0 30px 60px -20px rgba(0,0,0,0.5), 0 0 60px -10px rgba(255,255,255,0.1);
+        }
+        .glass-on-color:hover::before { opacity: 1; }
+
+        /* ─── Cream/beige editorial card ─── */
+        .cream-card {
+          background: white;
+          border: 1px solid rgba(0,0,0,0.06);
+          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+          box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+          position: relative; isolation: isolate;
+        }
+        .cream-card::before {
+          content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
+          background: linear-gradient(135deg, transparent 30%, rgba(184, 134, 70, 0.5) 50%, transparent 70%);
+          -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          -webkit-mask-composite: xor; mask-composite: exclude;
+          opacity: 0; transition: opacity 0.4s ease; pointer-events: none;
+        }
+        .cream-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 30px 60px -20px rgba(140,90,40,0.25), 0 0 0 1px rgba(184,134,70,0.15);
+        }
+        .cream-card:hover::before { opacity: 1; }
+
+        /* ─── Lavender soft card ─── */
+        .lavender-card {
+          background: white;
+          border: 1px solid rgba(0,112,243,0.10);
+          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, box-shadow 0.4s ease;
+        }
+        .lavender-card:hover {
+          transform: translateY(-2px);
+          border-color: rgba(0,112,243,0.4);
+          box-shadow: 0 12px 32px -12px rgba(0,112,243,0.25), 0 0 0 1px rgba(0,112,243,0.15);
+        }
+
+        /* ─── Pill on color bg ─── */
+        .pill-on-color {
+          background: rgba(255,255,255,0.08);
+          border: 1px solid rgba(255,255,255,0.16);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+        }
+
         /* ─── Conic border on light pill ─── */
         .conic-border-light { position: relative; background: white; border-radius: 999px; }
         .conic-border-light::before {
@@ -455,23 +543,21 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ STATS (LIGHT) — refresh ═══════════════════ */}
-      <section className="relative overflow-hidden" style={{ background: 'white' }}>
-        <div className="aurora-l" />
-        <div className="absolute inset-0 grid-bg-light opacity-50" />
+      {/* ═══════════════════ STATS — gradient mesh blu/viola ═══════════════════ */}
+      <section className="relative overflow-hidden bg-stats">
+        <div className="absolute inset-0 grid-bg-dark opacity-60" />
         <div className="relative max-w-[1280px] mx-auto px-6 py-28">
-          {/* Section header */}
           <div className="flex items-end justify-between gap-6 mb-12 flex-wrap">
             <div className="max-w-xl">
-              <span className="conic-border-light inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-5" style={{ color: ink }}>
-                <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: accent, boxShadow: `0 0 8px ${accent}` }} />
+              <span className="pill-on-color inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-5 text-white">
+                <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: '#22D3EE', boxShadow: '0 0 8px #22D3EE' }} />
                 Numeri reali, aggiornati in tempo reale
               </span>
-              <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold" style={{ color: ink }}>
+              <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold text-white">
                 Una piattaforma che funziona davvero.
               </h2>
             </div>
-            <a className="text-sm flex items-center gap-1 hover:gap-2 transition-all font-semibold" style={{ color: ink }}>
+            <a className="text-sm flex items-center gap-1 hover:gap-2 transition-all font-semibold text-white">
               Vedi report completo <ArrowRight className="w-4 h-4" />
             </a>
           </div>
@@ -535,29 +621,29 @@ export default function DesignPreviewPage() {
             {/* 3 secondary stats stacked */}
             <div className="grid grid-rows-3 gap-5">
               {[
-                { value: '4.8', suffix: '/ 5', label: 'Stelle medie', sub: 'su 2.143 recensioni verificate', trend: '+0.2', spark: [4.5,4.6,4.6,4.7,4.7,4.8,4.7,4.8,4.8,4.9,4.8,4.8], color: warning, icon: Star },
-                { value: '< 2h', suffix: '', label: 'Tempo di risposta', sub: '−24m vs. mese scorso', trend: 'più veloce', spark: [180,165,155,140,130,125,118,112,108,102,98,95].reverse(), color: success, icon: Bolt },
-                { value: '98', suffix: '%', label: 'Tasso completamento', sub: 'lavori portati a termine', trend: '+3%', spark: [88,89,90,91,92,93,94,95,96,97,97,98], color: violet, icon: BadgeCheck },
+                { value: '4.8', suffix: '/ 5', label: 'Stelle medie', sub: 'su 2.143 recensioni verificate', trend: '+0.2', spark: [4.5,4.6,4.6,4.7,4.7,4.8,4.7,4.8,4.8,4.9,4.8,4.8], color: '#FBBF24', icon: Star },
+                { value: '< 2h', suffix: '', label: 'Tempo di risposta', sub: '−24m vs. mese scorso', trend: 'più veloce', spark: [180,165,155,140,130,125,118,112,108,102,98,95].reverse(), color: '#22D3EE', icon: Bolt },
+                { value: '98', suffix: '%', label: 'Tasso completamento', sub: 'lavori portati a termine', trend: '+3%', spark: [88,89,90,91,92,93,94,95,96,97,97,98], color: '#A78BFA', icon: BadgeCheck },
               ].map((s, i) => {
                 const Icon = s.icon;
                 return (
-                  <article key={i} className="light-card rounded-2xl p-6 flex items-center gap-5 group cursor-pointer" style={{ borderLeft: `3px solid ${s.color}` }}>
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: `${s.color}15` }}>
+                  <article key={i} className="glass-on-color rounded-2xl p-6 flex items-center gap-5 group cursor-pointer" style={{ borderLeft: `3px solid ${s.color}` }}>
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: `${s.color}25` }}>
                       <Icon className="w-5 h-5" style={{ color: s.color }} strokeWidth={2} fill={s.icon === Star ? s.color : 'none'} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-baseline gap-1.5 mb-1">
-                        <span className="text-3xl number-xl font-bold" style={{ color: ink }}>{s.value}</span>
-                        {s.suffix && <span className="text-base font-semibold" style={{ color: subtle }}>{s.suffix}</span>}
+                        <span className="text-3xl number-xl font-bold text-white">{s.value}</span>
+                        {s.suffix && <span className="text-base font-semibold" style={{ color: 'rgba(255,255,255,0.6)' }}>{s.suffix}</span>}
                         <span className="ml-auto text-[11px] font-bold inline-flex items-center gap-0.5" style={{ color: s.color }}>
                           <TrendingUp className="w-3 h-3" />
                           {s.trend}
                         </span>
                       </div>
-                      <p className="text-sm font-bold mb-0.5" style={{ color: ink }}>{s.label}</p>
-                      <p className="text-xs" style={{ color: subtle }}>{s.sub}</p>
+                      <p className="text-sm font-bold mb-0.5 text-white">{s.label}</p>
+                      <p className="text-xs" style={{ color: 'rgba(255,255,255,0.6)' }}>{s.sub}</p>
                     </div>
-                    <div className="hidden sm:block opacity-70 group-hover:opacity-100 transition-opacity">
+                    <div className="hidden sm:block opacity-80 group-hover:opacity-100 transition-opacity">
                       <Sparkline data={s.spark} color={s.color} width={70} height={32} />
                     </div>
                   </article>
@@ -567,30 +653,30 @@ export default function DesignPreviewPage() {
           </div>
 
           {/* Activity feed — orizzontale */}
-          <article className="light-card rounded-2xl overflow-hidden">
-            <div className="flex items-center justify-between gap-4 p-5 border-b flex-wrap" style={{ borderColor: border }}>
+          <article className="glass-on-color rounded-2xl overflow-hidden">
+            <div className="flex items-center justify-between gap-4 p-5 border-b flex-wrap" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #16A34A, #22C55E)' }}>
                   <span className="pulse-dot w-2 h-2 rounded-full" style={{ background: 'white', boxShadow: '0 0 8px white' }} />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold flex items-center gap-2" style={{ color: ink }}>
+                  <h3 className="text-base font-bold flex items-center gap-2 text-white">
                     Attività live
-                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: successSoft, color: success }}>
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'rgba(34,197,94,0.2)', color: '#4ADE80' }}>
                       LIVE
                     </span>
                   </h3>
-                  <p className="text-xs" style={{ color: subtle }}>Ultime azioni dei nostri clienti e professionisti</p>
+                  <p className="text-xs" style={{ color: 'rgba(255,255,255,0.6)' }}>Ultime azioni dei nostri clienti e professionisti</p>
                 </div>
               </div>
-              <a className="text-xs font-semibold flex items-center gap-1 hover:gap-2 transition-all" style={{ color: accent }}>
+              <a className="text-xs font-semibold flex items-center gap-1 hover:gap-2 transition-all" style={{ color: '#7AA8FF' }}>
                 Vedi tutto <ArrowRight className="w-3 h-3" />
               </a>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-5 divide-y sm:divide-y-0 sm:divide-x" style={{ borderColor: border }}>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-5 divide-y sm:divide-y-0 sm:divide-x" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
               {LIVE_ACTIVITY.map((a, i) => {
-                const palette = ['#0070F3','#7B61FF','#16A34A','#FFB020','#EF4444'];
+                const palette = ['#3B92FF','#A78BFA','#4ADE80','#FBBF24','#F87171'];
                 return (
                   <div key={i} className="feed-item p-5 flex flex-col gap-3 cursor-pointer">
                     <div className="flex items-center gap-2">
@@ -598,16 +684,16 @@ export default function DesignPreviewPage() {
                         {a.who.split(' ').map((s) => s[0]).join('')}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-bold truncate" style={{ color: ink }}>{a.who}</p>
-                        <p className="text-[11px] truncate" style={{ color: subtle }}>{a.city}</p>
+                        <p className="text-sm font-bold truncate text-white">{a.who}</p>
+                        <p className="text-[11px] truncate" style={{ color: 'rgba(255,255,255,0.55)' }}>{a.city}</p>
                       </div>
                     </div>
-                    <p className="text-xs leading-relaxed" style={{ color: ink }}>
+                    <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.85)' }}>
                       {a.action}
                     </p>
                     <div className="flex items-center gap-1.5 mt-auto">
-                      <span className="pulse-dot w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: i === 0 ? success : fade, boxShadow: i === 0 ? `0 0 6px ${success}` : 'none' }} />
-                      <span className="text-[11px] font-medium" style={{ color: i === 0 ? success : subtle }}>
+                      <span className="pulse-dot w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: i === 0 ? '#4ADE80' : 'rgba(255,255,255,0.3)', boxShadow: i === 0 ? '0 0 6px #4ADE80' : 'none' }} />
+                      <span className="text-[11px] font-medium" style={{ color: i === 0 ? '#4ADE80' : 'rgba(255,255,255,0.5)' }}>
                         {i === 0 ? 'in questo momento' : a.t}
                       </span>
                     </div>
@@ -672,43 +758,54 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ FEATURED (LIGHT) ═══════════════════ */}
-      <section className="relative overflow-hidden" style={{ background: 'white' }}>
-        <div className="aurora-l-soft" />
-        <div className="absolute inset-0 grid-bg-light opacity-50" />
+      {/* ═══════════════════ FEATURED — cream editorial ═══════════════════ */}
+      <section className="relative overflow-hidden bg-featured">
+        {/* Decorative dot pattern */}
+        <div className="absolute inset-0 pointer-events-none opacity-40" style={{
+          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(140,90,40,0.15) 1px, transparent 0)',
+          backgroundSize: '24px 24px',
+          maskImage: 'radial-gradient(ellipse 70% 50% at 50% 50%, black 30%, transparent 90%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 70% 50% at 50% 50%, black 30%, transparent 90%)',
+        }} />
+        {/* Warm gradient blob */}
+        <div className="absolute -top-32 right-0 w-[600px] h-[400px] rounded-full pointer-events-none" style={{
+          background: 'radial-gradient(circle, rgba(245,158,11,0.15), transparent 60%)',
+          filter: 'blur(60px)',
+        }} />
         <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="flex items-end justify-between gap-6 mb-10 flex-wrap">
             <div className="max-w-xl">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>02 ◆</span>
-                <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: accent, fontFamily: 'var(--font-mono)' }}>In evidenza</span>
-              </div>
-              <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold mb-3" style={{ color: ink }}>
-                Professionisti consigliati.
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-5" style={{ background: 'rgba(184,134,70,0.15)', color: '#8B5A2B', border: '1px solid rgba(184,134,70,0.25)' }}>
+                <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: '#B8865C' }} />
+                Selezione editoriale
+              </span>
+              <h2 className="text-4xl lg:text-6xl tracking-[-0.04em] font-bold mb-3" style={{ color: '#2A1A0A' }}>
+                I professionisti<br />
+                <span style={{ background: 'linear-gradient(90deg, #B8865C 0%, #8B5A2B 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>più richiesti</span> del mese.
               </h2>
-              <p className="text-base" style={{ color: subtle }}>
-                I migliori della tua zona, scelti per te in base a recensioni, esperienza e disponibilità.
+              <p className="text-base" style={{ color: 'rgba(42,26,10,0.65)' }}>
+                Scelti dalla nostra community in base a recensioni reali, esperienza e disponibilità.
               </p>
             </div>
-            <a className="text-sm flex items-center gap-1 hover:gap-2 transition-all font-semibold" style={{ color: ink }}>
+            <a className="text-sm flex items-center gap-1 hover:gap-2 transition-all font-semibold" style={{ color: '#2A1A0A' }}>
               Esplora tutti <ArrowRight className="w-4 h-4" />
             </a>
           </div>
 
           <div className="flex flex-wrap items-center gap-2 mb-8">
-            <span className="chip-active-light text-xs px-3 py-1.5 rounded-full font-semibold">Tutti</span>
+            <span className="text-xs px-3 py-1.5 rounded-full font-semibold" style={{ background: '#2A1A0A', color: '#F8F4ED' }}>Tutti</span>
             {['Disponibili oggi', 'Premium', 'Top rated', 'Vicino a me', 'Risposta rapida'].map((c) => (
-              <span key={c} className="chip-default-light text-xs px-3 py-1.5 rounded-full font-semibold cursor-pointer transition-colors">
+              <span key={c} className="text-xs px-3 py-1.5 rounded-full font-semibold cursor-pointer transition-colors" style={{ background: 'white', color: '#2A1A0A', border: '1px solid rgba(0,0,0,0.08)' }}>
                 {c}
               </span>
             ))}
-            <span className="ml-auto text-xs font-medium" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>
+            <span className="ml-auto text-xs font-medium" style={{ color: 'rgba(42,26,10,0.6)' }}>
               {FEATURED.length} risultati · ordinati per rilevanza
             </span>
           </div>
 
           <div className="grid lg:grid-cols-[1.4fr_1fr_1fr] gap-4">
-            <article className="light-card lg:row-span-2 group rounded-2xl overflow-hidden cursor-pointer relative light-premium">
+            <article className="cream-card lg:row-span-2 group rounded-2xl overflow-hidden cursor-pointer relative">
               <div className="relative h-48 overflow-hidden" style={{ background: `linear-gradient(135deg, ${FEATURED[0].avatar}, ${FEATURED[0].avatar}AA)` }}>
                 <div className="absolute inset-0 grid-bg-dark opacity-30" />
                 <div className="absolute top-4 left-4 flex items-center gap-2">
@@ -783,7 +880,7 @@ export default function DesignPreviewPage() {
             </article>
 
             {FEATURED.slice(1, 5).map((p, i) => (
-              <article key={i} className={`light-card group rounded-2xl p-5 cursor-pointer ${p.plan === 'premium' ? 'light-premium' : ''}`}>
+              <article key={i} className="cream-card group rounded-2xl p-5 cursor-pointer">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <div className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{ background: p.avatar }}>
@@ -920,25 +1017,31 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ TESTIMONIALS (LIGHT) ═══════════════════ */}
-      <section className="relative overflow-hidden" style={{ background: 'white' }}>
-        <div className="aurora-l-soft" />
-        <div className="absolute inset-0 grid-bg-light opacity-40" />
+      {/* ═══════════════════ TESTIMONIALS — viola scuro elegante ═══════════════════ */}
+      <section className="relative overflow-hidden bg-testimonials">
+        <div className="absolute inset-0 grid-bg-dark opacity-50" />
+        {/* Glow blob */}
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full pointer-events-none" style={{
+          background: 'radial-gradient(circle, rgba(245,158,11,0.15), transparent 60%)',
+          filter: 'blur(80px)',
+        }} />
         <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>04 ◆</span>
-              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: accent, fontFamily: 'var(--font-mono)' }}>Testimonianze</span>
-            </div>
-            <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold" style={{ color: ink }}>
-              Le storie di chi ha già scelto TrovaPro.
+            <span className="pill-on-color inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-5 text-white">
+              <Quote className="w-3 h-3" fill="#FBBF24" strokeWidth={0} />
+              <span style={{ color: '#FBBF24' }}>4.7 ★</span>
+              <span style={{ color: 'rgba(255,255,255,0.6)' }}>su 2.143 recensioni</span>
+            </span>
+            <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold text-white">
+              Le storie di chi<br />
+              <span style={{ background: 'linear-gradient(90deg, #FBBF24 0%, #F59E0B 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>ha già scelto TrovaPro.</span>
             </h2>
           </div>
 
-          <div className="mb-12 max-w-2xl mx-auto rounded-2xl p-5 flex items-center justify-center gap-6 flex-wrap bg-white" style={{ border: `1px solid ${border}` }}>
+          <div className="mb-12 max-w-2xl mx-auto rounded-2xl p-5 flex items-center justify-center gap-6 flex-wrap glass-on-color">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded flex items-center justify-center font-bold text-white text-xs" style={{ background: '#00B67A' }}>★</div>
-              <span className="text-sm font-bold" style={{ color: ink }}>Trustpilot</span>
+              <span className="text-sm font-bold text-white">Trustpilot</span>
             </div>
             <div className="flex items-center gap-1">
               {[1,2,3,4,5].map((i) => (
@@ -948,34 +1051,34 @@ export default function DesignPreviewPage() {
               ))}
             </div>
             <div className="flex items-baseline gap-1">
-              <span className="text-xl font-bold number-xl" style={{ color: ink }}>4.7</span>
-              <span className="text-xs" style={{ color: subtle }}>/5 — basato su <span className="font-bold" style={{ color: ink }}>2.143</span> recensioni</span>
+              <span className="text-xl font-bold number-xl text-white">4.7</span>
+              <span className="text-xs" style={{ color: 'rgba(255,255,255,0.65)' }}>/5 — basato su <span className="font-bold text-white">2.143</span> recensioni</span>
             </div>
-            <a className="text-xs flex items-center gap-1 underline ml-auto font-semibold" style={{ color: subtle }} href="#">Vedi tutte <ArrowUpRight className="w-3 h-3" /></a>
+            <a className="text-xs flex items-center gap-1 underline ml-auto font-semibold" style={{ color: 'rgba(255,255,255,0.7)' }} href="#">Vedi tutte <ArrowUpRight className="w-3 h-3" /></a>
           </div>
 
           <div className="grid md:grid-cols-3 gap-5">
             {TESTIMONIALS.map((t, i) => (
-              <div key={i} className="light-card relative rounded-2xl p-7">
-                <Quote className="absolute top-6 right-6 w-7 h-7" style={{ color: borderStrong }} fill={borderStrong} strokeWidth={0} />
+              <div key={i} className="glass-on-color relative rounded-2xl p-7">
+                <Quote className="absolute top-6 right-6 w-9 h-9" style={{ color: 'rgba(251,191,36,0.25)' }} fill="rgba(251,191,36,0.25)" strokeWidth={0} />
                 <div className="flex items-center gap-1 mb-5">
                   {Array.from({ length: 5 }).map((_, j) => (
-                    <Star key={j} className="w-4 h-4" fill="#FFB020" strokeWidth={0} />
+                    <Star key={j} className="w-4 h-4" fill="#FBBF24" strokeWidth={0} />
                   ))}
-                  <span className="ml-2 text-[10px] font-bold" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>VERIFICATA</span>
+                  <span className="ml-2 text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'rgba(251,191,36,0.15)', color: '#FBBF24' }}>VERIFICATA</span>
                 </div>
-                <p className="text-[15px] leading-relaxed mb-6 font-medium" style={{ color: ink }}>
+                <p className="text-[15px] leading-relaxed mb-6 font-medium text-white">
                   &ldquo;{t.quote}&rdquo;
                 </p>
-                <div className="flex items-center gap-3 pt-5 border-t" style={{ borderColor: border }}>
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white" style={{ background: t.color }}>
+                <div className="flex items-center gap-3 pt-5 border-t" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white" style={{ background: t.color, boxShadow: `0 0 16px -2px ${t.color}80` }}>
                     {t.avatar}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold truncate" style={{ color: ink }}>{t.name}</p>
-                    <p className="text-xs truncate" style={{ color: subtle }}>{t.role}</p>
+                    <p className="text-sm font-bold truncate text-white">{t.name}</p>
+                    <p className="text-xs truncate" style={{ color: 'rgba(255,255,255,0.6)' }}>{t.role}</p>
                   </div>
-                  <BadgeCheck className="w-4 h-4 flex-shrink-0" style={{ color: accent }} fill={accent} fillOpacity={0.15} />
+                  <BadgeCheck className="w-4 h-4 flex-shrink-0" style={{ color: '#7AA8FF' }} fill="#0070F3" fillOpacity={0.3} />
                 </div>
               </div>
             ))}
@@ -1065,22 +1168,31 @@ export default function DesignPreviewPage() {
         </div>
       </section>
 
-      {/* ═══════════════════ FAQ (LIGHT) ═══════════════════ */}
-      <section className="relative overflow-hidden" style={{ background: 'white' }}>
-        <div className="aurora-l-soft" style={{ opacity: 0.5 }} />
+      {/* ═══════════════════ FAQ — lavender soft ═══════════════════ */}
+      <section className="relative overflow-hidden bg-faq">
+        {/* Floating decorative gradient blob */}
+        <div className="absolute -top-24 -right-24 w-[500px] h-[500px] rounded-full pointer-events-none float" style={{
+          background: 'radial-gradient(circle, rgba(123,97,255,0.18), transparent 60%)',
+          filter: 'blur(40px)',
+        }} />
+        <div className="absolute bottom-0 -left-24 w-[400px] h-[400px] rounded-full pointer-events-none" style={{
+          background: 'radial-gradient(circle, rgba(0,112,243,0.15), transparent 60%)',
+          filter: 'blur(40px)',
+        }} />
         <div className="relative max-w-[1280px] mx-auto px-6 py-28">
           <div className="grid md:grid-cols-[1fr_2fr] gap-12">
             <div>
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: subtle, fontFamily: 'var(--font-mono)' }}>06 ◆</span>
-                <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: accent, fontFamily: 'var(--font-mono)' }}>FAQ</span>
-              </div>
-              <h2 className="text-4xl tracking-[-0.04em] font-bold mb-4" style={{ color: ink }}>
-                Tutto quello che vuoi sapere.
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-5" style={{ background: 'white', color: accent, border: `1px solid ${accent}30` }}>
+                <span className="pulse-dot w-1.5 h-1.5 rounded-full" style={{ background: accent }} />
+                Domande frequenti
+              </span>
+              <h2 className="text-4xl lg:text-5xl tracking-[-0.04em] font-bold mb-4" style={{ color: '#1A1B3A' }}>
+                Tutto quello che<br />
+                <span style={{ background: 'linear-gradient(90deg, #0070F3 0%, #7B61FF 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>vuoi sapere.</span>
               </h2>
-              <p className="text-base mb-6" style={{ color: subtle }}>
+              <p className="text-base mb-6" style={{ color: 'rgba(26,27,58,0.65)' }}>
                 Non trovi una risposta? Scrivici a{' '}
-                <a href="mailto:hello@trovapro.it" className="underline font-semibold" style={{ color: ink }}>hello@trovapro.it</a>
+                <a href="mailto:hello@trovapro.it" className="underline font-semibold" style={{ color: '#1A1B3A' }}>hello@trovapro.it</a>
               </p>
               <a className="text-sm flex items-center gap-1 hover:gap-2 transition-all font-bold" style={{ color: accent }}>
                 Centro assistenza <ArrowRight className="w-4 h-4" />
@@ -1088,15 +1200,18 @@ export default function DesignPreviewPage() {
             </div>
 
             <div>
-              <div className="mb-6 rounded-xl p-1.5 flex items-center gap-2 bg-white" style={{ border: `1px solid ${border}` }}>
-                <Search className="w-4 h-4 ml-2" style={{ color: subtle }} />
-                <input placeholder="Cerca tra le FAQ…" className="input-light bg-transparent outline-none text-sm flex-1 py-1.5" style={{ color: ink }} />
-                <span className="text-[10px] mr-2 px-1.5 py-0.5 rounded font-bold" style={{ background: surface, color: subtle, fontFamily: 'var(--font-mono)' }}>⌘K</span>
+              <div className="mb-6 rounded-xl p-1.5 flex items-center gap-2 bg-white" style={{ border: '1px solid rgba(0,112,243,0.15)', boxShadow: '0 4px 16px -4px rgba(0,112,243,0.1)' }}>
+                <Search className="w-4 h-4 ml-2" style={{ color: accent }} />
+                <input placeholder="Cerca tra le FAQ…" className="input-light bg-transparent outline-none text-sm flex-1 py-1.5" style={{ color: '#1A1B3A' }} />
+                <span className="text-[10px] mr-2 px-1.5 py-0.5 rounded font-bold" style={{ background: '#EEF2FF', color: accent }}>⌘K</span>
               </div>
 
               <div className="flex flex-wrap items-center gap-2 mb-6">
                 {['Tutte', 'Generale', 'Pagamenti', 'Sicurezza', 'Tempi'].map((c, i) => (
-                  <span key={c} className={`text-xs px-3 py-1.5 rounded-full font-semibold cursor-pointer transition-colors ${i === 0 ? 'chip-active-light' : 'chip-default-light'}`}>
+                  <span key={c} className="text-xs px-3 py-1.5 rounded-full font-semibold cursor-pointer transition-colors" style={i === 0
+                    ? { background: '#1A1B3A', color: 'white', border: '1px solid #1A1B3A' }
+                    : { background: 'white', color: '#1A1B3A', border: '1px solid rgba(0,112,243,0.15)' }
+                  }>
                     {c}
                   </span>
                 ))}
@@ -1104,20 +1219,22 @@ export default function DesignPreviewPage() {
 
               <div className="space-y-3">
                 {FAQS.map((f, i) => (
-                  <details key={i} className="faq faq-light group rounded-xl bg-white transition-all" style={{ border: `1px solid ${border}` }}>
+                  <details key={i} className="lavender-card faq group rounded-xl transition-all">
                     <summary className="flex items-center justify-between gap-4 p-5">
                       <div className="flex items-start gap-3 flex-1 min-w-0">
-                        <span className="text-[10px] px-1.5 py-0.5 rounded mt-1 flex-shrink-0 font-bold" style={{ background: surface, color: subtle, fontFamily: 'var(--font-mono)' }}>
+                        <span className="text-[10px] px-1.5 py-0.5 rounded mt-1 flex-shrink-0 font-bold" style={{ background: '#EEF2FF', color: accent }}>
                           {f.cat.toUpperCase()}
                         </span>
-                        <h3 className="text-[15px] font-bold tracking-[-0.01em] flex-1" style={{ color: ink }}>
+                        <h3 className="text-[15px] font-bold tracking-[-0.01em] flex-1" style={{ color: '#1A1B3A' }}>
                           {f.q}
                         </h3>
                       </div>
-                      <Plus className="faq-icon w-4 h-4 flex-shrink-0" style={{ color: subtle }} strokeWidth={2.5} />
+                      <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#EEF2FF' }}>
+                        <Plus className="faq-icon w-4 h-4" style={{ color: accent }} strokeWidth={2.5} />
+                      </div>
                     </summary>
                     <div className="px-5 pb-5 -mt-1">
-                      <p className="text-sm leading-relaxed pl-[68px]" style={{ color: subtle }}>{f.a}</p>
+                      <p className="text-sm leading-relaxed pl-[68px]" style={{ color: 'rgba(26,27,58,0.65)' }}>{f.a}</p>
                     </div>
                   </details>
                 ))}
